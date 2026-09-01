@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Track Splits - Calcolatore Punteggi</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="description" content="Calcolatore di punteggi FIDAL e World Athletics.">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icon-192.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a', card: '#1e293b', border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
+    
+    
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
+        
+        <div class="mb-2 text-center">
+            <h2 class="text-2xl font-display font-bold text-gray-800 dark:text-gray-100">Calcolatore Punteggi WA / FIDAL</h2>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Calcola i punti in base alla tua prestazione</p>
+        </div>
+
+        <!-- Input Section -->
+        <section class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden card-transition">
+            
+            <div class="p-5 border-b border-gray-100 dark:border-dark-border grid grid-cols-2 gap-4">
+                <div>
+                    <label for="genderSelect" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Sesso</label>
+                    <select id="genderSelect" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        <option value="M">Maschile</option>
+                        <option value="F">Femminile</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="categorySelect" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categoria</label>
+                    <select id="categorySelect" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+            </div>
+            
+            <div class="p-5 border-b border-gray-100 dark:border-dark-border">
+                <label for="eventSelect" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Specialità</label>
+                <select id="eventSelect" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+
+            <!-- Performance Input (Track vs Field dynamic) -->
+            <div class="p-5" id="perfContainer">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Prestazione</label>
+                
+                <!-- Track Input (Time) -->
+                <div id="inputTrack" class="flex items-center gap-2">
+                    <div class="flex-1">
+                        <input type="number" id="perfMin" placeholder="mm" min="0" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                    </div>
+                    <span class="text-xl font-bold text-gray-400">:</span>
+                    <div class="flex-1">
+                        <input type="number" id="perfSec" placeholder="ss" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                    </div>
+                    <span class="text-xl font-bold text-gray-400">.</span>
+                    <div class="flex-1">
+                        <input type="number" id="perfCents" placeholder="cc" min="0" max="99" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                    </div>
+                </div>
+
+                <!-- Field Input (Meters/CM) -->
+                <div id="inputField" class="hidden flex items-center gap-2">
+                    <div class="flex-1 relative">
+                        <input type="number" id="perfDist" placeholder="00.00" step="0.01" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        <span id="fieldUnit" class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">m</span>
+                    </div>
+                </div>
+
+                <button id="calculateBtn" class="w-full mt-6 bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-dark-bg">
+                    Calcola Punteggio
+                </button>
+            </div>
+        </section>
+
+        <!-- Result Box -->
+        <div id="resultBox" class="hidden bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-6 text-white shadow-lg text-center opacity-0 transition-opacity duration-500">
+            <h3 class="text-sm uppercase tracking-wider font-semibold opacity-80 mb-2">Punteggio Ottenuto</h3>
+            <div class="font-display font-bold text-6xl drop-shadow-md mb-2">
+                <span id="scoreValue">0</span> <span class="text-2xl font-normal opacity-80">pt</span>
+            </div>
+            <p id="scoreEvent" class="text-sm opacity-90 font-medium"></p>
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="../data/fidal_data.js"></script>
+    <script src="../js/scores.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

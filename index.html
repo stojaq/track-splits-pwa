@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Track Splits</title>
+    <script>window.APP_BASE_PATH = '.';</script>
+    <meta name="description" content="Calcolatore di intertempi per atletica leggera.">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6', // Brand color
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
+    
+    <!-- Main Content -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6" id="mainContent">
+        
+        <!-- Install App Card (Nascosta di default) -->
+        <section id="installAppCard" class="hidden bg-gradient-to-r from-primary-600 to-primary-500 rounded-2xl shadow-lg border border-primary-400 p-5 text-white flex flex-col sm:flex-row items-center gap-4 justify-between transform transition-all hover:scale-[1.01]">
+            <div class="flex items-center gap-4">
+                <div class="bg-white/20 p-3 rounded-full shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-display font-bold text-lg">Porta Track Splits in pista!</h3>
+                    <p class="text-primary-100 text-sm mt-1">Installa l'app per usarla offline e senza distrazioni.</p>
+                </div>
+            </div>
+            <button id="installAppBtn" class="w-full sm:w-auto shrink-0 bg-white text-primary-600 font-bold py-2.5 px-5 rounded-xl shadow-sm hover:bg-gray-50 transition active:scale-95">
+                Installa App
+            </button>
+        </section>
+
+        <!-- Input Section -->
+        <section class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden card-transition hover:shadow-md">
+            
+            <!-- Distance Input -->
+            <div class="p-5 border-b border-gray-100 dark:border-dark-border">
+                <label for="distanceInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Distanza (metri)</label>
+                <div class="relative">
+                    <input type="number" id="distanceInput" placeholder="es. 1500" min="1" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400">
+                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium select-none pointer-events-none">m</div>
+                </div>
+            </div>
+
+            <!-- Mode Tabs -->
+            <div class="flex border-b border-gray-100 dark:border-dark-border">
+                <button id="tab-pace" class="flex-1 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors tab-active">
+                    Inserisci Passo (al km)
+                </button>
+                <button id="tab-time" class="flex-1 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+                    Inserisci Tempo Finale
+                </button>
+            </div>
+
+            <div class="p-5">
+                <!-- Pace Input Container -->
+                <div id="pace-container" class="block">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Passo al km</label>
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1 relative">
+                            <input type="number" id="paceMin" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">min</span>
+                        </div>
+                        <span class="text-xl font-bold text-gray-400">:</span>
+                        <div class="flex-1 relative">
+                            <input type="number" id="paceSec" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">sec</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Input Container -->
+                <div id="time-container" class="hidden">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tempo Finale</label>
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1">
+                            <input type="number" id="timeHr" placeholder="hh" min="0" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        </div>
+                        <span class="text-xl font-bold text-gray-400">:</span>
+                        <div class="flex-1">
+                            <input type="number" id="timeMin" placeholder="mm" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        </div>
+                        <span class="text-xl font-bold text-gray-400">:</span>
+                        <div class="flex-1">
+                            <input type="number" id="timeSec" placeholder="ss" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        </div>
+                        <span class="text-xl font-bold text-gray-400">.</span>
+                        <div class="flex-1">
+                            <input type="number" id="timeMs" placeholder="d" min="0" max="9" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Options -->
+                <div class="mt-6 pt-4 border-t border-gray-100 dark:border-dark-border">
+                    <div class="flex items-center justify-between">
+                        <label for="splitDistance" class="text-sm font-semibold text-gray-700 dark:text-gray-300">Cadenza Split (m)</label>
+                        <select id="splitDistance" class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="100">Ogni 100m</option>
+                            <option value="200">Ogni 200m</option>
+                            <option value="400">Ogni 400m</option>
+                            <option value="1000">Ogni 1000m</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="calculateBtn" class="w-full mt-6 bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-dark-bg">
+                    Calcola Intertempi
+                </button>
+            </div>
+        </section>
+
+        <!-- Error Message -->
+        <div id="errorMsg" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg text-sm" role="alert">
+            <p>Compila correttamente la distanza e il tempo/passo.</p>
+        </div>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="hidden flex-col gap-6 opacity-0 transition-opacity duration-500">
+            
+            <!-- Summary Card -->
+            <div class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-5 text-white shadow-lg">
+                <h2 class="font-display font-bold text-lg mb-4 opacity-90">Riepilogo <span id="summaryDistance"></span>m</h2>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-75 mb-1">Tempo Finale</div>
+                        <div id="resTotalTime" class="text-xl font-bold font-display">--:--</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-75 mb-1">Passo / km</div>
+                        <div id="resPace" class="text-xl font-bold font-display">--:--</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-75 mb-1">Giro 400m</div>
+                        <div id="res400m" class="text-lg font-bold font-display">--:--</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-75 mb-1">Velocità</div>
+                        <div id="resSpeed" class="text-lg font-bold font-display">-- km/h</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Card -->
+            <div class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden flex flex-col">
+                <div class="p-4 border-b border-gray-100 dark:border-dark-border flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                    <h3 class="font-bold text-gray-800 dark:text-gray-200">Tabella Passaggi</h3>
+                    <button id="copyBtn" class="flex items-center gap-1.5 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors bg-primary-50 dark:bg-primary-900/30 px-3 py-1.5 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span>Copia</span>
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                            <tr>
+                                <th scope="col" class="px-4 py-3 font-semibold">Distanza</th>
+                                <th scope="col" class="px-4 py-3 font-semibold">Frazione</th>
+                                <th scope="col" class="px-4 py-3 font-semibold">Passaggio</th>
+                                <th scope="col" class="px-4 py-3 font-semibold hidden sm:table-cell">Giro (Pista)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="splitsTableBody" class="divide-y divide-gray-100 dark:divide-dark-border text-gray-700 dark:text-gray-300">
+                            <!-- Rows generated by JS -->
+                        </tbody>
+                    </table>
+
+
+    </main>
+
+    <!-- App Logic -->
+    <script src="./js/app.js"></script>
+</body>
+</html>

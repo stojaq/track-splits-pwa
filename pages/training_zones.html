@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zone Allenamento - Track Splits</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJ2MjAiPjwvcGF0aD48cGF0aCBkPSJNMTcgNUg5LjVhMy41IDMuNSAwIDAgMCAwIDdoNWEzLjUgMy41IDAgMCAxIDAgN0g2Ij48L3BhdGg+PC9zdmc+">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6', // Brand color
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
+
+    
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6 relative pb-10">
+        
+        <div class="mb-2 text-center">
+            <h2 class="text-2xl font-display font-bold text-gray-800 dark:text-gray-100">Zone Allenamento</h2>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Calcola i tuoi ritmi e battiti ideali</p>
+        </div>
+
+        <!-- Tab Selector -->
+        <div class="flex bg-gray-200/60 dark:bg-gray-800 p-1.5 rounded-xl shadow-inner">
+            <button id="tabHeartBtn" class="flex-1 py-2.5 text-sm font-semibold rounded-lg bg-white dark:bg-dark-card text-gray-900 dark:text-white shadow-sm transition-all transform scale-100">❤️ Battiti</button>
+            <button id="tabPaceBtn" class="flex-1 py-2.5 text-sm font-semibold rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all">⏱️ Ritmi & VAM</button>
+        </div>
+
+        <!-- Tab 1: Heart Rate -->
+        <div id="tabHeartRate" class="space-y-6 block">
+            <div class="bg-white dark:bg-dark-card rounded-3xl shadow-sm border border-gray-100 dark:border-dark-border p-6 space-y-5 card-transition">
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">FC Max (Battiti Massimi)</label>
+                        <input type="number" id="fcMax" inputmode="numeric" min="100" max="250" placeholder="Es. 190" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 font-medium outline-none focus:ring-2 focus:ring-primary-500 transition-all font-outfit text-xl">
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-dark-border">
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800 dark:text-gray-200">Usa Formula Karvonen</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Maggiore precisione (usa la FC a riposo)</p>
+                        </div>
+                        <!-- Toggle Switch -->
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" id="useKarvonen" class="sr-only peer">
+                          <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-500"></div>
+                        </label>
+                    </div>
+
+                    <div id="fcRestContainer" class="hidden opacity-0 transition-opacity duration-300 pt-2">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">FC a Riposo</label>
+                        <input type="number" id="fcRest" inputmode="numeric" min="30" max="100" placeholder="Es. 50" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 font-medium outline-none focus:ring-2 focus:ring-primary-500 transition-all font-outfit text-xl">
+                    </div>
+                </div>
+                
+                <div class="pt-2">
+                    <button id="calcHrBtn" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3.5 px-4 rounded-xl shadow-sm hover:shadow transition-all active:scale-[0.98]">
+                        Calcola Zone Cardio
+                    </button>
+                </div>
+            </div>
+
+            <div id="hrResultContainer" class="hidden opacity-0 transition-opacity duration-300 space-y-3">
+                <!-- Zone cards generated by JS -->
+            </div>
+        </div>
+
+        <!-- Tab 2: Pace & VAM -->
+        <div id="tabPace" class="hidden space-y-6">
+            <div class="bg-white dark:bg-dark-card rounded-3xl shadow-sm border border-gray-100 dark:border-dark-border p-6 space-y-5 card-transition">
+                <!-- Select Distance -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Gara di Riferimento</label>
+                    <div class="relative">
+                        <select id="vamDistance" class="w-full appearance-none bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary-500 transition-shadow font-medium cursor-pointer">
+                            <option value="1500">1500m</option>
+                            <option value="3000" selected>3000m (Consigliato per VAM)</option>
+                            <option value="5000">5000m</option>
+                            <option value="10000">10km</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                        </div>
+                    </div>
+                </div>
+                <!-- Time Input -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Tempo Realizzato</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="relative group">
+                            <input type="number" id="vamMin" inputmode="numeric" min="0" max="99" placeholder="Min" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 text-center text-xl font-medium outline-none focus:ring-2 focus:ring-primary-500 transition-all font-outfit">
+                            <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-400 opacity-0 group-focus-within:opacity-100 transition-opacity">Min</span>
+                        </div>
+                        <div class="relative group">
+                            <input type="number" id="vamSec" inputmode="numeric" min="0" max="59" placeholder="Sec" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 text-center text-xl font-medium outline-none focus:ring-2 focus:ring-primary-500 transition-all font-outfit">
+                            <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-400 opacity-0 group-focus-within:opacity-100 transition-opacity">Sec</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pt-6">
+                    <button id="calcPaceBtn" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-sm hover:shadow transition-all active:scale-[0.98]">
+                        Calcola VAM e Ritmi
+                    </button>
+                </div>
+            </div>
+
+            <!-- VAM Output -->
+            <div id="vamResultContainer" class="hidden opacity-0 transition-opacity duration-300">
+                <div class="bg-primary-50 dark:bg-primary-900/30 border border-primary-100 dark:border-primary-800 rounded-2xl p-5 mb-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-primary-800 dark:text-primary-300 font-semibold mb-0.5">VAM Stimata</p>
+                        <p class="text-xs text-primary-600/80 dark:text-primary-400/80">Velocità Aerobica Massima</p>
+                    </div>
+                    <div class="text-right flex items-baseline gap-2">
+                        <p id="vamPaceOut" class="text-sm font-semibold text-primary-600 dark:text-primary-400 tracking-tight">4:00/km</p>
+                        <p id="vamSpeedOut" class="font-display font-bold text-3xl text-primary-800 dark:text-primary-300">15.0 <span class="text-lg font-medium">km/h</span></p>
+                    </div>
+                </div>
+                <!-- Zone cards generated by JS -->
+                <div id="paceResultContainer" class="space-y-3"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../js/training_zones.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

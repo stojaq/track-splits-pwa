@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pacer Intelligente - Track Splits</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="description" content="Cronometro avanzato con calcolo del Delta per target in tempo reale.">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icon-192.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe',
+                            300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6',
+                            600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#121212', card: '#1e1e1e', border: '#2d2d2d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
+    
+    
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
+            <header class="mb-8 hidden md:block">
+                <h1 class="text-3xl font-display font-bold text-gray-900 dark:text-white">Pacer Intelligente</h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-2">Cronometro avanzato con calcolo real-time del Delta sul passo gara target.</p>
+            </header>
+
+            <!-- Settings Card -->
+            <div id="settingsCard" class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-200 dark:border-dark-border p-5 md:p-6 mb-6 glass-effect transition-all duration-300">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Distanza Lap (metri)</label>
+                        <input type="number" id="lapDistance" placeholder="400" step="100" min="100" class="block w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 dark:text-white font-medium text-lg transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Passo Target (min/km)</label>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 relative">
+                                <input type="number" id="targetPaceMin" placeholder="4" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all text-gray-900 dark:text-white">
+                                <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">min</span>
+                            </div>
+                            <span class="text-xl font-bold text-gray-400">:</span>
+                            <div class="flex-1 relative">
+                                <input type="number" id="targetPaceSec" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all text-gray-900 dark:text-white">
+                                <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">sec</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Tempo calcolato per Lap: <strong id="calculatedLapTime" class="text-primary-600 dark:text-primary-400">--:--</strong></p>
+                </div>
+            </div>
+
+            <!-- Big Timer Display -->
+            <div class="bg-white dark:bg-dark-card rounded-3xl shadow-lg border border-gray-200 dark:border-dark-border p-8 mb-6 text-center glass-effect flex flex-col items-center justify-center min-h-[220px]">
+                <div id="mainTime" class="text-6xl md:text-7xl font-mono font-bold tracking-tighter text-gray-900 dark:text-white drop-shadow-sm transition-colors duration-200">
+                    00:00.0
+                </div>
+                <div class="mt-2 text-sm font-medium text-gray-500 uppercase tracking-widest">Tempo Totale</div>
+                
+                <!-- Current Lap Info -->
+                <div id="currentLapInfo" class="mt-6 flex items-center justify-center gap-6 opacity-0 transition-opacity duration-300">
+                    <div class="text-center">
+                        <div class="text-xs text-gray-400 uppercase">Giro Attuale</div>
+                        <div id="currentLapTime" class="text-xl font-mono font-semibold text-gray-700 dark:text-gray-300">00:00.0</div>
+                    </div>
+                    <div class="h-8 w-[1px] bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-400 uppercase">Proiezione</div>
+                        <div id="currentDelta" class="text-xl font-mono font-bold text-gray-400">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giant Action Buttons -->
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button id="btnStartStop" class="relative overflow-hidden w-full py-6 rounded-2xl bg-primary-500 hover:bg-primary-600 text-white font-bold text-xl md:text-2xl tracking-wide shadow-lg shadow-primary-500/30 transition-all active:scale-[0.98]">
+                    <span id="btnStartStopText">START</span>
+                </button>
+                <button id="btnLapReset" class="relative overflow-hidden w-full py-6 rounded-2xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold text-xl md:text-2xl tracking-wide shadow-md transition-all active:scale-[0.98]">
+                    <span id="btnLapResetText">RESET</span>
+                </button>
+            </div>
+
+            <!-- Splits Table -->
+            <div class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-200 dark:border-dark-border overflow-hidden">
+                <div class="px-5 py-4 border-b border-gray-100 dark:border-dark-border bg-gray-50 dark:bg-gray-800/50 flex justify-between items-center">
+                    <h3 class="font-semibold text-gray-900 dark:text-white">Intertempi (Laps)</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-800/50">
+                            <tr>
+                                <th class="px-4 py-3 font-medium">Lap</th>
+                                <th class="px-4 py-3 font-medium">Tempo</th>
+                                <th class="px-4 py-3 font-medium">Totale</th>
+                                <th class="px-4 py-3 font-medium text-right">Delta</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lapsTableBody" class="divide-y divide-gray-100 dark:divide-dark-border">
+                            <!-- Laps will be injected here -->
+                            <tr id="emptyTablePlaceholder">
+                                <td colspan="4" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                                    Premi START per iniziare l'allenamento
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/pacer.js"></script>
+</body>
+</html>

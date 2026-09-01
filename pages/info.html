@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Informazioni - Track Splits</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icon-192.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col">
+
+    <!-- L'header viene iniettato da app.js -->
+
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
+        
+        <!-- App Logo & Version -->
+        <div class="flex flex-col items-center justify-center py-6 text-center">
+            <img src="../icon-512.png" alt="Logo Track Splits" class="w-20 h-20 shadow-lg shadow-primary-500/30 mb-4 transform transition-transform hover:scale-105 rounded-2xl object-cover">
+            <h2 class="text-3xl font-display font-bold text-gray-900 dark:text-white">Track Splits</h2>
+            <p class="text-gray-500 dark:text-gray-400 font-medium mt-1">Versione 1.0.0</p>
+        </div>
+
+        <!-- Introduzione -->
+        <section class="bg-white dark:bg-dark-card rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-dark-border">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                Cos'è Track Splits?
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
+                Track Splits è lo strumento definitivo e tascabile per atleti, allenatori e appassionati di atletica leggera. Nasce per sostituire calcolatrici e fogli di carta a bordo pista, offrendo un ecosistema completo per il calcolo dei ritmi, l'analisi tecnica e il tracciamento degli allenamenti. 
+                Funziona interamente offline, permettendoti di usarla anche dove la connessione è assente.
+            </p>
+        </section>
+
+        <!-- Funzionalità -->
+        <h3 class="text-gray-500 dark:text-gray-400 text-sm font-bold uppercase tracking-wider pl-2 mt-2">I Nostri Moduli</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Calc Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Il Calcolatore</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Calcola ritmi al chilometro partendo da un tempo finale o viceversa. L'app scompone automaticamente il tuo tempo in frazioni da 100m, 200m o 400m per aiutarti in pista.
+                </p>
+            </div>
+
+            <!-- Athletes Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Database Atleti</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Studia lo storico gare e i Personal Best. Utilizza l'esclusiva funzione comparativa 1 vs 1 (H2H) per sovrapporre i grafici di due atleti diversi e scoprirne le attitudini sul Radar.
+                </p>
+            </div>
+
+            <!-- Diary Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477-4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Diario Allenamenti</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Traccia i tuoi volumi di corsa. Sfrutta il "Costruttore di Ripetute" per simulare i tuoi lavori in pista (es. 10x400) e analizza la Dashboard Statistica per monitorare la proporzione mensile tra Lenti, Medi e Frazionati.
+                </p>
+            </div>
+
+            <!-- Ripetute Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Calcolatore Ripetute</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Strumento avanzato per pianificare le sessioni di interval training, calcolando i tempi target esatti per ogni frazione in base al ritmo prestabilito.
+                </p>
+            </div>
+
+            <!-- Punteggi FIDAL Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Punteggi FIDAL</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Converti i risultati tecnici in punteggi tabellari ufficiali FIDAL per poter confrontare il valore di prestazioni ottenute in specialità diverse.
+                </p>
+            </div>
+
+            <!-- Predittore Gara Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-600 dark:text-yellow-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 5 4 4"/><path d="M13 14l6-6a2 2 0 0 0-3-3l-6 6"/><path d="M9.5 9.5 4 15l5 5 5.5-5.5"/><path d="M9.5 9.5 9 14l-4.5 4.5"/></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Predittore Gara</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Usa i tuoi tempi recenti per stimare con precisione scientifica il tuo potenziale cronometrico su distanze differenti (es. dai 5km alla Maratona).
+                </p>
+            </div>
+
+            <!-- Zone Allenamento Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Zone Allenamento</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Calcola le tue corrette zone di passo (Lento, Medio, Soglia, VO2Max) partendo dal tuo record recente, per evitare di allenarti al ritmo sbagliato.
+                </p>
+            </div>
+
+            <!-- Stretching & Mobilità Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-teal-50 dark:bg-teal-900/20 text-teal-600 dark:text-teal-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4 8 16"/><path d="m15 15 5 5"/><path d="m4 4 5 5"/></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Stretching & Mobilità</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Libreria visiva di esercizi fondamentali per la flessibilità articolare e il recupero muscolare post-allenamento.
+                </p>
+            </div>
+
+            <!-- Pacer Intelligente Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-cyan-50 dark:bg-cyan-900/20 text-cyan-600 dark:text-cyan-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Pacer Intelligente</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Genera una strategia di gara (Negative Split, Even, Positive) con una tabella passaggi adattata al tuo stile di corsa.
+                </p>
+            </div>
+
+            <!-- Coach Pacer Card -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md">
+                <div class="w-10 h-10 bg-pink-50 dark:bg-pink-900/20 text-pink-600 dark:text-pink-400 rounded-xl flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h4 class="font-bold text-gray-900 dark:text-white mb-2">Coach Pacer</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Modalità per l'allenatore: calcola passaggi simultanei per un gruppo di atleti che corrono la stessa gara a ritmi diversi.
+                </p>
+            </div>
+
+            <!-- News & Gallery Cards -->
+            <div class="bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md md:col-span-2">
+                <div class="flex items-center gap-3 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+                    <h4 class="font-bold text-gray-900 dark:text-white">News, Eventi & Gallery</h4>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Resta sempre aggiornato sulle ultime notizie e sfoglia la galleria fotografica per rivivere i momenti salienti della stagione.
+                </p>
+            </div>
+            
+        </div>
+
+        <!-- Crediti -->
+        <div class="mt-4 text-center py-6 border-t border-gray-200 dark:border-gray-800">
+            <p class="text-gray-500 dark:text-gray-400 text-sm">
+                Sviluppato con passione da <span class="font-bold text-primary-600 dark:text-primary-400">Cris</span>.
+            </p>
+            <p class="text-gray-400 dark:text-gray-500 text-xs mt-2">© 2026 Tutti i diritti riservati.</p>
+        </div>
+
+    </main>
+
+    <!-- App Logic -->
+    <script src="../js/app.js"></script>
+</body>
+</html>

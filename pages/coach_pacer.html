@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Coach Pacer - Track Splits</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icon-192.png">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6', // Brand color
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        /* Griglia dinamica per gli atleti */
+        .athletes-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr; /* Default 1 colonna per 1 o 2 atleti */
+        }
+        @media (min-width: 640px) {
+            .athletes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        .athletes-grid.multi {
+            grid-template-columns: 1fr 1fr; /* 2 colonne su mobile se ci sono 3 o 4 atleti */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
+
+    <main class="flex-grow w-full max-w-4xl mx-auto px-4 py-6 flex flex-col gap-6 relative">
+        
+        <div class="text-center">
+            <h2 class="text-3xl font-display font-bold text-gray-800 dark:text-gray-100">Coach Pacer</h2>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Gestisci più atleti contemporaneamente</p>
+        </div>
+
+        <!-- SCHERMATA DI SETUP -->
+        <section id="setupScreen" class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border p-5">
+            <h3 class="font-display font-bold text-lg mb-4 text-primary-600 dark:text-primary-400">1. Impostazioni Gara</h3>
+            
+            <div class="grid grid-cols-2 gap-4 mb-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Distanza Lap (metri)</label>
+                    <input type="number" id="lapDistance" placeholder="es. 400" step="100" min="100" class="block w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 font-medium text-lg text-gray-900 dark:text-white transition-colors">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Gara Totale (metri)</label>
+                    <input type="number" id="totalDistance" placeholder="es. 1500" step="100" min="100" class="block w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 font-medium text-lg text-gray-900 dark:text-white transition-colors">
+                </div>
+            </div>
+
+            <h3 class="font-display font-bold text-lg mb-4 text-primary-600 dark:text-primary-400">2. Aggiungi Atleti (Max 4)</h3>
+            
+            <div id="athletesList" class="flex flex-col gap-3 mb-4">
+                <!-- L'elenco degli atleti verrà iniettato qui -->
+            </div>
+
+            <button id="addAthleteBtn" class="w-full py-3 px-4 border-2 border-dashed border-primary-300 dark:border-primary-700 text-primary-600 dark:text-primary-400 font-bold rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors flex items-center justify-center gap-2 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                Aggiungi Atleta
+            </button>
+
+            <button id="startRaceBtn" class="w-full py-4 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-xl shadow-lg shadow-primary-500/30 transition-all active:scale-[0.98] text-lg">
+                INIZIA GARA
+            </button>
+        </section>
+
+        <!-- SCHERMATA DI GARA (Inizialmente nascosta) -->
+        <section id="raceScreen" class="hidden flex-col gap-6 flex-grow">
+            <!-- Master Clock -->
+            <div class="bg-white dark:bg-dark-card border border-gray-100 dark:border-dark-border rounded-2xl p-5 text-center shadow-sm relative">
+                <p class="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mb-1">Tempo di Gara</p>
+                <div id="masterClock" class="font-display font-bold text-5xl tabular-nums tracking-tight text-gray-900 dark:text-white">
+                    00:00.0
+                </div>
+                
+                <button id="stopRaceBtn" class="absolute top-1/2 right-5 -translate-y-1/2 p-3 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg shadow-red-500/30 transition-transform active:scale-[0.9] flex items-center justify-center" aria-label="Ferma Gara">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/></svg>
+                </button>
+            </div>
+
+            <!-- Griglia Atleti -->
+            <div id="activeAthletesGrid" class="athletes-grid flex-grow">
+                <!-- Generata dinamicamente -->
+            </div>
+        </section>
+
+        <!-- SCHERMATA POST-GARA (Inizialmente nascosta) -->
+        <section id="resultsScreen" class="hidden flex-col gap-6">
+            <div class="bg-white dark:bg-dark-card border border-gray-100 dark:border-dark-border rounded-2xl p-5 text-center shadow-sm">
+                <h3 class="font-display font-bold text-2xl mb-2 text-gray-900 dark:text-white">Gara Conclusa</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-6">Ecco il resoconto degli intertempi per i tuoi atleti.</p>
+                
+                <div id="resultsContainer" class="flex flex-col gap-6 text-left mb-6">
+                    <!-- Risultati iniettati qui -->
+                </div>
+                
+                <div class="flex gap-4">
+                    <button id="resetRaceBtn" class="flex-1 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold rounded-xl transition-colors">
+                        Nuova Gara
+                    </button>
+                    <button id="shareBtn" class="flex-1 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-500/30 transition-transform active:scale-[0.98] flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        Condividi
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Template per riga Setup Atleta (Nascosto) -->
+    <template id="athleteSetupTemplate">
+        <div class="athlete-setup-row bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex flex-col sm:flex-row gap-3 relative">
+            <button type="button" class="remove-athlete-btn absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600 transition-colors" title="Rimuovi">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <div class="flex-1">
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Nome Atleta</label>
+                <input type="text" class="athlete-name block w-full px-3 py-2 bg-white dark:bg-dark-bg border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-white" placeholder="es. Mario" required>
+            </div>
+            <div class="flex-1">
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Passo Target</label>
+                <div class="flex items-center gap-1">
+                    <input type="number" class="athlete-pace-min w-16 px-2 py-2 bg-white dark:bg-dark-bg border border-gray-200 dark:border-gray-600 rounded-lg text-center focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-white" placeholder="3" min="0" max="59">
+                    <span class="text-gray-500 font-bold">:</span>
+                    <input type="number" class="athlete-pace-sec w-16 px-2 py-2 bg-white dark:bg-dark-bg border border-gray-200 dark:border-gray-600 rounded-lg text-center focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-white" placeholder="30" min="0" max="59">
+                    <span class="text-xs text-gray-400 ml-1">/km</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/coach_pacer.js"></script>
+</body>
+</html>

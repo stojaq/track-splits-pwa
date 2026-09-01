@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Motivazione - Track Splits</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icon-192.png">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        quote: ['Georgia', 'serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    },
+                    backgroundImage: {
+                        'motivation-bg': "url('../assets/motivation.jpg')"
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Custom animations for the quote */
+        .quote-enter {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quote-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-900 text-gray-100 h-screen flex flex-col overflow-hidden selection:bg-primary-500 selection:text-white">
+
+    <!-- L'header viene iniettato da app.js -->
+
+    <!-- Background Image with Overlay -->
+    <div class="fixed inset-0 z-0 bg-motivation-bg bg-cover bg-center bg-no-repeat">
+        <!-- Dark gradient overlay to make text readable -->
+        <div
+            class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/80 to-gray-900 z-10 backdrop-blur-[2px]">
+        </div>
+    </div>
+
+    <main
+        class="flex-grow w-full max-w-4xl mx-auto px-6 py-6 flex flex-col justify-center items-center z-10 relative mt-16 pb-24">
+
+        <!-- Quote Container -->
+        <div id="quoteContainer" class="w-full text-center quote-enter quote-enter-active">
+            <!-- Icon -->
+            <div class="mb-6 flex justify-center opacity-80">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                    class="text-primary-400">
+                    <path
+                        d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                    <path
+                        d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                </svg>
+            </div>
+
+            <!-- Text -->
+            <h2 id="quoteText"
+                class="text-3xl sm:text-4xl md:text-5xl font-quote italic font-medium leading-tight mb-8 text-white drop-shadow-md">
+                "Per vincere una gara serve la testa, il cuore e solo alla fine le gambe."
+            </h2>
+
+            <!-- Author -->
+            <div class="flex flex-col items-center justify-center gap-1">
+                <div class="w-12 h-1 bg-primary-500 rounded-full mb-3"></div>
+                <p id="quoteAuthor"
+                    class="font-display font-bold text-xl sm:text-2xl text-gray-200 tracking-wide uppercase">
+                    Pietro Mennea
+                </p>
+                <p id="quoteContext" class="text-sm text-gray-400 mt-1 uppercase tracking-widest">
+                    Leggenda Azzurra
+                </p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="absolute bottom-10 w-full px-6 flex justify-center items-center gap-4 max-w-sm">
+            <button id="shareBtn"
+                class="p-4 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-2xl text-white transition-all active:scale-95 shadow-lg flex items-center justify-center"
+                aria-label="Condividi Citazione">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                    <polyline points="16 6 12 2 8 6" />
+                    <line x1="12" x2="12" y1="2" y2="15" />
+                </svg>
+            </button>
+            <button id="newQuoteBtn"
+                class="flex-grow flex items-center justify-center gap-2 py-4 px-6 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 rounded-2xl text-white font-bold text-lg transition-all active:scale-95 shadow-[0_0_20px_rgba(59,130,246,0.4)] border border-primary-400/50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <path d="M3 3v5h5" />
+                </svg>
+                Ispirami Ancora
+            </button>
+        </div>
+
+    </main>
+
+    <!-- App Logic -->
+    <script src="../js/motivation.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>

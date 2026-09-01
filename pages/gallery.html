@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gallery - Track Splits</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJ2MjAiPjwvcGF0aD48cGF0aCBkPSJNMTcgNUg5LjVhMy41IDMuNSAwIDAgMCAwIDdoNWEzLjUgMy41IDAgMCAxIDAgN0g2Ij48L3BhdGg+PC9zdmc+">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        /* Pure CSS Masonry Layout */
+        .masonry-grid {
+            column-count: 2;
+            column-gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .masonry-grid {
+                column-count: 3;
+            }
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+        
+        /* Lightbox Image Animation */
+        #lightboxImg {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
+
+    
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-4 relative pb-10">
+        
+        <div class="mb-2 text-center">
+            <h2 class="text-3xl font-display font-bold text-gray-800 dark:text-gray-100">Gallery</h2>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative mb-4">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <input type="text" id="searchInput" class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-dark-border rounded-xl leading-5 bg-white dark:bg-dark-card text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-shadow shadow-sm" placeholder="Cerca foto per evento o luogo (es. Maratona)...">
+        </div>
+
+        <!-- Album Filters (Pills) -->
+        <div class="w-full overflow-x-auto pb-2 mb-4 scrollbar-hide">
+            <div id="albumFilters" class="flex items-center gap-2 min-w-max">
+                <!-- Filters Injected Here -->
+            </div>
+        </div>
+
+        <!-- External Album Link Container (Hidden by default) -->
+        <div id="albumLinkContainer" class="mb-6 hidden">
+            <a id="albumLinkBtn" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full md:w-auto md:inline-flex px-6 py-3 bg-[#1877F2] hover:bg-[#166fe5] text-white font-medium rounded-xl transition-colors shadow-md shadow-blue-500/20 active:scale-[0.98]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                <span id="albumLinkText">Guarda su Facebook</span>
+            </a>
+        </div>
+
+        <!-- Masonry Grid -->
+        <div id="galleryGrid" class="masonry-grid">
+            <!-- Images Injected Here -->
+        </div>
+
+    </main>
+
+    <!-- Lightbox Overlay -->
+    <div id="lightboxOverlay" class="fixed inset-0 bg-black/95 z-[100] hidden flex-col items-center justify-center opacity-0 transition-opacity duration-300 select-none touch-none">
+        <!-- Close Button -->
+        <button id="closeLightboxBtn" class="absolute top-4 right-4 p-3 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+
+        <!-- Main Image -->
+        <div class="relative w-full h-full flex items-center justify-center overflow-hidden">
+            <img id="lightboxImg" src="" class="max-w-full max-h-[80vh] object-contain px-2" alt="Immagine ingrandita">
+            
+            <!-- Prev / Next Overlays -->
+            <button id="prevBtn" class="absolute left-0 top-0 bottom-0 w-1/3 flex items-center justify-start pl-4 outline-none group text-white/0 hover:text-white/80 transition-colors">
+                <div class="bg-black/30 p-2 rounded-full backdrop-blur-sm group-hover:bg-black/50 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                </div>
+            </button>
+            <button id="nextBtn" class="absolute right-0 top-0 bottom-0 w-1/3 flex items-center justify-end pr-4 outline-none group text-white/0 hover:text-white/80 transition-colors">
+                <div class="bg-black/30 p-2 rounded-full backdrop-blur-sm group-hover:bg-black/50 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </div>
+            </button>
+        </div>
+
+        <!-- Caption Box -->
+        <div class="absolute bottom-6 left-4 right-4 max-w-2xl mx-auto bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-center">
+            <h4 id="lightboxAlbum" class="text-xs font-bold uppercase tracking-wider text-primary-400 mb-1">Album</h4>
+            <p id="lightboxCaption" class="text-white text-sm md:text-base leading-snug">Didascalia</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../data/gallery_data.js"></script>
+    <script src="../js/gallery.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

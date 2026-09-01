@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Track Splits - Ripetute</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="description" content="Calcolatore di allenamenti a ripetute (intervalli) per atletica leggera.">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icon-192.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6', 
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
+    
+    
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
+        
+        <!-- Input Section -->
+        <section class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden card-transition hover:shadow-md">
+            
+            <div class="p-5 border-b border-gray-100 dark:border-dark-border grid grid-cols-2 gap-4">
+                <!-- Number of Reps -->
+                <div>
+                    <label for="repsInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Numero Prove</label>
+                    <input type="number" id="repsInput" placeholder="es. 10" min="1" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400">
+                </div>
+                
+                <!-- Distance per Rep -->
+                <div>
+                    <label for="repDistInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Distanza (m)</label>
+                    <div class="relative">
+                        <input type="number" id="repDistInput" placeholder="es. 400" min="1" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400">
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium select-none pointer-events-none">m</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 border-b border-gray-100 dark:border-dark-border">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tempo Target per Prova</label>
+                <div class="flex items-center gap-2">
+                    <div class="flex-1">
+                        <input type="number" id="repMin" placeholder="mm" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                    </div>
+                    <span class="text-xl font-bold text-gray-400">:</span>
+                    <div class="flex-1">
+                        <input type="number" id="repSec" placeholder="ss" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                    </div>
+                    <span class="text-xl font-bold text-gray-400">.</span>
+                    <div class="flex-1">
+                        <input type="number" id="repMs" placeholder="d" min="0" max="9" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5 border-b border-gray-100 dark:border-dark-border">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tempo di Recupero</label>
+                <div class="flex items-center gap-2">
+                    <div class="flex-1 relative">
+                        <input type="number" id="restMin" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">min</span>
+                    </div>
+                    <span class="text-xl font-bold text-gray-400">:</span>
+                    <div class="flex-1 relative">
+                        <input type="number" id="restSec" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">sec</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-5">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Orario di Inizio (Opzionale)</label>
+                <div class="flex items-center gap-2 mb-6">
+                    <input type="time" id="startTime" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                    <button id="clearTimeBtn" class="p-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-xl text-gray-500 transition-colors" title="Azzera orario (usa cronometro da 00:00)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <button id="calculateBtn" class="w-full bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-dark-bg">
+                    Genera Tabella di Marcia
+                </button>
+            </div>
+        </section>
+
+        <!-- Error Message -->
+        <div id="errorMsg" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg text-sm" role="alert">
+            <p>Compila correttamente tutti i campi.</p>
+        </div>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="hidden flex-col gap-6 opacity-0 transition-opacity duration-500">
+            
+            <!-- Table Card -->
+            <div class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden flex flex-col">
+                <div class="p-4 border-b border-gray-100 dark:border-dark-border flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                    <h3 class="font-bold text-gray-800 dark:text-gray-200">Tabella di Marcia</h3>
+                    <button id="copyBtn" class="flex items-center gap-1.5 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors bg-primary-50 dark:bg-primary-900/30 px-3 py-1.5 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span>Copia</span>
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                            <tr>
+                                <th scope="col" class="px-4 py-3 font-semibold w-16">Fase</th>
+                                <th scope="col" class="px-4 py-3 font-semibold text-right">Inizio</th>
+                                <th scope="col" class="px-4 py-3 font-semibold text-right">Fine</th>
+                                <th scope="col" class="px-4 py-3 font-semibold text-right hidden sm:table-cell">Durata</th>
+                            </tr>
+                        </thead>
+                        <tbody id="intervalsTableBody" class="divide-y divide-gray-100 dark:divide-dark-border text-gray-700 dark:text-gray-300">
+                            <!-- Rows generated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </section>
+
+    </main>
+
+    <!-- App Logic -->
+    <script src="../js/intervals.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>
