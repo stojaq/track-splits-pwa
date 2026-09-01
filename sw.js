@@ -1,4 +1,4 @@
-const CACHE_NAME = 'track-splits-v16';
+const CACHE_NAME = 'track-splits-cache';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -35,6 +35,9 @@ const ASSETS_TO_CACHE = [
 
 // Install Event
 self.addEventListener('install', (event) => {
+    // Forza il nuovo Service Worker a diventare subito attivo
+    self.skipWaiting();
+    
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
@@ -44,46 +47,36 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Fetch Event (Cache First strategy)
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request)
-            .then((response) => {
-                // Return cache if found, else fetch from network
-                return response || fetch(event.request).then(
-                    (networkResponse) => {
-                        // Check if we received a valid response
-                        if(!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                            return networkResponse;
-                        }
-
-                        // Clone the response because it's a stream
-                        const responseToCache = networkResponse.clone();
-
-                        caches.open(CACHE_NAME)
-                            .then((cache) => {
-                                cache.put(event.request, responseToCache);
-                            });
-
-                        return networkResponse;
-                    }
-                );
-            })
-    );
+// Activate Event
+self.addEventListener('activate', (event) => {
+    // Prende immediatamente il controllo della pagina senza aspettare il ricaricamento
+    event.waitUntil(self.clients.claim());
 });
 
-// Activate Event (Clean up old caches)
-self.addEventListener('activate', (event) => {
-    const cacheWhitelist = [CACHE_NAME];
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
+// Fetch Event (Stale While Revalidate)
+self.addEventListener('fetch', (event) => {
+    // Ignoriamo le richieste non-GET
+    if (event.request.method !== 'GET') return;
+
+    event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+            // Avvia la richiesta di rete in background per aggiornare la cache
+            const fetchPromise = fetch(event.request).then((networkResponse) => {
+                // Se la risposta è valida, aggiorna la cache
+                if (networkResponse && networkResponse.status === 200) {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
+                }
+                return networkResponse;
+            }).catch(() => {
+                // Errore di rete (es. offline): non facciamo nulla, l'utente userà la cache
+            });
+
+            // Se c'è una risposta in cache, mostrala SUBITO all'utente.
+            // Altrimenti, aspetta che finisca il fetch da internet (primo accesso).
+            return cachedResponse || fetchPromise;
         })
     );
 });
