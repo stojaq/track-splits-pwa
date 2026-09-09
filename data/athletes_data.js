@@ -593,5 +593,207 @@ window.athletesData = [
         { dateStr: "28/05/2006", dateObj: new Date("2006-05-28"), type: "Pista", performance: "2037", city: "Marina Di Ravenna", category: "CM" }
       ]
     }
+  },
+  {
+    id: "lorenzo_lepri_004",
+    name: "Lorenzo Lepri",
+    dob: "13-01-2004",
+    club: "G.S.SELF ATL. MONTANARI GRUZZA",
+    category: "Promesse Maschile (PM)",
+    tesseramentoHistory: [
+      { year: "2026", type: "Rinnovo", category: "Promesse Maschile", club: "G.S.SELF ATL. MONTANARI GRUZZA" },
+      { year: "2025", type: "Rinnovo", category: "Promesse Maschile", club: "G.S.SELF ATL. MONTANARI GRUZZA" },
+      { year: "2024", type: "Rinnovo", category: "Promesse Maschile", club: "G.S.SELF ATL. MONTANARI GRUZZA" },
+      { year: "2023", type: "Rinnovo", category: "Juniores Maschile", club: "G.S.SELF ATL. MONTANARI GRUZZA" },
+      { year: "2022", type: "Rinnovo", category: "Juniores Maschile", club: "G.S.SELF ATL. MONTANARI GRUZZA" },
+      { year: "2021", type: "Rinnovo", category: "Allievi Maschile", club: "G.S.SELF ATL. MONTANARI GRUZZA" },
+      { year: "2020", type: "Trasferimento", category: "Allievi Maschile", club: "G.S.SELF ATL. MONTANARI GRUZZA" },
+      { year: "2019", type: "Rinnovo", category: "Cadetti Maschile", club: "ATL. RIMINI NORD SANTARCANGELO" },
+      { year: "2018", type: "Trasferimento", category: "Cadetti Maschile", club: "ATL. RIMINI NORD SANTARCANGELO" },
+      { year: "2017", type: "Rinnovo", category: "Ragazzi Maschile", club: "GOLDEN CLUB RIMINI INTERNAT." },
+      { year: "2016", type: "Nuovo", category: "Ragazzi Maschile", club: "GOLDEN CLUB RIMINI INTERNAT." },
+      { year: "2010", type: "Nuovo", category: "Esordienti Maschile", club: "GOLDEN CLUB RIMINI INTERNAT." }
+    ],
+    pbs: [
+      { event: "60 piani", type: "Pista", performance: "9.0", year: "2017", city: "Misano Adriatico" },
+      { event: "200 metri", type: "Indoor", performance: "29.36", year: "2018", city: "Ancona" },
+      { event: "500 metri", type: "Pista", performance: "1:08.85", year: "2024", city: "San Marino" },
+      { event: "600 metri", type: "Pista", performance: "1:54.7", year: "2017", city: "San Giovanni In Marignano" },
+      { event: "800 metri", type: "Pista", performance: "2:00.09", year: "2024", city: "Modena" },
+      { event: "1000 metri", type: "Pista", performance: "2:57.98", year: "2019", city: "Misano Adriatico" },
+      { event: "1500 metri", type: "Pista", performance: "4:06.97", year: "2024", city: "San Marino" },
+      { event: "1500 metri", type: "Indoor", performance: "4:09.45", year: "2024", city: "Ancona" },
+      { event: "1 Miglio", type: "Pista", performance: "4:33.13", year: "2024", city: "Correggio" },
+      { event: "2000 metri", type: "Pista", performance: "6:43.61", year: "2019", city: "Piacenza" },
+      { event: "3000 metri", type: "Pista", performance: "9:19.38", year: "2024", city: "Faenza" },
+      { event: "3000 metri", type: "Indoor", performance: "9:33.13", year: "2024", city: "Ancona" },
+      { event: "5000 metri", type: "Pista", performance: "16:56.31", year: "2024", city: "Prato" },
+      { event: "Corsa strada Km 10", type: "Strada", performance: "35:34", year: "2024", city: "Santarcangelo Di Romagna" },
+      { event: "Corsa km 5 strada", type: "Strada", performance: "18:02", year: "2023", city: "Sant'angelo Di Gatteo" },
+      { event: "1200 siepi H 76 S.R.", type: "Pista", performance: "3:59.26", year: "2019", city: "Serravalle" },
+      { event: "3000 siepi H91", type: "Pista", performance: "10:52.77", year: "2023", city: "Imola" },
+      { event: "60 Hs H 60", type: "Pista", performance: "11.0", year: "2017", city: "Cattolica" },
+      { event: "100 Hs H 84-8.50", type: "Pista", performance: "20.0", year: "2019", city: "Misano Adriatico" },
+      { event: "Salto in alto/HJ", type: "Pista", performance: "1.32", year: "2019", city: "Cesena" },
+      { event: "Salto in lungo/LJ", type: "Pista", performance: "4.04", year: "2019", city: "Cesena" },
+      { event: "Salto triplo/TJ", type: "Indoor", performance: "8.51", year: "2018", city: "Ancona" },
+      { event: "Disco/DT Kg 1,500", type: "Pista", performance: "13.04", year: "2019", city: "Misano Adriatico" },
+      { event: "Giavellotto/JT Gr600", type: "Pista", performance: "21.78", year: "2019", city: "Misano Adriatico" },
+      { event: "Vortex", type: "Pista", performance: "27.62", year: "2017", city: "San Giovanni In Marignano" },
+      { event: "TETRATHLON", type: "Pista", performance: "1603", year: "2017", city: "San Giovanni In Marignano" },
+      { event: "ESATHLON CM DISCO", type: "Pista", performance: "1663", year: "2019", city: "Misano Adriatico" }
+    ],
+    races: {
+      "60 PIANI": [
+        { dateStr: "03/05/2017", dateObj: new Date("2017-05-03"), type: "Pista", performance: "9.0", city: "Misano Adriatico", category: "RM" },
+        { dateStr: "14/06/2017", dateObj: new Date("2017-06-14"), type: "Pista", performance: "9.25", city: "Serravalle", category: "RM" },
+        { dateStr: "13/05/2017", dateObj: new Date("2017-05-13"), type: "Pista", performance: "9.37", city: "Serravalle", category: "RM" },
+        { dateStr: "19/09/2017", dateObj: new Date("2017-09-19"), type: "Pista", performance: "9.37", city: "Forlì", category: "RM" },
+        { dateStr: "02/10/2016", dateObj: new Date("2016-10-02"), type: "Pista", performance: "9.38", city: "Faenza", category: "RM" },
+        { dateStr: "28/04/2016", dateObj: new Date("2016-04-28"), type: "Pista", performance: "9.4", city: "Misano Adriatico", category: "RM" },
+        { dateStr: "01/06/2016", dateObj: new Date("2016-06-01"), type: "Pista", performance: "9.70", city: "Serravalle", category: "RM" },
+        { dateStr: "07/05/2016", dateObj: new Date("2016-05-07"), type: "Pista", performance: "9.5", city: "Serravalle", category: "RM" }
+      ],
+      "200 METRI": [
+        { dateStr: "28/01/2018", dateObj: new Date("2018-01-28"), type: "Indoor", performance: "29.36", city: "Ancona", category: "CM" }
+      ],
+      "500 METRI": [
+        { dateStr: "13/04/2024", dateObj: new Date("2024-04-13"), type: "Pista", performance: "1:08.85", city: "San Marino", category: "PM" }
+      ],
+      "600 METRI": [
+        { dateStr: "01/04/2017", dateObj: new Date("2017-04-01"), type: "Pista", performance: "1:54.7", city: "San Giovanni In Marignano", category: "RM" },
+        { dateStr: "19/04/2016", dateObj: new Date("2016-04-19"), type: "Pista", performance: "2:00.1", city: "Cattolica", category: "RM" }
+      ],
+      "800 METRI": [
+        { dateStr: "05/05/2024", dateObj: new Date("2024-05-05"), type: "Pista", performance: "2:00.09", city: "Modena", category: "PM" },
+        { dateStr: "07/06/2023", dateObj: new Date("2023-06-07"), type: "Pista", performance: "2:00.23", city: "San Marino", category: "JM" },
+        { dateStr: "07/09/2023", dateObj: new Date("2023-09-07"), type: "Pista", performance: "2:00.29", city: "Modena", category: "JM" },
+        { dateStr: "28/05/2023", dateObj: new Date("2023-05-28"), type: "Pista", performance: "2:01.26", city: "Bologna", category: "JM" },
+        { dateStr: "07/07/2022", dateObj: new Date("2022-07-07"), type: "Pista", performance: "2:06.75", city: "Imola", category: "JM" },
+        { dateStr: "28/06/2022", dateObj: new Date("2022-06-28"), type: "Pista", performance: "2:07.44", city: "Castelfranco Emilia", category: "JM" },
+        { dateStr: "15/06/2022", dateObj: new Date("2022-06-15"), type: "Pista", performance: "2:12.83", city: "San Marino", category: "JM" },
+        { dateStr: "04/07/2018", dateObj: new Date("2018-07-04"), type: "Pista", performance: "2:25.6", city: "Santarcangelo Romagna", category: "CM" }
+      ],
+      "1000 METRI": [
+        { dateStr: "21/09/2019", dateObj: new Date("2019-09-21"), type: "Pista", performance: "2:57.98", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "04/05/2019", dateObj: new Date("2019-05-04"), type: "Pista", performance: "2:58.0", city: "Santarcangelo Di Romagna", category: "CM" },
+        { dateStr: "04/07/2019", dateObj: new Date("2019-07-04"), type: "Pista", performance: "3:00.72", city: "Forlì", category: "CM" },
+        { dateStr: "13/04/2019", dateObj: new Date("2019-04-13"), type: "Pista", performance: "3:02.6", city: "Imola", category: "CM" },
+        { dateStr: "04/09/2019", dateObj: new Date("2019-09-04"), type: "Pista", performance: "3:04.91", city: "Faenza", category: "CM" },
+        { dateStr: "07/04/2019", dateObj: new Date("2019-04-07"), type: "Pista", performance: "3:05.7", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "19/05/2018", dateObj: new Date("2018-05-19"), type: "Pista", performance: "3:09.20", city: "Cesena", category: "CM" },
+        { dateStr: "22/09/2018", dateObj: new Date("2018-09-22"), type: "Pista", performance: "3:10.05", city: "Piacenza", category: "CM" },
+        { dateStr: "16/06/2019", dateObj: new Date("2019-06-16"), type: "Pista", performance: "3:11.80", city: "Cesena", category: "CM" },
+        { dateStr: "15/04/2018", dateObj: new Date("2018-04-15"), type: "Pista", performance: "3:20.5", city: "Santarcangelo Romagna", category: "CM" },
+        { dateStr: "01/10/2017", dateObj: new Date("2017-10-01"), type: "Pista", performance: "3:23.03", city: "Piacenza", category: "RM" },
+        { dateStr: "13/05/2017", dateObj: new Date("2017-05-13"), type: "Pista", performance: "3:26.55", city: "Serravalle", category: "RM" },
+        { dateStr: "05/07/2017", dateObj: new Date("2017-07-05"), type: "Pista", performance: "3:27.7", city: "Rimini", category: "RM" },
+        { dateStr: "02/10/2016", dateObj: new Date("2016-10-02"), type: "Pista", performance: "3:29.33", city: "Faenza", category: "RM" },
+        { dateStr: "07/05/2016", dateObj: new Date("2016-05-07"), type: "Pista", performance: "3:29.8", city: "Serravalle", category: "RM" }
+      ],
+      "1500 METRI": [
+        { dateStr: "27/04/2024", dateObj: new Date("2024-04-27"), type: "Pista", performance: "4:06.97", city: "San Marino", category: "PM" },
+        { dateStr: "20/01/2024", dateObj: new Date("2024-01-20"), type: "Indoor", performance: "4:09.45", city: "Ancona", category: "PM" },
+        { dateStr: "04/05/2024", dateObj: new Date("2024-05-04"), type: "Pista", performance: "4:10.40", city: "Modena", category: "PM" },
+        { dateStr: "20/07/2024", dateObj: new Date("2024-07-20"), type: "Pista", performance: "4:12.57", city: "Civitanova Marche", category: "PM" },
+        { dateStr: "27/05/2023", dateObj: new Date("2023-05-27"), type: "Pista", performance: "4:14.36", city: "Bologna", category: "JM" },
+        { dateStr: "20/09/2023", dateObj: new Date("2023-09-20"), type: "Pista", performance: "4:14.97", city: "Forlì", category: "JM" },
+        { dateStr: "20/05/2023", dateObj: new Date("2023-05-20"), type: "Pista", performance: "4:15.52", city: "Modena", category: "JM" },
+        { dateStr: "10/07/2024", dateObj: new Date("2024-07-10"), type: "Pista", performance: "4:15.73", city: "Bologna", category: "PM" },
+        { dateStr: "21/09/2024", dateObj: new Date("2024-09-21"), type: "Pista", performance: "4:18.60", city: "Prato", category: "PM" },
+        { dateStr: "13/01/2024", dateObj: new Date("2024-01-13"), type: "Indoor", performance: "4:19.50", city: "Ancona", category: "PM" },
+        { dateStr: "30/09/2023", dateObj: new Date("2023-09-30"), type: "Pista", performance: "4:20.06", city: "Mariano Comense", category: "JM" },
+        { dateStr: "13/09/2023", dateObj: new Date("2023-09-13"), type: "Pista", performance: "4:20.91", city: "Faenza", category: "JM" },
+        { dateStr: "29/04/2023", dateObj: new Date("2023-04-29"), type: "Pista", performance: "4:23.09", city: "San Marino", category: "JM" }
+      ],
+      "1 MIGLIO": [
+        { dateStr: "07/09/2024", dateObj: new Date("2024-09-07"), type: "Pista", performance: "4:33.13", city: "Correggio", category: "PM" }
+      ],
+      "2000 METRI": [
+        { dateStr: "26/05/2019", dateObj: new Date("2019-05-26"), type: "Pista", performance: "6:43.61", city: "Piacenza", category: "CM" },
+        { dateStr: "08/05/2019", dateObj: new Date("2019-05-08"), type: "Pista", performance: "6:58.0", city: "San Giovanni In Marignano", category: "CM" },
+        { dateStr: "03/06/2018", dateObj: new Date("2018-06-03"), type: "Pista", performance: "7:16.70", city: "Ravenna", category: "CM" },
+        { dateStr: "09/05/2018", dateObj: new Date("2018-05-09"), type: "Pista", performance: "7:30.7", city: "Cattolica", category: "CM" },
+        { dateStr: "06/05/2018", dateObj: new Date("2018-05-06"), type: "Pista", performance: "7:40.1", city: "Ravenna", category: "CM" }
+      ],
+      "3000 METRI": [
+        { dateStr: "11/09/2024", dateObj: new Date("2024-09-11"), type: "Pista", performance: "9:19.38", city: "Faenza", category: "PM" },
+        { dateStr: "28/01/2024", dateObj: new Date("2024-01-28"), type: "Indoor", performance: "9:33.13", city: "Ancona", category: "PM" }
+      ],
+      "5000 METRI": [
+        { dateStr: "22/09/2024", dateObj: new Date("2024-09-22"), type: "Pista", performance: "16:56.31", city: "Prato", category: "PM" }
+      ],
+      "CORSA STRADA KM 10": [
+        { dateStr: "17/11/2024", dateObj: new Date("2024-11-17"), type: "Strada", performance: "35:34", city: "Santarcangelo Di Romagna", category: "PM" },
+        { dateStr: "10/03/2024", dateObj: new Date("2024-03-10"), type: "Strada", performance: "36:13", city: "Cesenatico", category: "PM" },
+        { dateStr: "26/02/2023", dateObj: new Date("2023-02-26"), type: "Strada", performance: "39:01", city: "Misano Adriatico", category: "JM" }
+      ],
+      "CORSA KM 5 STRADA": [
+        { dateStr: "21/09/2023", dateObj: new Date("2023-09-21"), type: "Strada", performance: "18:02", city: "Sant'angelo Di Gatteo", category: "JM" }
+      ],
+      "1200 SIEPI H 76 S.R.": [
+        { dateStr: "27/04/2019", dateObj: new Date("2019-04-27"), type: "Pista", performance: "3:59.26", city: "Serravalle", category: "CM" },
+        { dateStr: "25/05/2019", dateObj: new Date("2019-05-25"), type: "Pista", performance: "4:02.02", city: "Piacenza", category: "CM" },
+        { dateStr: "22/09/2019", dateObj: new Date("2019-09-22"), type: "Pista", performance: "4:02.67", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "07/04/2018", dateObj: new Date("2018-04-07"), type: "Pista", performance: "4:12.29", city: "Serravalle", category: "CM" },
+        { dateStr: "05/05/2018", dateObj: new Date("2018-05-05"), type: "Pista", performance: "4:19.4", city: "Ravenna", category: "CM" },
+        { dateStr: "02/06/2018", dateObj: new Date("2018-06-02"), type: "Pista", performance: "4:23.05", city: "Ravenna", category: "CM" },
+        { dateStr: "23/09/2018", dateObj: new Date("2018-09-23"), type: "Pista", performance: "4:23.55", city: "Piacenza", category: "CM" }
+      ],
+      "3000 SIEPI H91": [
+        { dateStr: "05/07/2023", dateObj: new Date("2023-07-05"), type: "Pista", performance: "10:52.77", city: "Imola", category: "JM" }
+      ],
+      "60 HS H 60": [
+        { dateStr: "10/05/2017", dateObj: new Date("2017-05-10"), type: "Pista", performance: "11.0", city: "Cattolica", category: "RM" },
+        { dateStr: "01/04/2017", dateObj: new Date("2017-04-01"), type: "Pista", performance: "11.6", city: "San Giovanni In Marignano", category: "RM" }
+      ],
+      "100 HS H 84-8.50": [
+        { dateStr: "07/04/2019", dateObj: new Date("2019-04-07"), type: "Pista", performance: "20.0", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "16/06/2019", dateObj: new Date("2019-06-16"), type: "Pista", performance: "20.65", city: "Cesena", category: "CM" },
+        { dateStr: "15/04/2018", dateObj: new Date("2018-04-15"), type: "Pista", performance: "21.4", city: "Santarcangelo Romagna", category: "CM" }
+      ],
+      "SALTO IN ALTO / HJ": [
+        { dateStr: "16/06/2019", dateObj: new Date("2019-06-16"), type: "Pista", performance: "1.32", city: "Cesena", category: "CM" },
+        { dateStr: "07/04/2019", dateObj: new Date("2019-04-07"), type: "Pista", performance: "1.30", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "15/04/2018", dateObj: new Date("2018-04-15"), type: "Pista", performance: "1.23", city: "Santarcangelo Romagna", category: "CM" },
+        { dateStr: "10/05/2017", dateObj: new Date("2017-05-10"), type: "Pista", performance: "1.20", city: "Cattolica", category: "RM" }
+      ],
+      "SALTO IN LUNGO / LJ": [
+        { dateStr: "16/06/2019", dateObj: new Date("2019-06-16"), type: "Pista", performance: "4.04", city: "Cesena", category: "CM" },
+        { dateStr: "07/04/2019", dateObj: new Date("2019-04-07"), type: "Pista", performance: "3.99", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "03/05/2017", dateObj: new Date("2017-05-03"), type: "Pista", performance: "3.76", city: "Misano Adriatico", category: "RM" },
+        { dateStr: "15/04/2018", dateObj: new Date("2018-04-15"), type: "Pista", performance: "3.62", city: "Santarcangelo Romagna", category: "CM" },
+        { dateStr: "01/04/2017", dateObj: new Date("2017-04-01"), type: "Pista", performance: "3.61", city: "San Giovanni In Marignano", category: "RM" }
+      ],
+      "SALTO TRIPLO / TJ": [
+        { dateStr: "28/01/2018", dateObj: new Date("2018-01-28"), type: "Indoor", performance: "8.51", city: "Ancona", category: "CM" }
+      ],
+      "DISCO / DT KG 1,500": [
+        { dateStr: "07/04/2019", dateObj: new Date("2019-04-07"), type: "Pista", performance: "13.04", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "16/06/2019", dateObj: new Date("2019-06-16"), type: "Pista", performance: "12.88", city: "Cesena", category: "CM" },
+        { dateStr: "15/04/2018", dateObj: new Date("2018-04-15"), type: "Pista", performance: "11.91", city: "Santarcangelo Romagna", category: "CM" },
+        { dateStr: "11/03/2018", dateObj: new Date("2018-03-11"), type: "Pista", performance: "10.52", city: "Cattolica", category: "CM" }
+      ],
+      "GIAVELLOTTO / JT GR600": [
+        { dateStr: "07/04/2019", dateObj: new Date("2019-04-07"), type: "Pista", performance: "21.78", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "16/06/2019", dateObj: new Date("2019-06-16"), type: "Pista", performance: "19.44", city: "Cesena", category: "CM" },
+        { dateStr: "04/07/2018", dateObj: new Date("2018-07-04"), type: "Pista", performance: "19.22", city: "Santarcangelo Romagna", category: "CM" },
+        { dateStr: "15/04/2018", dateObj: new Date("2018-04-15"), type: "Pista", performance: "19.12", city: "Santarcangelo Romagna", category: "CM" },
+        { dateStr: "07/04/2018", dateObj: new Date("2018-04-07"), type: "Pista", performance: "18.24", city: "Serravalle", category: "CM" },
+        { dateStr: "11/03/2018", dateObj: new Date("2018-03-11"), type: "Pista", performance: "17.42", city: "Cattolica", category: "CM" }
+      ],
+      "VORTEX": [
+        { dateStr: "01/04/2017", dateObj: new Date("2017-04-01"), type: "Pista", performance: "27.62", city: "San Giovanni In Marignano", category: "RM" },
+        { dateStr: "11/05/2016", dateObj: new Date("2016-05-11"), type: "Pista", performance: "24.56", city: "Cattolica", category: "RM" }
+      ],
+      "TETRATHLON": [
+        { dateStr: "01/04/2017", dateObj: new Date("2017-04-01"), type: "Pista", performance: "1603", city: "San Giovanni In Marignano", category: "RM" }
+      ],
+      "ESATHLON CM DISCO": [
+        { dateStr: "07/04/2019", dateObj: new Date("2019-04-07"), type: "Pista", performance: "1663", city: "Misano Adriatico", category: "CM" },
+        { dateStr: "16/06/2019", dateObj: new Date("2019-06-16"), type: "Pista", performance: "1518", city: "Cesena", category: "CM" },
+        { dateStr: "15/04/2018", dateObj: new Date("2018-04-15"), type: "Pista", performance: "1115", city: "Santarcangelo Romagna", category: "CM" }
+      ]
+    }
   }
 ];
