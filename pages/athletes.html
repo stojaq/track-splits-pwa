@@ -61,12 +61,65 @@
             </button>
         </div>
 
+        <!-- FILTRI & RICERCA DASHBOARD -->
+        <div id="athletesFilterToolbar" class="flex flex-col gap-2.5 bg-white dark:bg-dark-card border border-gray-100 dark:border-dark-border rounded-2xl p-4 shadow-sm">
+            <!-- Prima riga: Cerca, Categoria, Ordina -->
+            <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                <!-- Barra Ricerca -->
+                <div class="relative flex-grow">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" id="athleteSearchInput" placeholder="Cerca atleta per nome o società..." class="w-full pl-10 pr-9 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors">
+                    <button id="clearSearchBtn" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" title="Cancella ricerca">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                    </button>
+                </div>
+
+                <!-- Dropdown Categoria -->
+                <div class="sm:w-48 flex-shrink-0">
+                    <select id="athleteCategoryFilter" class="w-full py-2 px-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer transition-colors">
+                        <option value="all">Tutte le Categorie</option>
+                    </select>
+                </div>
+
+                <!-- Dropdown Ordinamento -->
+                <div class="sm:w-48 flex-shrink-0">
+                    <select id="athleteSortFilter" class="w-full py-2 px-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer transition-colors">
+                        <option value="name-asc">Nome (A - Z)</option>
+                        <option value="name-desc">Nome (Z - A)</option>
+                        <option value="age-asc">Età (Più giovani)</option>
+                        <option value="age-desc">Età (Più esperti)</option>
+                        <option value="races-desc">Attività (Più gare)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Seconda riga: Info contatore e Reset -->
+            <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 px-1 pt-0.5">
+                <span id="athletesCountBadge" class="font-medium">Caricamento...</span>
+                <button id="resetFiltersBtn" class="hidden text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium underline underline-offset-2 transition-colors">Reimposta filtri</button>
+            </div>
+        </div>
+
         <!-- LISTA ATLETI (DASHBOARD) -->
         <div id="athletesListContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <!-- Rendered via JS -->
             <div id="emptyState" class="col-span-full py-12 text-center text-gray-500 hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                 <p>Nessun atleta in archivio.</p>
+            </div>
+            <div id="noResultsState" class="col-span-full py-12 text-center text-gray-500 hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <p class="font-medium text-gray-800 dark:text-gray-200">Nessun atleta trovato con i filtri correnti.</p>
+                <p class="text-xs text-gray-400 mt-1">Prova a modificare i termini di ricerca o la categoria.</p>
+                <button id="resetEmptyStateBtn" class="mt-3 inline-flex items-center gap-1 text-xs font-semibold bg-primary-50 text-primary-600 dark:bg-primary-950/40 dark:text-primary-400 px-3 py-1.5 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors">
+                    Reimposta filtri
+                </button>
             </div>
         </div>
 

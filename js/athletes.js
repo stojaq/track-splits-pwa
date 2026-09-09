@@ -10,6 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Elements ---
     const athletesListContainer = document.getElementById('athletesListContainer');
     const emptyState = document.getElementById('emptyState');
+    const noResultsState = document.getElementById('noResultsState');
+    const resetEmptyStateBtn = document.getElementById('resetEmptyStateBtn');
+
+    // Dashboard Filters Elements
+    const athletesFilterToolbar = document.getElementById('athletesFilterToolbar');
+    const athleteSearchInput = document.getElementById('athleteSearchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const athleteCategoryFilter = document.getElementById('athleteCategoryFilter');
+    const athleteSortFilter = document.getElementById('athleteSortFilter');
+    const athletesCountBadge = document.getElementById('athletesCountBadge');
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
 
     const athleteProfileContainer = document.getElementById('athleteProfileContainer');
     const backToListBtn = document.getElementById('backToListBtn');
@@ -165,21 +176,172 @@ document.addEventListener('DOMContentLoaded', () => {
         return pb ? pb.performance : '-';
     };
 
+    // --- Dashboard Filters State & Logica ---
+    const listFilterState = {
+        search: '',
+        category: 'all',
+        sortBy: 'name-asc'
+    };
+
+    const parseDobToDate = (dobStr) => {
+        if (!dobStr) return new Date(0);
+        const parts = dobStr.split('-');
+        if (parts.length === 3) {
+            const d = parseInt(parts[0], 10);
+            const m = parseInt(parts[1], 10) - 1;
+            const y = parseInt(parts[2], 10);
+            return new Date(y, m, d);
+        }
+        const d = new Date(dobStr);
+        return isNaN(d.getTime()) ? new Date(0) : d;
+    };
+
+    const getTotalRacesCount = (athlete) => {
+        if (!athlete.races) return 0;
+        let count = 0;
+        for (const key in athlete.races) {
+            if (Array.isArray(athlete.races[key])) {
+                count += athlete.races[key].length;
+            }
+        }
+        return count;
+    };
+
+    const initCategoryFilter = () => {
+        if (!athleteCategoryFilter) return;
+        const categories = new Set();
+        athletes.forEach(a => {
+            if (a.category) {
+                categories.add(a.category.trim());
+            }
+        });
+
+        athleteCategoryFilter.innerHTML = '<option value="all">Tutte le Categorie</option>';
+        Array.from(categories).sort().forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            athleteCategoryFilter.appendChild(opt);
+        });
+    };
+
+    const isFilterActive = () => {
+        return Boolean(
+            listFilterState.search.trim() !== '' ||
+            listFilterState.category !== 'all' ||
+            listFilterState.sortBy !== 'name-asc'
+        );
+    };
+
+    const updateFilterStatsUI = (filteredCount) => {
+        if (athletesCountBadge) {
+            if (athletes.length === 0) {
+                athletesCountBadge.textContent = '0 atleti';
+            } else if (filteredCount === athletes.length) {
+                athletesCountBadge.textContent = `${athletes.length} ${athletes.length === 1 ? 'atleta' : 'atleti'}`;
+            } else {
+                athletesCountBadge.textContent = `${filteredCount} di ${athletes.length} atleti`;
+            }
+        }
+
+        if (resetFiltersBtn) {
+            if (isFilterActive()) {
+                resetFiltersBtn.classList.remove('hidden');
+            } else {
+                resetFiltersBtn.classList.add('hidden');
+            }
+        }
+
+        if (clearSearchBtn) {
+            if (listFilterState.search.trim().length > 0) {
+                clearSearchBtn.classList.remove('hidden');
+            } else {
+                clearSearchBtn.classList.add('hidden');
+            }
+        }
+    };
+
+    const resetFilters = () => {
+        listFilterState.search = '';
+        listFilterState.category = 'all';
+        listFilterState.sortBy = 'name-asc';
+
+        if (athleteSearchInput) athleteSearchInput.value = '';
+        if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
+        if (athleteCategoryFilter) athleteCategoryFilter.value = 'all';
+        if (athleteSortFilter) athleteSortFilter.value = 'name-asc';
+        renderDashboard();
+    };
+
+    const getFilteredAthletes = () => {
+        const query = listFilterState.search.toLowerCase().trim();
+        return athletes
+            .filter(athlete => {
+                // Ricerca testuale per nome o società
+                if (query) {
+                    const nameMatch = (athlete.name || '').toLowerCase().includes(query);
+                    const clubMatch = (athlete.club || '').toLowerCase().includes(query);
+                    if (!nameMatch && !clubMatch) return false;
+                }
+
+                // Categoria
+                if (listFilterState.category !== 'all') {
+                    if (athlete.category !== listFilterState.category) return false;
+                }
+
+                return true;
+            })
+            .sort((a, b) => {
+                switch (listFilterState.sortBy) {
+                    case 'name-desc':
+                        return b.name.localeCompare(a.name, 'it', { sensitivity: 'base' });
+                    case 'age-asc': // più giovani prima -> data di nascita più recente
+                        return parseDobToDate(b.dob) - parseDobToDate(a.dob);
+                    case 'age-desc': // più esperti prima -> data di nascita meno recente
+                        return parseDobToDate(a.dob) - parseDobToDate(b.dob);
+                    case 'races-desc': // più gare
+                        return getTotalRacesCount(b) - getTotalRacesCount(a);
+                    case 'name-asc':
+                    default:
+                        return a.name.localeCompare(b.name, 'it', { sensitivity: 'base' });
+                }
+            });
+    };
+
     // --- UI Render ---
     const renderDashboard = () => {
         athletesListContainer.innerHTML = '';
         athleteProfileContainer.classList.add('hidden');
         athleteProfileContainer.classList.remove('flex');
+        
+        if (athletesFilterToolbar) {
+            athletesFilterToolbar.classList.remove('hidden');
+        }
+
         athletesListContainer.classList.remove('hidden');
         athletesListContainer.classList.add('grid');
 
         if (athletes.length === 0) {
-            emptyState.classList.remove('hidden');
-            athletesListContainer.appendChild(emptyState);
+            if (emptyState) {
+                emptyState.classList.remove('hidden');
+                athletesListContainer.appendChild(emptyState);
+            }
+            updateFilterStatsUI(0);
             return;
         }
 
-        athletes.forEach(athlete => {
+        const filteredAthletes = getFilteredAthletes();
+        updateFilterStatsUI(filteredAthletes.length);
+
+        if (filteredAthletes.length === 0) {
+            if (noResultsState) {
+                noResultsState.classList.remove('hidden');
+                athletesListContainer.appendChild(noResultsState);
+            }
+            return;
+        }
+
+        filteredAthletes.forEach(athlete => {
             const card = document.createElement('div');
             card.className = 'bg-white dark:bg-dark-card border border-gray-100 dark:border-dark-border rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col gap-2';
 
@@ -228,6 +390,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentAthleteId = id;
 
         // Toggle Views
+        if (athletesFilterToolbar) {
+            athletesFilterToolbar.classList.add('hidden');
+        }
         athletesListContainer.classList.add('hidden');
         athletesListContainer.classList.remove('grid');
         athleteProfileContainer.classList.remove('hidden');
@@ -809,11 +974,51 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Init ---
+    initCategoryFilter();
     renderDashboard();
 
     // --- Event Listeners ---
     backToListBtn.addEventListener('click', renderDashboard);
     if(raceEventFilter) raceEventFilter.addEventListener('change', renderRacesTable);
+
+    // Dashboard Filters Event Listeners
+    if (athleteSearchInput) {
+        athleteSearchInput.addEventListener('input', (e) => {
+            listFilterState.search = e.target.value;
+            renderDashboard();
+        });
+    }
+
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', () => {
+            listFilterState.search = '';
+            athleteSearchInput.value = '';
+            renderDashboard();
+            athleteSearchInput.focus();
+        });
+    }
+
+    if (athleteCategoryFilter) {
+        athleteCategoryFilter.addEventListener('change', (e) => {
+            listFilterState.category = e.target.value;
+            renderDashboard();
+        });
+    }
+
+    if (athleteSortFilter) {
+        athleteSortFilter.addEventListener('change', (e) => {
+            listFilterState.sortBy = e.target.value;
+            renderDashboard();
+        });
+    }
+
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', resetFilters);
+    }
+
+    if (resetEmptyStateBtn) {
+        resetEmptyStateBtn.addEventListener('click', resetFilters);
+    }
     
     if(openCompareBtn) openCompareBtn.addEventListener('click', openCompareModal);
     if(closeCompareBtn) closeCompareBtn.addEventListener('click', closeCompareModal);
