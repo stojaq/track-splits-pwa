@@ -1,4 +1,4 @@
-const CACHE_NAME = 'track-splits-cache';
+const CACHE_NAME = 'track-splits-cache-v2';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -41,7 +41,7 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('Opened cache');
+                console.log('Opened cache:', CACHE_NAME);
                 return cache.addAll(ASSETS_TO_CACHE);
             })
     );
@@ -49,20 +49,49 @@ self.addEventListener('install', (event) => {
 
 // Activate Event
 self.addEventListener('activate', (event) => {
-    // Prende immediatamente il controllo della pagina senza aspettare il ricaricamento
-    event.waitUntil(self.clients.claim());
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((name) => {
+                    if (name !== CACHE_NAME) {
+                        console.log('Rimozione vecchia cache:', name);
+                        return caches.delete(name);
+                    }
+                })
+            );
+        }).then(() => self.clients.claim())
+    );
 });
 
-// Fetch Event (Stale While Revalidate)
+// Fetch Event
 self.addEventListener('fetch', (event) => {
     // Ignoriamo le richieste non-GET
     if (event.request.method !== 'GET') return;
 
+    const requestUrl = event.request.url;
+    const isDataFile = requestUrl.includes('/data/') || requestUrl.includes('gallery_data') || requestUrl.includes('news_data');
+
+    // 1. Network First per i file di dati (notizie, gare, gallerie)
+    // Se c'è connessione scarica subito i dati freschi; se offline usa la cache
+    if (isDataFile) {
+        event.respondWith(
+            fetch(event.request).then((networkResponse) => {
+                if (networkResponse && networkResponse.status === 200) {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
+                }
+                return networkResponse;
+            }).catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
+    // 2. Stale While Revalidate per il resto dell'interfaccia (HTML, CSS, icone)
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
-            // Avvia la richiesta di rete in background per aggiornare la cache
             const fetchPromise = fetch(event.request).then((networkResponse) => {
-                // Se la risposta è valida, aggiorna la cache
                 if (networkResponse && networkResponse.status === 200) {
                     const responseToCache = networkResponse.clone();
                     caches.open(CACHE_NAME).then((cache) => {
@@ -71,11 +100,9 @@ self.addEventListener('fetch', (event) => {
                 }
                 return networkResponse;
             }).catch(() => {
-                // Errore di rete (es. offline): non facciamo nulla, l'utente userà la cache
+                // Modalità offline
             });
 
-            // Se c'è una risposta in cache, mostrala SUBITO all'utente.
-            // Altrimenti, aspetta che finisca il fetch da internet (primo accesso).
             return cachedResponse || fetchPromise;
         })
     );

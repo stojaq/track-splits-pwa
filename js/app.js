@@ -3,7 +3,7 @@
 function injectLayout() {
     // Determine base path from a global variable set in HTML
     const basePath = window.APP_BASE_PATH || '.';
-    
+
     const layoutHTML = `
     <!-- Navbar -->
     <header class="sticky top-0 z-50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md shadow-sm border-b border-gray-200/50 dark:border-slate-700/50">
@@ -103,28 +103,38 @@ function injectLayout() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                     <span class="font-medium">Informazioni</span>
                 </a>
+                <button id="forceUpdateBtn" class="w-full flex items-center text-left gap-3 px-4 py-3 rounded-xl bg-primary-50 hover:bg-primary-100/80 dark:bg-primary-950/40 dark:hover:bg-primary-900/40 text-primary-700 dark:text-primary-300 border border-primary-200/70 dark:border-primary-800/50 shadow-xs transition-all active:scale-[0.98]">
+                    <svg id="forceUpdateIcon" class="text-primary-600 dark:text-primary-400 shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                        <path d="M3 3v5h5"/>
+                        <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+                        <path d="M16 16h5v5"/>
+                    </svg>
+                    <span id="forceUpdateText" class="font-semibold text-sm">Aggiorna App</span>
+                    <span class="ml-auto text-[11px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-md bg-white/90 dark:bg-dark-card border border-primary-200/60 dark:border-primary-800/60 text-primary-600 dark:text-primary-400">Sync</span>
+                </button>
             </nav>
         </div>
     </aside>
     `;
-    
+
     // Inject at the beginning of the body
     document.body.insertAdjacentHTML('afterbegin', layoutHTML);
-    
+
     // Highlight the active link based on current URL
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('#sidebarMenu nav a');
     navLinks.forEach(link => {
         // Simple logic: if link href is found in currentPath, set active style
-        if (link.getAttribute('href').replace('./', '').replace('../', '') !== '' && 
+        if (link.getAttribute('href').replace('./', '').replace('../', '') !== '' &&
             currentPath.includes(link.getAttribute('href').split('/').pop())) {
-            
+
             // Remove active classes from all links
             navLinks.forEach(l => {
                 l.classList.remove('bg-primary-50', 'dark:bg-primary-900/20', 'text-primary-600', 'dark:text-primary-400');
                 l.classList.add('hover:bg-gray-50', 'dark:hover:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
             });
-            
+
             // Add active class to current
             link.classList.remove('hover:bg-gray-50', 'dark:hover:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
             link.classList.add('bg-primary-50', 'dark:bg-primary-900/20', 'text-primary-600', 'dark:text-primary-400');
@@ -134,17 +144,17 @@ function injectLayout() {
 document.addEventListener('DOMContentLoaded', () => {
     // Inject Layout First
     injectLayout();
-    
+
     // === DOM Elements ===
     const themeToggle = document.getElementById('themeToggle');
     const htmlElement = document.documentElement;
-    
+
     // Tabs
     const tabPace = document.getElementById('tab-pace');
     const tabTime = document.getElementById('tab-time');
     const paceContainer = document.getElementById('pace-container');
     const timeContainer = document.getElementById('time-container');
-    
+
     // Inputs
     const distanceInput = document.getElementById('distanceInput');
     const paceMin = document.getElementById('paceMin');
@@ -154,13 +164,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeSec = document.getElementById('timeSec');
     const timeMs = document.getElementById('timeMs');
     const splitDistanceSelect = document.getElementById('splitDistance');
-    
+
     // Buttons & Sections
     const calculateBtn = document.getElementById('calculateBtn');
     const errorMsg = document.getElementById('errorMsg');
     const resultsSection = document.getElementById('resultsSection');
     const copyBtn = document.getElementById('copyBtn');
-    
+
     // Results DOM
     const summaryDistance = document.getElementById('summaryDistance');
     const resTotalTime = document.getElementById('resTotalTime');
@@ -217,6 +227,43 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarOverlay.addEventListener('click', closeMenu);
     }
 
+    // === Forza Aggiornamento PWA / Reset Cache ===
+    const forceUpdateBtn = document.getElementById('forceUpdateBtn');
+    if (forceUpdateBtn) {
+        forceUpdateBtn.addEventListener('click', async () => {
+            const icon = document.getElementById('forceUpdateIcon');
+            const text = document.getElementById('forceUpdateText');
+
+            if (icon) icon.classList.add('animate-spin');
+            if (text) text.textContent = 'Aggiornamento...';
+            forceUpdateBtn.disabled = true;
+
+            try {
+                // 1. Svuota tutte le Cache salvate
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                }
+
+                // 2. Disregistra i Service Worker correnti
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                    }
+                }
+            } catch (err) {
+                console.warn('Errore pulizia cache:', err);
+            }
+
+            // 3. Ricarica pulita forzando il download dal server
+            setTimeout(() => {
+                const cleanUrl = window.location.href.split('?')[0];
+                window.location.replace(`${cleanUrl}?v=${Date.now()}`);
+            }, 400);
+        });
+    }
+
     // === Tab Switching ===
     if (tabPace && tabTime) {
         tabPace.addEventListener('click', () => {
@@ -258,18 +305,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const hr = Math.floor(totalMin / 60);
 
         const pad = (num) => num.toString().padStart(2, '0');
-        
+
         let formatted = '';
         if (hr > 0) {
             formatted += `${hr}:${pad(min)}:${pad(sec)}`;
         } else {
             formatted += `${min}:${pad(sec)}`;
         }
-        
+
         if (ms > 0) {
             formatted += `.${ms}`;
         }
-        
+
         return formatted;
     };
 
@@ -295,24 +342,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentMode === 'pace') {
             const pMin = parseInt(paceMin.value) || 0;
             const pSec = parseInt(paceSec.value) || 0;
-            
+
             if (pMin === 0 && pSec === 0) {
                 showError('Inserisci un passo valido.');
                 return;
             }
-            
+
             const paceMsPerKm = (pMin * 60 * 1000) + (pSec * 1000);
             const paceMsPerMeter = paceMsPerKm / 1000;
             totalTimeMs = distance * paceMsPerMeter;
-            
+
         } else {
             const h = parseInt(timeHr.value) || 0;
             const m = parseInt(timeMin.value) || 0;
             const s = parseInt(timeSec.value) || 0;
             const ms = parseInt(timeMs.value) || 0;
-            
+
             totalTimeMs = (h * 3600000) + (m * 60000) + (s * 1000) + (ms * 100);
-            
+
             if (totalTimeMs <= 0) {
                 showError('Inserisci un tempo finale valido.');
                 return;
@@ -335,25 +382,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Generate Splits Table
         splitsTableBody.innerHTML = '';
         let currentDistance = 0;
-        
+
         while (currentDistance < distance) {
             let nextDistance = currentDistance + splitInterval;
             let isLastSplit = false;
-            
+
             if (nextDistance >= distance) {
                 nextDistance = distance;
                 isLastSplit = true;
             }
-            
+
             const splitLength = nextDistance - currentDistance;
             const splitTimeMs = timePerMeterMs * splitLength;
             const cumulativeTimeMs = timePerMeterMs * nextDistance;
-            
+
             // Calculate track laps (400m)
             const laps = Math.floor(nextDistance / 400);
             const remainder = nextDistance % 400;
             let lapStr = '-';
-            
+
             if (nextDistance >= 400) {
                 if (remainder === 0) {
                     lapStr = `${laps} Giri`;
@@ -361,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     lapStr = `Giro ${laps} + ${remainder}m`;
                 }
             } else if (nextDistance > 0 && nextDistance < 400) {
-                 lapStr = `${nextDistance}m`;
+                lapStr = `${nextDistance}m`;
             }
 
             const tr = document.createElement('tr');
@@ -369,14 +416,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (nextDistance % 400 === 0) {
                 tr.classList.add('bg-primary-50/50', 'dark:bg-primary-900/10');
             }
-            
+
             tr.innerHTML = `
                 <td class="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">${nextDistance}m</td>
                 <td class="px-4 py-3">${formatTime(splitTimeMs)}</td>
                 <td class="px-4 py-3 font-medium text-primary-600 dark:text-primary-400">${formatTime(cumulativeTimeMs)}</td>
                 <td class="px-4 py-3 hidden sm:table-cell text-gray-500 dark:text-gray-400 text-xs">${lapStr}</td>
             `;
-            
+
             splitsTableBody.appendChild(tr);
             currentDistance = nextDistance;
         }
@@ -384,12 +431,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show Results
         resultsSection.classList.remove('hidden');
         resultsSection.classList.add('flex');
-        
+
         // Small delay for transition
         setTimeout(() => {
             resultsSection.style.opacity = '1';
         }, 50);
-        
+
         // Scroll to results
         setTimeout(() => {
             resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -413,16 +460,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
             if (splitsTableBody.children.length === 0) return;
-            
+
             let text = `Intertempi per ${distanceInput.value}m\n`;
             text += `Tempo Finale: ${resTotalTime.textContent} | Passo: ${resPace.textContent}\n\n`;
             text += `Distanza\tFrazione\tPassaggio\n`;
-            
+
             Array.from(splitsTableBody.children).forEach(tr => {
                 const cells = tr.querySelectorAll('td');
                 text += `${cells[0].textContent}\t${cells[1].textContent}\t${cells[2].textContent}\n`;
             });
-            
+
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = copyBtn.innerHTML;
                 copyBtn.innerHTML = `
@@ -467,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isIos() && !isInStandaloneMode() && installCard) {
         installCard.classList.remove('hidden');
         installCard.classList.add('flex');
-        
+
         if (installBtn) {
             installBtn.innerText = "Come installare";
             installBtn.addEventListener('click', () => {
@@ -478,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            
+
             if (installCard) {
                 installCard.classList.remove('hidden');
                 installCard.classList.add('flex');
@@ -488,11 +535,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (installBtn) {
             installBtn.addEventListener('click', async () => {
                 if (!deferredPrompt) return;
-                
+
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 console.log(`User choice: ${outcome}`);
-                
+
                 deferredPrompt = null;
                 installCard.classList.add('hidden');
                 installCard.classList.remove('flex');
