@@ -5,6 +5,29 @@
 
 const ARTICOLI_NEWS = [
     {
+        id: "podistica-sagra-del-tituccio-corpolo",
+        titolo: "🏃 Podistica della Sagra del Tituccio: ottimi risultati a Corpolò",
+        data: "5 Settembre 2026",
+        categoria: "Risultati",
+        riassunto: "Ottimi risultati per il nostro gruppo mezzofondo alla Podistica della Sagra del Tituccio: 2° posto per Giulia Gazzoni e 4° posto per Cristian Qorri.",
+        contenuto: `
+        <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
+        <img src="../assets/sagra-tituccio.jpg" alt="Podistica della Sagra del Tituccio" class="w-full rounded-xl mb-6 shadow-md">
+
+        <h3>Resoconto della Gara</h3>
+        <p>Sabato 5 settembre si è svolta a Corpolò la <b>Podistica della Sagra del Tituccio</b>, gara di 7,1 km ideale per verificare la preparazione di fine estate. Nonostante il caldo torrido con circa 35 °C, il gruppo mezzofondo ha ottenuto riscontri di alto livello.</p>
+
+        <h4>Settore Femminile</h4>
+        <p>In campo femminile spicca il <b>secondo posto di Giulia Gazzoni</b>, arrivata a una manciata di secondi dalla prima posizione. Un ottimo test in vista dei <i>C.D.S. Under 23 su Pista (Finale "A" Argento)</i>, dove debutterà sui 5000 metri, supportata dal ritmo impostato durante la gara dal coach Ismail. Molto bene anche <b>Alice Fontana</b>, autrice di una prova condotta in ottima progressione.</p>
+
+        <h4>Settore Maschile</h4>
+        <p>Nella categoria maschile, l'unico rappresentante al via è stato <b>Cristian Qorri</b>, autore di un brillante <b>quarto posto</b> in gran finale di gara. Un piazzamento di valore che avrebbe potuto trasformarsi in podio, sfumato solo per la presenza imprevista di un atleta élite.</p>
+        <p>Forfait dell'ultimo minuto invece per <b>Lorenzo Lepri</b>, che ha preferito rinunciare alla partenza a pochi minuti dallo start avvisando tutti con testuali parole: <i>“Io mi sa che non vengo…”</i>.</p>
+
+        <p class="mt-4"><a href="https://www.facebook.com/share/p/14rr3BQ6XUa/" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline font-semibold">📸 Clicca qui per vedere la galleria fotografica dell'evento</a></p>
+        `
+    },
+    {
         id: "sun-and-smile-beky-bay",
         titolo: "☀️ Sun and Smile al Beky Bay",
         data: "1 Settembre 2026",

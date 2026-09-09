@@ -12,7 +12,11 @@ const ALBUM_LINKS = {
     "Trofeo Liberazione": {
         testo: "Guarda l'album completo su Facebook",
         url: "https://www.facebook.com/share/p/1EKz5JsFNg/"
-    }
+    },
+    "Sagra del Tituccio": {
+        testo: "Guarda l'album completo su Facebook",
+        url: "https://www.facebook.com/share/p/14rr3BQ6XUa/"
+    },
 };
 
 const FOTO_GALLERY = [
@@ -34,5 +38,20 @@ const FOTO_GALLERY = [
         src: "../assets/trofeo_liberazione (3).jpeg",
         album: "Trofeo Liberazione",
     },
-
+    {
+        src: "../assets/sagra-tituccio.jpg",
+        album: "Sagra del Tituccio",
+    },
+    {
+        src: "../assets/sagra-tituccio (2).jpeg",
+        album: "Sagra del Tituccio",
+    },
+    {
+        src: "../assets/sagra-tituccio (3).jpeg",
+        album: "Sagra del Tituccio",
+    },
+    {
+        src: "../assets/sagra-tituccio.jpeg",
+        album: "Sagra del Tituccio",
+    },
 ];
