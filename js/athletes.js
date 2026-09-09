@@ -88,6 +88,83 @@ document.addEventListener('DOMContentLoaded', () => {
         return m > 0 ? `${m}:${s.padStart(5, '0')}` : s;
     };
 
+    // Normalizzazione rigorosa eventi FIDAL
+    const normalizeEvent = (name) => {
+        if (!name) return '';
+        const s = name.toLowerCase().trim();
+        
+        // Siepi
+        if (s.includes('siepi')) {
+            if (s.includes('1200')) return '1200 siepi';
+            if (s.includes('2000')) return '2000 siepi';
+            if (s.includes('3000')) return '3000 siepi';
+            return s;
+        }
+
+        // Ostacoli / Hs
+        if (s.includes('hs') || s.includes('ostacoli')) {
+            if (s.includes('60')) return '60 hs';
+            if (s.includes('100')) return '100 hs';
+            if (s.includes('110')) return '110 hs';
+            if (s.includes('400')) return '400 hs';
+            return s;
+        }
+
+        // Mezza maratona / Maratonina (NON deve mai matchare con Maratona intera!)
+        if (s.includes('maratonina') || s.includes('mezza') || s === '21km' || s === '21 km' || s === '21.097km') {
+            return 'mezza maratona';
+        }
+
+        // Maratona intera
+        if (s === 'maratona' || s === 'marathon' || s === '42km' || s === '42 km') {
+            return 'maratona';
+        }
+
+        // Distanze comuni su pista
+        if (s.startsWith('500 ') || s === '500m' || s === '500 metri') return '500 metri';
+        if (s.startsWith('60 ') || s === '60m' || s === '60 metri') return '60 metri';
+        if (s.startsWith('80 ') || s === '80m' || s === '80 metri') return '80 metri';
+        if (s.startsWith('100 ') || s === '100m' || s === '100 metri') return '100 metri';
+        if (s.startsWith('200 ') || s === '200m' || s === '200 metri') return '200 metri';
+        if (s.startsWith('300 ') || s === '300m' || s === '300 metri') return '300 metri';
+        if (s.startsWith('400 ') || s === '400m' || s === '400 metri') return '400 metri';
+        if (s.startsWith('800 ') || s === '800m' || s === '800 metri') return '800 metri';
+        if (s.startsWith('1000 ') || s === '1000m' || s === '1000 metri') return '1000 metri';
+        if (s.startsWith('1500 ') || s === '1500m' || s === '1500 metri') return '1500 metri';
+        if (s.includes('miglio')) return '1 miglio';
+        if (s.startsWith('2000 ') || s === '2000m' || s === '2000 metri') return '2000 metri';
+        if (s.startsWith('3000 ') || s === '3000m' || s === '3000 metri') return '3000 metri';
+        if (s.startsWith('5000 ') || s === '5000m' || s === '5000 metri') return '5000 metri';
+        if (s.startsWith('10000 ') || s === '10000m' || s === '10000 metri') return '10000 metri';
+        if (s.startsWith('5 km') || s === '5km') return '5 km';
+        if (s.startsWith('10 km') || s === '10km') return '10 km';
+
+        // Pulizia generica (rimozione 'metri' / 'm' finali)
+        return s.replace(/\s*metri|\s*m\b/g, '').replace(/\s+/g, ' ').trim();
+    };
+
+    const areEventsEquivalent = (e1, e2) => {
+        if (!e1 || !e2) return false;
+        return normalizeEvent(e1) === normalizeEvent(e2);
+    };
+
+    const getAthleteRacesForEvent = (athlete, eventName) => {
+        if (!athlete || !athlete.races) return [];
+        let races = [];
+        for (const key in athlete.races) {
+            if (areEventsEquivalent(key, eventName)) {
+                races = races.concat(athlete.races[key]);
+            }
+        }
+        return races;
+    };
+
+    const getAthletePbForEvent = (athlete, eventName) => {
+        if (!athlete || !athlete.pbs) return '-';
+        const pb = athlete.pbs.find(p => areEventsEquivalent(p.event, eventName));
+        return pb ? pb.performance : '-';
+    };
+
     // --- UI Render ---
     const renderDashboard = () => {
         athletesListContainer.innerHTML = '';
@@ -119,11 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            if (topEvent !== 'Nessun Dato' && athlete.pbs) {
-                const pb = athlete.pbs.find(p => p.event.toLowerCase() === topEvent.toLowerCase() || topEvent.toLowerCase().includes(p.event.toLowerCase()) || p.event.toLowerCase().includes(topEvent.toLowerCase()));
-                if (pb) {
-                    topTime = pb.performance;
-                }
+            if (topEvent !== 'Nessun Dato') {
+                topTime = getAthletePbForEvent(athlete, topEvent);
             }
 
             card.innerHTML = `
@@ -487,23 +561,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const pbEventsA = (athleteA.pbs || []).map(p => p.event);
         const pbEventsB = (athleteB.pbs || []).map(p => p.event);
 
-        // Deduplicate events case-insensitively for each athlete
+        // Deduplicate events equivalent-wise for each athlete
         const getUniqueEvents = (raceEv, pbEv) => {
-            const unique = new Map();
-            raceEv.forEach(e => unique.set(e.toUpperCase(), e));
-            pbEv.forEach(e => {
-                if (!unique.has(e.toUpperCase())) {
-                    unique.set(e.toUpperCase(), e);
+            const list = [...raceEv, ...pbEv];
+            const unique = [];
+            list.forEach(e => {
+                let canonical = e;
+                if (areEventsEquivalent(e, 'Mezza Maratona')) canonical = 'Mezza Maratona';
+                if (!unique.some(u => areEventsEquivalent(u, canonical))) {
+                    unique.push(canonical);
                 }
             });
-            return Array.from(unique.values());
+            return unique;
         };
 
         const allEventsA = getUniqueEvents(raceEventsA, pbEventsA);
         const allEventsB = getUniqueEvents(raceEventsB, pbEventsB);
         
-        // Find intersection case-insensitively
-        const commonEvents = allEventsA.filter(eA => allEventsB.some(eB => eB.toUpperCase() === eA.toUpperCase()));
+        // Find intersection with equivalence
+        const commonEvents = allEventsA.filter(eA => allEventsB.some(eB => areEventsEquivalent(eB, eA)));
 
         if (commonEvents.length === 0) {
             compareEventSelect.innerHTML = '<option value="">Nessuna gara in comune</option>';
@@ -537,8 +613,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let pbsHtml = '';
         commonEvents.sort().forEach(eventName => {
-            const pbA = athleteA.pbs?.find(p => p.event.toLowerCase() === eventName.toLowerCase())?.performance || '-';
-            const pbB = athleteB.pbs?.find(p => p.event.toLowerCase() === eventName.toLowerCase())?.performance || '-';
+            const pbA = getAthletePbForEvent(athleteA, eventName);
+            const pbB = getAthletePbForEvent(athleteB, eventName);
             
             // Highlight the best time (simple heuristic for common track formats)
             let pbAClass = 'text-gray-900 dark:text-gray-100';
@@ -578,17 +654,14 @@ document.addEventListener('DOMContentLoaded', () => {
         tapeNameA.innerText = athleteA.name;
         tapeNameB.innerText = athleteB.name;
         
-        const pbA = athleteA.pbs?.find(p => p.event.toLowerCase() === eventName.toLowerCase())?.performance || '-';
-        const pbB = athleteB.pbs?.find(p => p.event.toLowerCase() === eventName.toLowerCase())?.performance || '-';
+        const pbA = getAthletePbForEvent(athleteA, eventName);
+        const pbB = getAthletePbForEvent(athleteB, eventName);
         tapePbA.innerText = pbA;
         tapePbB.innerText = pbB;
 
-        // Fetch race history case-insensitively
-        const eventKeyA = Object.keys(athleteA.races || {}).find(e => e.toLowerCase() === eventName.toLowerCase());
-        const eventKeyB = Object.keys(athleteB.races || {}).find(e => e.toLowerCase() === eventName.toLowerCase());
-        
-        const racesA = eventKeyA ? athleteA.races[eventKeyA] : [];
-        const racesB = eventKeyB ? athleteB.races[eventKeyB] : [];
+        // Fetch race history using equivalence
+        const racesA = getAthleteRacesForEvent(athleteA, eventName);
+        const racesB = getAthleteRacesForEvent(athleteB, eventName);
         
         tapeRacesA.innerText = racesA.length;
         tapeRacesB.innerText = racesB.length;
