@@ -130,11 +130,15 @@
                 Torna alla lista
             </button>
             
-            <div class="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-border shadow-sm flex justify-between items-start">
+            <div class="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-border shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h3 id="profileName" class="text-3xl font-display font-bold text-gray-900 dark:text-white">Nome Atleta</h3>
                     <p id="profileDetails" class="text-gray-500 dark:text-gray-400 mt-1">Nato il: -- | Categoria: -- | Società: --</p>
                 </div>
+                <button id="openHistoryBtn" class="flex bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 font-medium py-2 px-4 rounded-xl shadow-sm transition-colors text-sm items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Storico Carriera
+                </button>
             </div>
 
             <!-- GRAFICI -->
@@ -204,9 +208,32 @@
                     </div>
                 </div>
             </div>
+
+
+
         </div>
 
     </main>
+
+    <!-- HISTORY MODAL -->
+    <div id="historyModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-dark-card w-full max-w-md max-h-[90vh] rounded-2xl shadow-xl flex flex-col overflow-hidden">
+            <div class="flex justify-between items-center p-5 border-b border-gray-100 dark:border-dark-border">
+                <h2 class="text-lg font-bold font-display text-gray-900 dark:text-white flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Storico Carriera
+                </h2>
+                <button id="closeHistoryBtn" class="text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="p-5 overflow-y-auto flex-grow">
+                <div class="relative border-l-2 border-gray-200 dark:border-gray-700 ml-3 md:ml-4" id="tesseramentoTimeline">
+                    <!-- Popolato da JS -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- COMPARE MODAL -->
     <div id="compareModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">

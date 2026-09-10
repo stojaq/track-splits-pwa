@@ -35,6 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressionChartCanvas = document.getElementById('progressionChart');
     const radarChartCanvas = document.getElementById('radarChart');
 
+    // History Modal Elements
+    const openHistoryBtn = document.getElementById('openHistoryBtn');
+    const closeHistoryBtn = document.getElementById('closeHistoryBtn');
+    const historyModal = document.getElementById('historyModal');
+
     // Compare Modal Elements
     const openCompareBtn = document.getElementById('openCompareBtn');
     const closeCompareBtn = document.getElementById('closeCompareBtn');
@@ -454,6 +459,47 @@ document.addEventListener('DOMContentLoaded', () => {
         // Setup Charts
         setupChart(athlete);
         drawRadarChart(athlete);
+        
+        // Setup Timeline
+        renderTesseramentiTimeline(athlete);
+    };
+
+    const renderTesseramentiTimeline = (athlete) => {
+        const timelineContainer = document.getElementById('tesseramentoTimeline');
+        if (!timelineContainer) return;
+        
+        timelineContainer.innerHTML = '';
+        
+        if (!athlete.tesseramentoHistory || athlete.tesseramentoHistory.length === 0) {
+            timelineContainer.innerHTML = '<p class="text-sm text-gray-500 py-4 ml-6">Nessun dato storico disponibile.</p>';
+            return;
+        }
+
+        let timelineHtml = '';
+        athlete.tesseramentoHistory.forEach((item, index) => {
+            const isLatest = index === 0;
+            const dotColor = isLatest ? 'bg-primary-500 ring-4 ring-primary-50 dark:ring-primary-900/20' : 'bg-gray-300 dark:bg-gray-600';
+            const textColor = isLatest ? 'text-primary-600 dark:text-primary-400 font-bold' : 'text-gray-700 dark:text-gray-300 font-semibold';
+            const yearColor = isLatest ? 'text-gray-900 dark:text-white font-bold' : 'text-gray-800 dark:text-gray-200 font-bold';
+            
+            let typeBadgeClass = 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400';
+            if (item.type === 'Nuovo') typeBadgeClass = 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
+            else if (item.type === 'Trasferimento') typeBadgeClass = 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400';
+            
+            timelineHtml += `
+                <div class="mb-6 ml-6 relative group">
+                    <div class="absolute w-3.5 h-3.5 ${dotColor} rounded-full -left-[1.85rem] top-1.5 border-2 border-white dark:border-dark-card shadow-sm transition-transform group-hover:scale-125"></div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 mb-1">
+                        <span class="text-lg ${yearColor}">${item.year}</span>
+                        <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md font-bold w-max ${typeBadgeClass}">${item.type}</span>
+                    </div>
+                    <h5 class="text-base ${textColor}">${item.club}</h5>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">${item.category}</p>
+                </div>
+            `;
+        });
+        
+        timelineContainer.innerHTML = timelineHtml;
     };
 
     const renderRacesTable = () => {
@@ -1038,6 +1084,32 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if(openCompareBtn) openCompareBtn.addEventListener('click', openCompareModal);
     if(closeCompareBtn) closeCompareBtn.addEventListener('click', closeCompareModal);
+
+    // History Modal Listeners
+    if(openHistoryBtn) {
+        openHistoryBtn.addEventListener('click', () => {
+            if (historyModal) {
+                historyModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    }
+    if(closeHistoryBtn) {
+        closeHistoryBtn.addEventListener('click', () => {
+            if (historyModal) {
+                historyModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    if(historyModal) {
+        historyModal.addEventListener('click', (e) => {
+            if (e.target === historyModal) {
+                historyModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+    }
     if(compareAthleteA) compareAthleteA.addEventListener('change', handleCompareSelection);
     if(compareAthleteB) compareAthleteB.addEventListener('change', handleCompareSelection);
     if(compareEventSelect) compareEventSelect.addEventListener('change', () => {
