@@ -1,6 +1,54 @@
 // coach_pacer.js
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Audio System ---
+    let soundEnabled = true;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    const playSound = (type) => {
+        if (!soundEnabled) return;
+
+        if (!audioCtx) {
+            try {
+                audioCtx = new AudioContext();
+            } catch (e) {
+                return;
+            }
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+
+        try {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            if (type === 'lap') {
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.1);
+                if (navigator.vibrate) navigator.vibrate(50);
+            } else if (type === 'finish') {
+                oscillator.type = 'square';
+                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.3);
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+            }
+        } catch (e) {}
+    };
+
     // --- Setup Elements ---
     const setupScreen = document.getElementById('setupScreen');
     const lapDistanceInput = document.getElementById('lapDistance');
@@ -15,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const masterClockEl = document.getElementById('masterClock');
     const stopRaceBtn = document.getElementById('stopRaceBtn');
     const activeAthletesGrid = document.getElementById('activeAthletesGrid');
+    const soundToggleBtn = document.getElementById('soundToggleBtn');
+    const soundIconOn = document.getElementById('soundIconOn');
+    const soundIconOff = document.getElementById('soundIconOff');
 
     // --- Results Elements ---
     const resultsScreen = document.getElementById('resultsScreen');
@@ -77,6 +128,62 @@ document.addEventListener('DOMContentLoaded', () => {
             checkAddButton();
         });
 
+        // Setup Autocomplete Dropdown
+        const nameInput = row.querySelector('.athlete-name');
+        const dropdown = row.querySelector('.autocomplete-dropdown');
+        
+        const renderDropdown = (query) => {
+            if (!window.athletesData || window.athletesData.length === 0) {
+                dropdown.innerHTML = '<div class="p-3 text-xs text-gray-500 text-center">Nessun atleta in database</div>';
+                return;
+            }
+            const q = query.toLowerCase().trim();
+            const filtered = window.athletesData.filter(a => 
+                a.name.toLowerCase().includes(q) || 
+                (a.club && a.club.toLowerCase().includes(q))
+            );
+            
+            if (filtered.length === 0) {
+                dropdown.innerHTML = '<div class="p-3 text-xs text-gray-500 text-center">Nessun atleta trovato</div>';
+            } else {
+                dropdown.innerHTML = '';
+                filtered.forEach(a => {
+                    const item = document.createElement('div');
+                    item.className = 'p-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer flex items-center gap-3 border-b border-gray-100 dark:border-gray-700/50 last:border-0 transition-colors';
+                    const initial = a.name.charAt(0).toUpperCase();
+                    item.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400 flex items-center justify-center font-bold text-sm shrink-0">
+                            ${initial}
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="font-bold text-gray-900 dark:text-white text-sm truncate">${a.name}</div>
+                            <div class="text-[10px] text-gray-500 truncate mt-0.5">${a.category || 'N/A'} ${a.club ? '· ' + a.club : ''}</div>
+                        </div>
+                    `;
+                    item.addEventListener('mousedown', (e) => {
+                        e.preventDefault(); // prevents input blur before click
+                        nameInput.value = a.name;
+                        dropdown.classList.add('hidden');
+                    });
+                    dropdown.appendChild(item);
+                });
+            }
+        };
+
+        nameInput.addEventListener('focus', () => {
+            renderDropdown(nameInput.value);
+            dropdown.classList.remove('hidden');
+        });
+
+        nameInput.addEventListener('input', () => {
+            renderDropdown(nameInput.value);
+            dropdown.classList.remove('hidden');
+        });
+
+        nameInput.addEventListener('blur', () => {
+            dropdown.classList.add('hidden');
+        });
+
         athletesList.appendChild(clone);
         checkAddButton();
     };
@@ -93,6 +200,24 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Inizializza con un atleta
     addAthleteSetupRow();
+
+    // --- SOUND TOGGLE ---
+    if (soundToggleBtn) {
+        soundToggleBtn.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            if (soundEnabled) {
+                soundIconOn.classList.remove('hidden');
+                soundIconOff.classList.add('hidden');
+                soundToggleBtn.classList.add('text-gray-600', 'dark:text-gray-400');
+                soundToggleBtn.classList.remove('text-red-500', 'bg-red-50', 'dark:bg-red-900/20');
+            } else {
+                soundIconOn.classList.add('hidden');
+                soundIconOff.classList.remove('hidden');
+                soundToggleBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
+                soundToggleBtn.classList.add('text-red-500', 'bg-red-50', 'dark:bg-red-900/20');
+            }
+        });
+    }
 
     // --- START RACE ---
     startRaceBtn.addEventListener('click', () => {
@@ -224,9 +349,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const handleLap = (e) => {
                 e.preventDefault();
                 if (athlete.finished) return;
+                
+                // Initialize audioCtx on first user interaction if needed
+                if (!audioCtx) playSound('init');
+                
                 recordLap(athlete);
-                // Vibrate if supported
-                if (navigator.vibrate) navigator.vibrate(50);
             };
 
             card.addEventListener('mousedown', handleLap);
@@ -281,6 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check if finished
         if (totalDistance > 0 && currentDistance >= totalDistance) {
             athlete.finished = true;
+            playSound('finish');
             const overlay = document.getElementById(`finished_${athlete.id}`);
             const finalTime = document.getElementById(`finalTime_${athlete.id}`);
             if (overlay && finalTime) {
@@ -297,6 +425,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     showResults();
                 }, 1000);
             }
+        } else {
+            playSound('lap');
         }
     };
 
