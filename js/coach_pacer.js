@@ -357,9 +357,11 @@ document.addEventListener('DOMContentLoaded', () => {
             header.className = 'bg-gray-50 dark:bg-gray-800/50 px-4 py-3 border-b border-gray-100 dark:border-gray-700';
             
             let avgPaceText = '-';
+            let finalTimeText = '-';
             if (athlete.splits.length > 0) {
                 const totalDist = getSplitDistance(athlete.splits.length - 1);
                 const totalTimeMs = athlete.splits[athlete.splits.length - 1].cumulative;
+                finalTimeText = formatTime(totalTimeMs);
                 const paceMsPerKm = (totalTimeMs / (totalDist / 1000));
                 const totalSec = Math.floor(paceMsPerKm / 1000);
                 const min = Math.floor(totalSec / 60);
@@ -372,8 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="font-bold text-gray-900 dark:text-white">${athlete.name}</span>
                     <span class="text-xs bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300 px-2 py-1 rounded font-bold">Target: ${formatTime(athlete.targetLapMs, false)}</span>
                 </div>
-                <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                    Passo Medio Reale: <span class="text-gray-900 dark:text-gray-100 font-bold">${avgPaceText}</span>
+                <div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 font-medium mt-2">
+                    <div>Tempo Finale: <span class="text-primary-600 dark:text-primary-400 font-bold text-base">${finalTimeText}</span></div>
+                    <div>Passo Medio: <span class="text-gray-900 dark:text-gray-100 font-bold">${avgPaceText}</span></div>
                 </div>
             `;
             wrap.appendChild(header);
