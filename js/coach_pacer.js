@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsContainer = document.getElementById('resultsContainer');
     const resetRaceBtn = document.getElementById('resetRaceBtn');
     const shareBtn = document.getElementById('shareBtn');
+    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
 
     // --- State ---
     let athletes = [];
@@ -590,6 +591,118 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         masterClockEl.innerText = '00:00.0';
     });
+
+    if (downloadPdfBtn) {
+        downloadPdfBtn.addEventListener('click', () => {
+            if (!window.jspdf) {
+                alert('Caricamento libreria PDF in corso. Riprova tra qualche istante.');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Titolo
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(18);
+            doc.text("Track Splits - Resoconto Coach Pacer", 14, 20);
+            
+            // Dettagli Gara
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('it-IT') + ' ' + now.toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
+            doc.text(`Data: ${dateStr}`, 14, 28);
+            doc.text(`Lap di riferimento: ${lapDistance}m`, 14, 34);
+            if (totalDistance > 0) doc.text(`Distanza totale prevista: ${totalDistance}m`, 14, 40);
+            
+            let startY = totalDistance > 0 ? 50 : 45;
+            
+            athletes.forEach((a, index) => {
+                if (a.splits.length === 0) return;
+                
+                const totalDist = getSplitDistance(a.splits.length - 1);
+                const totalTimeMs = a.splits[a.splits.length - 1].cumulative;
+                const paceMsPerKm = (totalTimeMs / (totalDist / 1000));
+                const totalSec = Math.floor(paceMsPerKm / 1000);
+                const min = Math.floor(totalSec / 60);
+                const sec = totalSec % 60;
+                const avgPaceText = `${min}:${sec.toString().padStart(2, '0')}/km`;
+                
+                // Intestazione Atleta
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(14);
+                doc.setTextColor(37, 99, 235); // primary blue
+                doc.text(a.name, 14, startY);
+                
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text(`Target: ${formatTime(a.targetLapMs, false)} | Passo Medio: ${avgPaceText} | Fine: ${totalDist}m in ${formatTime(totalTimeMs)}`, 14, startY + 6);
+                
+                // Crea i dati per la tabella
+                const tableHead = [['Distanza', 'Frazione', 'Delta', 'Passaggio']];
+                const tableBody = [];
+                
+                a.splits.forEach((s, idx) => {
+                    const dist = idx === 0 ? getSplitDistance(0) : getSplitDistance(idx) - getSplitDistance(idx - 1);
+                    const targetFractionMs = (a.targetLapMs / lapDistance) * dist;
+                    const deltaMs = s.lapTime - targetFractionMs;
+                    
+                    const distText = getSplitDistance(idx) + 'm';
+                    const lapText = formatTime(s.lapTime);
+                    const deltaText = formatDelta(deltaMs);
+                    const cumText = formatTime(s.cumulative);
+                    
+                    tableBody.push([distText, lapText, deltaText, cumText]);
+                });
+                
+                // Draw Table
+                doc.autoTable({
+                    startY: startY + 10,
+                    head: tableHead,
+                    body: tableBody,
+                    theme: 'striped',
+                    headStyles: { fillColor: [59, 130, 246] }, // primary blue
+                    styles: { font: 'helvetica', fontSize: 9, cellPadding: 3 },
+                    columnStyles: {
+                        0: { fontStyle: 'bold', textColor: [80,80,80] },
+                        2: { fontStyle: 'bold' },
+                        3: { textColor: [37, 99, 235], fontStyle: 'bold' }
+                    },
+                    didParseCell: function(data) {
+                        if (data.section === 'body' && data.column.index === 2) {
+                            const val = data.cell.raw;
+                            if (val.startsWith('-')) {
+                                data.cell.styles.textColor = [22, 163, 74];
+                            } else {
+                                data.cell.styles.textColor = [220, 38, 38];
+                            }
+                        }
+                    },
+                    margin: { left: 14, right: 14 }
+                });
+                
+                startY = doc.lastAutoTable.finalY + 15;
+                
+                if (index < athletes.length - 1 && startY > doc.internal.pageSize.getHeight() - 40) {
+                    doc.addPage();
+                    startY = 20;
+                }
+            });
+            
+            // Footer
+            const pageCount = doc.internal.getNumberOfPages();
+            doc.setFontSize(8);
+            doc.setTextColor(150);
+            for(let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.text(`Generato con Track Splits - Pagina ${i} di ${pageCount}`, doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight() - 10, { align: 'center' });
+            }
+            
+            const cleanDate = dateStr.replace(/[\/:]/g, '-').replace(' ', '_');
+            doc.save(`Resoconto_CoachPacer_${cleanDate}.pdf`);
+        });
+    }
 
     shareBtn.addEventListener('click', () => {
         let text = `⏱️ *Resoconto Gara (Lap ${lapDistance}m)*\n\n`;
