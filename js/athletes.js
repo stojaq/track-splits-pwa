@@ -159,6 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return normalizeEvent(e1) === normalizeEvent(e2);
     };
 
+    const isFieldEvent = (eventName) => {
+        if (!eventName) return false;
+        const s = eventName.toLowerCase();
+        const fieldKeywords = ['salto', 'peso', 'disco', 'giavellotto', 'martello', 'vortex', 'asta', 'lungo', 'alto', 'triplo', 'decathlon', 'eptathlon', 'esathlon', 'pentathlon', 'tetrathlon', 'biathlon'];
+        return fieldKeywords.some(kw => s.includes(kw));
+    };
+
     const getAthleteRacesForEvent = (athlete, eventName) => {
         if (!athlete || !athlete.races) return [];
         let races = [];
@@ -467,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td class="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">${r.event}</td>
                         <td class="px-4 py-3 text-xs text-gray-500">${r.type}</td>
                         <td class="px-4 py-3 text-primary-600 dark:text-primary-400 font-bold">${r.performance}</td>
-                        <td class="px-4 py-3 text-gray-500 text-xs truncate max-w-[120px]" title="${r.city}">${r.city}</td>
+                        <td class="px-4 py-3 text-gray-500 text-xs whitespace-normal break-words min-w-[120px]">${r.city}</td>
                     </tr>
                 `;
             });
@@ -519,6 +526,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // formatTimeFromSeconds is now global
 
+        const isField = isFieldEvent(eventName);
+
         currentChart = new Chart(progressionChartCanvas, {
             type: 'line',
             data: {
@@ -542,10 +551,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        reverse: true, // Lower time is better (higher on graph)
+                        reverse: !isField,
                         ticks: {
                             callback: function(value) {
-                                return formatTimeFromSeconds(value);
+                                return isField ? value : formatTimeFromSeconds(value);
                             }
                         },
                         grid: {
@@ -560,7 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return `Tempo: ${formatTimeFromSeconds(context.parsed.y)}`;
+                                return isField ? `Misura/Punti: ${context.parsed.y}` : `Tempo: ${formatTimeFromSeconds(context.parsed.y)}`;
                             }
                         }
                     },
@@ -788,8 +797,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pbA !== '-' && pbB !== '-') {
                 const secA = timeToSeconds(pbA);
                 const secB = timeToSeconds(pbB);
-                if (secA < secB) pbAClass = 'text-primary-600 dark:text-primary-400 font-bold';
-                else if (secB < secA) pbBClass = 'text-primary-600 dark:text-primary-400 font-bold';
+                const isField = isFieldEvent(eventName);
+                if (!isField) {
+                    if (secA < secB) pbAClass = 'text-primary-600 dark:text-primary-400 font-bold';
+                    else if (secB < secA) pbBClass = 'text-primary-600 dark:text-primary-400 font-bold';
+                } else {
+                    if (secA > secB) pbAClass = 'text-primary-600 dark:text-primary-400 font-bold';
+                    else if (secB > secA) pbBClass = 'text-primary-600 dark:text-primary-400 font-bold';
+                }
             }
 
             pbsHtml += `
@@ -847,6 +862,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const dataA = processRaces(racesA);
         const dataB = processRaces(racesB);
+        const isField = isFieldEvent(eventName);
 
         currentCompareProgressionChart = new Chart(compareProgressionChartCanvas, {
             type: 'line',
@@ -887,16 +903,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         grid: { display: false }
                     },
                     y: {
-                        reverse: true, // Lower is better
+                        reverse: !isField,
                         ticks: {
-                            callback: function(value) { return formatTimeFromSeconds(value); }
+                            callback: function(value) { return isField ? value : formatTimeFromSeconds(value); }
                         }
                     }
                 },
                 plugins: {
                     tooltip: {
                         callbacks: {
-                            label: function(context) { return `${context.dataset.label}: ${formatTimeFromSeconds(context.parsed.y)}`; }
+                            label: function(context) { return isField ? `${context.dataset.label}: ${context.parsed.y}` : `${context.dataset.label}: ${formatTimeFromSeconds(context.parsed.y)}`; }
                         }
                     }
                 }
