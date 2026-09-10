@@ -628,8 +628,8 @@ window.athletesData = [
       { event: "3000 metri", type: "Pista", performance: "9:19.38", year: "2024", city: "Faenza" },
       { event: "3000 metri", type: "Indoor", performance: "9:33.13", year: "2024", city: "Ancona" },
       { event: "5000 metri", type: "Pista", performance: "16:56.31", year: "2024", city: "Prato" },
-      { event: "Corsa strada Km 10", type: "Strada", performance: "35:34", year: "2024", city: "Santarcangelo Di Romagna" },
-      { event: "Corsa km 5 strada", type: "Strada", performance: "18:02", year: "2023", city: "Sant'angelo Di Gatteo" },
+      { event: "10 km", type: "Strada", performance: "35:34", year: "2024", city: "Santarcangelo Di Romagna" },
+      { event: "5 km", type: "Strada", performance: "18:02", year: "2023", city: "Sant'angelo Di Gatteo" },
       { event: "1200 siepi H 76 S.R.", type: "Pista", performance: "3:59.26", year: "2019", city: "Serravalle" },
       { event: "3000 siepi H91", type: "Pista", performance: "10:52.77", year: "2023", city: "Imola" },
       { event: "60 Hs H 60", type: "Pista", performance: "11.0", year: "2017", city: "Cattolica" },
@@ -723,12 +723,12 @@ window.athletesData = [
       "5000 METRI": [
         { dateStr: "22/09/2024", dateObj: new Date("2024-09-22"), type: "Pista", performance: "16:56.31", city: "Prato", category: "PM" }
       ],
-      "CORSA STRADA KM 10": [
+      "10 KM": [
         { dateStr: "17/11/2024", dateObj: new Date("2024-11-17"), type: "Strada", performance: "35:34", city: "Santarcangelo Di Romagna", category: "PM" },
         { dateStr: "10/03/2024", dateObj: new Date("2024-03-10"), type: "Strada", performance: "36:13", city: "Cesenatico", category: "PM" },
         { dateStr: "26/02/2023", dateObj: new Date("2023-02-26"), type: "Strada", performance: "39:01", city: "Misano Adriatico", category: "JM" }
       ],
-      "CORSA KM 5 STRADA": [
+      "5 KM": [
         { dateStr: "21/09/2023", dateObj: new Date("2023-09-21"), type: "Strada", performance: "18:02", city: "Sant'angelo Di Gatteo", category: "JM" }
       ],
       "1200 SIEPI H 76 S.R.": [
