@@ -105,6 +105,21 @@ const quotes = [
         text: "Quando mi dicono che non posso fare qualcosa, è lì che so che posso farcela.",
         author: "Florence Griffith-Joyner",
         context: "Recordman 100m"
+    },
+    {
+        text: "La maratona non perdona. Ti spoglia di ogni finzione e ti mostra chi sei veramente.",
+        author: "Iliass Aouani",
+        context: "Maratoneta Azzurro"
+    },
+    {
+        text: "Corro perché è il modo in cui mi esprimo meglio. Ogni passo è una parola, ogni gara un discorso.",
+        author: "Iliass Aouani",
+        context: "Maratoneta Azzurro"
+    },
+    {
+        text: "I limiti esistono solo nella mente di chi si arrende prima di provare.",
+        author: "Iliass Aouani",
+        context: "Maratoneta Azzurro"
     }
 ];
 
