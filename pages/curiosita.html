@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Curiosità - Track Splits</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icon-192.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Flip Card CSS */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .flip-card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .flip-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        /* Hide scrollbar for category filters */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col">
+
+    <!-- L'header viene iniettato da app.js -->
+
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
+        
+        <!-- Header Sezione -->
+        <div class="flex flex-col items-center text-center space-y-2">
+            <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-2xl flex items-center justify-center mb-2 shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/><path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0z"/></svg>
+            </div>
+            <h2 class="text-3xl font-display font-bold text-gray-900 dark:text-white">Lo Sapevi Che?</h2>
+            <p class="text-gray-500 dark:text-gray-400 text-sm max-w-md">Tocca le card per scoprire fatti curiosi, storie incredibili e record assurdi del mondo dell'atletica.</p>
+        </div>
+
+        <!-- Categorie Filters -->
+        <div class="flex gap-2 overflow-x-auto py-2 no-scrollbar" id="categoryFilters">
+            <!-- I filtri verranno generati dinamicamente -->
+        </div>
+
+        <!-- Contenitore Card -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="curiositiesContainer">
+            <!-- Le card verranno generate dinamicamente -->
+        </div>
+
+    </main>
+
+    <!-- Floating Action Button per Curiosità Casuale -->
+    <button id="randomFactBtn" class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full shadow-lg shadow-primary-500/40 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-transform z-50">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 18 4-4-4-4"/><path d="M3 14v4a2 2 0 0 0 2 2h11"/><path d="m14 2 4 4-4 4"/><path d="M3 10V6a2 2 0 0 1 2-2h11"/></svg>
+    </button>
+
+    <!-- App Logic -->
+    <script src="../data/curiosities_data.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/curiosita.js"></script>
+</body>
+</html>
