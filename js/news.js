@@ -42,9 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Apri modale articolo
+    let currentArticle = null;
     window.openArticle = (id) => {
         const article = ARTICOLI_NEWS.find(a => a.id === id);
         if (!article) return;
+        
+        currentArticle = article;
 
         // Popola i dati
         articleTitle.innerText = article.titolo;
@@ -71,11 +74,38 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             articleModal.classList.add('hidden');
             articleModal.classList.remove('flex');
+            currentArticle = null;
         }, 300);
     };
 
     if (closeArticleBtn) {
         closeArticleBtn.addEventListener('click', closeArticle);
+    }
+
+    // Tasto Condividi (Web Share API)
+    const shareArticleBtn = document.getElementById('shareArticleBtn');
+    if (navigator.share && shareArticleBtn) {
+        // Mostra il tasto solo se il browser supporta la Web Share API (es. smartphone)
+        shareArticleBtn.classList.remove('hidden');
+        
+        shareArticleBtn.addEventListener('click', async () => {
+            if (!currentArticle) return;
+            
+            try {
+                // Genera il Deep Link univoco per questo articolo
+                const shareUrl = new URL(window.location.href);
+                shareUrl.searchParams.set('id', currentArticle.id);
+
+                await navigator.share({
+                    title: currentArticle.titolo,
+                    text: currentArticle.riassunto,
+                    url: shareUrl.href
+                });
+            } catch (err) {
+                // L'utente potrebbe aver annullato la condivisione, ignoriamo l'errore
+                console.log('Condivisione annullata o non riuscita:', err);
+            }
+        });
     }
 
     // === Generazione Filtri e Logica ===
@@ -154,4 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inizializza filtri e carica feed iniziale
     initFilters();
     applyFilters();
+
+    // === Gestione Deep Link (Articolo Condiviso) ===
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedArticleId = urlParams.get('id');
+    if (sharedArticleId) {
+        // Piccolo ritardo per permettere il rendering iniziale prima di aprire il modale
+        setTimeout(() => {
+            window.openArticle(sharedArticleId);
+        }, 300);
+    }
 });
