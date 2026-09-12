@@ -1,35 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('curiositiesContainer');
-    const filtersContainer = document.getElementById('categoryFilters');
+    const selectContainer = document.getElementById('categorySelect');
     const randomBtn = document.getElementById('randomFactBtn');
     
     let currentCategory = 'Tutte';
     const data = window.curiositiesData || [];
 
-    // Estrae le categorie uniche dai dati
-    const categories = ['Tutte', ...new Set(data.map(item => item.category))];
+    // Estrae le categorie uniche dai dati (ordinate alfabeticamente dopo 'Tutte')
+    const extractedCategories = [...new Set(data.map(item => item.category))].sort();
+    const categories = ['Tutte', ...extractedCategories];
 
-    // Crea i filtri (chip)
+    // Crea i filtri (options)
     function renderFilters() {
-        filtersContainer.innerHTML = '';
+        selectContainer.innerHTML = '';
         categories.forEach(category => {
-            const btn = document.createElement('button');
-            btn.textContent = category;
-            
-            const baseClasses = 'whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 focus:outline-none';
-            const activeClasses = 'bg-primary-600 text-white shadow-sm';
-            const inactiveClasses = 'bg-white dark:bg-dark-card text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-gray-800';
-
-            btn.className = `${baseClasses} ${category === currentCategory ? activeClasses : inactiveClasses}`;
-            
-            btn.addEventListener('click', () => {
-                currentCategory = category;
-                renderFilters();
-                renderCards();
-            });
-
-            filtersContainer.appendChild(btn);
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            if (category === currentCategory) {
+                option.selected = true;
+            }
+            selectContainer.appendChild(option);
         });
+
+        // Rimuovi vecchi listener per evitare duplicati
+        selectContainer.removeEventListener('change', handleCategoryChange);
+        selectContainer.addEventListener('change', handleCategoryChange);
+    }
+
+    function handleCategoryChange(e) {
+        currentCategory = e.target.value;
+        renderCards();
     }
 
     // Crea la singola card
