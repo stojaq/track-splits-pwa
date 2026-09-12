@@ -71,8 +71,8 @@ const ARTICOLI_NEWS = [
     }, {
         id: "la-barroccia-sant-angelo-gatteo",
         titolo: "🏃 La Barroccia – Corsa Podistica a Sant'Angelo di Gatteo",
-        data: "17 Settembre 2026",
-        categoria: "Sport / Evento",
+        data: "4 Settembre 2026",
+        categoria: "Gara Podistica",
         riassunto: "Giovedì 17 settembre torna La Barroccia a Sant'Angelo di Gatteo: 5 km tra gara competitiva FIDAL e camminata ludico-motoria per aprire il Barrocci Festival.",
         contenuto: `
     <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
