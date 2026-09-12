@@ -78,20 +78,80 @@ document.addEventListener('DOMContentLoaded', () => {
         closeArticleBtn.addEventListener('click', closeArticle);
     }
 
-    // Ricerca News
+    // === Generazione Filtri e Logica ===
+    const filterPillsContainer = document.getElementById('filterPills');
+    let currentFilter = 'all';
+    let currentSearchTerm = '';
+
+    const initFilters = () => {
+        // Estrai categorie uniche dal database
+        const categories = new Set();
+        ARTICOLI_NEWS.forEach(article => {
+            if (article.categoria) categories.add(article.categoria);
+        });
+
+        // Crea HTML per le pillole
+        let pillsHtml = `<button class="pill-btn whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium shadow-sm transition-colors bg-primary-500 text-white" data-filter="all">Tutto</button>`;
+        
+        categories.forEach(cat => {
+            pillsHtml += `<button class="pill-btn whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium shadow-sm transition-colors bg-white dark:bg-dark-card text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-dark-border" data-filter="${cat}">${cat}</button>`;
+        });
+
+        if (filterPillsContainer) {
+            filterPillsContainer.innerHTML = pillsHtml;
+
+            // Aggiungi event listeners
+            const btns = filterPillsContainer.querySelectorAll('.pill-btn');
+            btns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Reset di tutte le pillole allo stato inattivo
+                    btns.forEach(b => {
+                        b.classList.remove('bg-primary-500', 'text-white');
+                        b.classList.add('bg-white', 'dark:bg-dark-card', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-dark-border');
+                    });
+                    
+                    // Applica stato attivo alla pillola cliccata
+                    const target = e.currentTarget;
+                    target.classList.remove('bg-white', 'dark:bg-dark-card', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-dark-border');
+                    target.classList.add('bg-primary-500', 'text-white');
+
+                    currentFilter = target.dataset.filter;
+                    applyFilters();
+                });
+            });
+        }
+    };
+
+    const applyFilters = () => {
+        let filtered = ARTICOLI_NEWS;
+        
+        // Applica filtro pillola
+        if (currentFilter !== 'all') {
+            filtered = filtered.filter(article => article.categoria === currentFilter);
+        }
+
+        // Applica filtro ricerca testo
+        if (currentSearchTerm) {
+            filtered = filtered.filter(article => 
+                article.titolo.toLowerCase().includes(currentSearchTerm) || 
+                article.riassunto.toLowerCase().includes(currentSearchTerm) ||
+                article.contenuto.toLowerCase().includes(currentSearchTerm) ||
+                article.categoria.toLowerCase().includes(currentSearchTerm)
+            );
+        }
+
+        renderNewsFeed(filtered);
+    };
+
+    // Event Listener Ricerca Testuale
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = ARTICOLI_NEWS.filter(article => 
-                article.titolo.toLowerCase().includes(term) || 
-                article.riassunto.toLowerCase().includes(term) ||
-                article.contenuto.toLowerCase().includes(term) ||
-                article.categoria.toLowerCase().includes(term)
-            );
-            renderNewsFeed(filtered);
+            currentSearchTerm = e.target.value.toLowerCase();
+            applyFilters();
         });
     }
 
-    // Inizializza Feed
-    renderNewsFeed();
+    // Inizializza filtri e carica feed iniziale
+    initFilters();
+    applyFilters();
 });
