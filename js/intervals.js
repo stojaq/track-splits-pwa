@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const repMs = document.getElementById('repMs');
     const restMin = document.getElementById('restMin');
     const restSec = document.getElementById('restSec');
+    const restDistInput = document.getElementById('restDistInput');
     const startTimeInput = document.getElementById('startTime');
     const clearTimeBtn = document.getElementById('clearTimeBtn');
     
@@ -21,9 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMsg = document.getElementById('errorMsg');
     const resultsSection = document.getElementById('resultsSection');
     const copyBtn = document.getElementById('copyBtn');
+    const shareBtn = document.getElementById('shareBtn');
     const intervalsTableBody = document.getElementById('intervalsTableBody');
 
-    
+    // Summary Elements
+    const resTotalTime = document.getElementById('resTotalTime');
+    const resTotalVolume = document.getElementById('resTotalVolume');
+    const resPace = document.getElementById('resPace');
+    const resRestPace = document.getElementById('resRestPace');
+    const resTotalPace = document.getElementById('resTotalPace');
 
     clearTimeBtn.addEventListener('click', () => {
         startTimeInput.value = '';
@@ -64,12 +71,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${pad(newDate.getHours())}:${pad(newDate.getMinutes())}:${pad(newDate.getSeconds())}`;
     };
 
+    const getPaceString = (ms, distance) => {
+        if (!distance || distance <= 0 || ms <= 0) return '-';
+        const msPerKm = (ms / distance) * 1000;
+        const totalSec = Math.floor(msPerKm / 1000);
+        const min = Math.floor(totalSec / 60);
+        const sec = totalSec % 60;
+        return `${min}:${sec.toString().padStart(2, '0')}/km`;
+    };
+
     // === Calculation Logic ===
     const calculateIntervals = () => {
         hideError();
         
         const reps = parseInt(repsInput.value);
         const repDist = parseInt(repDistInput.value);
+        const restDist = parseInt(restDistInput.value) || 0;
         
         if (!reps || reps <= 0 || !repDist || repDist <= 0) {
             showError('Inserisci un numero di ripetute e una distanza validi.');
@@ -102,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         intervalsTableBody.innerHTML = '';
         let currentCumulativeMs = 0;
+        let totalDistance = 0;
 
         for (let i = 1; i <= reps; i++) {
             // --- Corsa ---
@@ -125,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             intervalsTableBody.appendChild(runTr);
 
             currentCumulativeMs = runEndMs;
+            totalDistance += repDist;
 
             // --- Recupero ---
             if (i < reps && restDurationMs > 0) {
@@ -135,11 +154,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 const recEndStr = baseDate ? formatMsToAbsolute(baseDate, restEndMs) : formatMsToRelative(restEndMs);
                 const recDurationStr = formatMsToRelative(restDurationMs);
 
+                let restLabel = 'Recupero';
+                if (restDist > 0) {
+                    restLabel += ` (${restDist}m)`;
+                }
+
                 const recTr = document.createElement('tr');
                 recTr.classList.add('bg-gray-50', 'dark:bg-gray-800/50');
                 recTr.innerHTML = `
                     <td class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider pl-6">
-                        Recupero
+                        ${restLabel}
                     </td>
                     <td class="px-4 py-3 text-right text-gray-500 dark:text-gray-400">${recStartStr}</td>
                     <td class="px-4 py-3 text-right text-gray-500 dark:text-gray-400">${recEndStr}</td>
@@ -148,8 +172,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 intervalsTableBody.appendChild(recTr);
 
                 currentCumulativeMs = restEndMs;
+                totalDistance += restDist;
             }
         }
+
+        // Popola Summary
+        resTotalTime.textContent = formatMsToRelative(currentCumulativeMs);
+        resTotalVolume.textContent = `${totalDistance.toLocaleString()} m`;
+        resPace.textContent = getPaceString(repDurationMs, repDist);
+        resRestPace.textContent = (restDist > 0 && restDurationMs > 0) ? getPaceString(restDurationMs, restDist) : '-';
+        resTotalPace.textContent = getPaceString(currentCumulativeMs, totalDistance);
 
         // Show Results
         resultsSection.classList.remove('hidden');
@@ -178,12 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const reps = repsInput.value;
         const repDist = repDistInput.value;
-        let text = `Allenamento: ${reps}x${repDist}m\n\n`;
+        let text = `Allenamento: ${reps}x${repDist}m\n`;
+        text += `Durata: ${resTotalTime.textContent} | Volume: ${resTotalVolume.textContent}\n\n`;
         text += `Fase\tInizio\tFine\n`;
         
         Array.from(intervalsTableBody.children).forEach(tr => {
             const cells = tr.querySelectorAll('td');
-            // Clean up the text (remove newlines and excess spaces from badges)
             const phase = cells[0].textContent.replace(/\s+/g, ' ').trim();
             const start = cells[1].textContent.trim();
             const end = cells[2].textContent.trim();
@@ -206,6 +238,40 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Impossibile copiare il testo.');
         });
     });
+
+    // === Share functionality ===
+    if (shareBtn && navigator.share) {
+        shareBtn.classList.remove('hidden');
+        shareBtn.addEventListener('click', async () => {
+            if (intervalsTableBody.children.length === 0) return;
+            
+            const reps = repsInput.value;
+            const repDist = repDistInput.value;
+            let text = `🔥 Allenamento: ${reps}x${repDist}m\n`;
+            text += `⏱️ Durata Totale: ${resTotalTime.textContent}\n`;
+            text += `📏 Volume Totale: ${resTotalVolume.textContent}\n`;
+            text += `👟 Passo Medio: ${resTotalPace.textContent}\n\n`;
+            
+            Array.from(intervalsTableBody.children).forEach(tr => {
+                const cells = tr.querySelectorAll('td');
+                const phase = cells[0].textContent.replace(/\s+/g, ' ').trim();
+                const start = cells[1].textContent.trim();
+                const end = cells[2].textContent.trim();
+                text += `• ${phase} => ${start} - ${end}\n`;
+            });
+            
+            text += `\nGenerato con Track Splits 🏃‍♂️`;
+
+            try {
+                await navigator.share({
+                    title: `Allenamento ${reps}x${repDist}m`,
+                    text: text
+                });
+            } catch (err) {
+                console.log('Condivisione annullata o fallita:', err);
+            }
+        });
+    }
 
     // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {

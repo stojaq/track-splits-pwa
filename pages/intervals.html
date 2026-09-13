@@ -54,8 +54,6 @@
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
     
-    
-
     <!-- Main Content -->
     <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
         
@@ -96,17 +94,26 @@
                 </div>
             </div>
 
-            <div class="p-5 border-b border-gray-100 dark:border-dark-border">
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tempo di Recupero</label>
-                <div class="flex items-center gap-2">
-                    <div class="flex-1 relative">
-                        <input type="number" id="restMin" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
-                        <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">min</span>
+            <div class="p-5 border-b border-gray-100 dark:border-dark-border grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tempo di Recupero</label>
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1 relative">
+                            <input type="number" id="restMin" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">min</span>
+                        </div>
+                        <span class="text-xl font-bold text-gray-400">:</span>
+                        <div class="flex-1 relative">
+                            <input type="number" id="restSec" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">sec</span>
+                        </div>
                     </div>
-                    <span class="text-xl font-bold text-gray-400">:</span>
-                    <div class="flex-1 relative">
-                        <input type="number" id="restSec" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
-                        <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">sec</span>
+                </div>
+                <div>
+                    <label for="restDistInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Distanza Recupero (Opz.)</label>
+                    <div class="relative">
+                        <input type="number" id="restDistInput" placeholder="es. 200" min="0" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400">
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium select-none pointer-events-none">m</div>
                     </div>
                 </div>
             </div>
@@ -136,16 +143,51 @@
         <!-- Results Section -->
         <section id="resultsSection" class="hidden flex-col gap-6 opacity-0 transition-opacity duration-500">
             
+            <!-- Summary Card -->
+            <div class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-5 text-white shadow-lg">
+                <h2 class="font-display font-bold text-lg mb-4 opacity-90">Riepilogo Allenamento</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-75 mb-1">Durata Totale</div>
+                        <div id="resTotalTime" class="text-xl font-bold font-display">--:--</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-75 mb-1">Volume Totale</div>
+                        <div id="resTotalVolume" class="text-xl font-bold font-display">-- m</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-75 mb-1">Passo Ripetute</div>
+                        <div id="resPace" class="text-lg font-bold font-display">--:--</div>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-75 mb-1">Passo Recupero</div>
+                        <div id="resRestPace" class="text-lg font-bold font-display">-</div>
+                    </div>
+                    <div class="col-span-2 bg-white/20 rounded-xl p-3 backdrop-blur-sm text-center border border-white/20 mt-1 shadow-inner">
+                        <div class="text-xs uppercase tracking-wider font-semibold opacity-90 mb-1">Passo Medio Totale</div>
+                        <div id="resTotalPace" class="text-2xl font-bold font-display text-white">--:--</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Table Card -->
             <div class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden flex flex-col">
                 <div class="p-4 border-b border-gray-100 dark:border-dark-border flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
                     <h3 class="font-bold text-gray-800 dark:text-gray-200">Tabella di Marcia</h3>
-                    <button id="copyBtn" class="flex items-center gap-1.5 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors bg-primary-50 dark:bg-primary-900/30 px-3 py-1.5 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                        <span>Copia</span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button id="copyBtn" class="flex items-center gap-1.5 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors bg-primary-50 dark:bg-primary-900/30 px-3 py-1.5 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            <span>Copia</span>
+                        </button>
+                        <button id="shareBtn" class="hidden flex items-center gap-1.5 text-sm font-medium text-white transition-colors bg-primary-600 hover:bg-primary-700 active:scale-95 px-3 py-1.5 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                            </svg>
+                            <span>Condividi</span>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="overflow-x-auto">
