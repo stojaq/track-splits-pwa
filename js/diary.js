@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const STORAGE_KEY = 'trackSplits_workouts';
     let workouts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     let editingWorkoutId = null;
+    let currentFilter = 'Tutti';
 
     // DOM Elements
     const feedContainer = document.getElementById('diaryFeed');
@@ -13,10 +14,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('closeModalBtn');
     const form = document.getElementById('workoutForm');
 
-    // Init Date to today
     const dateInput = document.getElementById('workoutDate');
     const today = new Date().toISOString().split('T')[0];
     dateInput.value = today;
+
+    const rpeInput = document.getElementById('workoutRpe');
+    const rpeDisplay = document.getElementById('rpeValueDisplay');
+    
+    if (rpeInput && rpeDisplay) {
+        rpeInput.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            rpeDisplay.textContent = val;
+            rpeDisplay.className = 'font-bold ';
+            if (val <= 3) rpeDisplay.classList.add('text-green-600');
+            else if (val <= 6) rpeDisplay.classList.add('text-yellow-600');
+            else if (val <= 8) rpeDisplay.classList.add('text-orange-600');
+            else rpeDisplay.classList.add('text-red-600');
+        });
+    }
+
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            currentFilter = e.target.dataset.filter;
+            filterBtns.forEach(b => {
+                b.classList.remove('active', 'bg-primary-600', 'text-white', 'shadow-sm');
+                b.classList.add('bg-white', 'dark:bg-dark-card', 'text-gray-600', 'dark:text-gray-300');
+            });
+            e.target.classList.remove('bg-white', 'dark:bg-dark-card', 'text-gray-600', 'dark:text-gray-300');
+            e.target.classList.add('active', 'bg-primary-600', 'text-white', 'shadow-sm');
+            renderFeed();
+        });
+    });
 
     const renderStats = () => {
         const statsSection = document.getElementById('diaryStats');
@@ -106,8 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sort from newest to oldest
         workouts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        if (workouts.length === 0) {
+        const filteredWorkouts = currentFilter === 'Tutti' ? workouts : workouts.filter(w => w.type === currentFilter);
+
+        if (filteredWorkouts.length === 0) {
             emptyState.style.display = 'block';
+            emptyState.querySelector('p').innerText = currentFilter === 'Tutti' ? 'Nessun allenamento presente.' : `Nessun allenamento di tipo "${currentFilter}" presente.`;
             Array.from(feedContainer.children).forEach(child => {
                 if (child.id !== 'emptyDiary') child.remove();
             });
@@ -125,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Group by month
         let currentMonth = '';
         
-        workouts.forEach((workout, index) => {
+        filteredWorkouts.forEach((workout, index) => {
             const wDate = new Date(workout.date);
             const monthStr = wDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
             
@@ -163,6 +195,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('workoutType').value = workout.type;
                 document.getElementById('workoutDistance').value = workout.distance || '';
                 document.getElementById('workoutNotes').value = workout.notes || '';
+                
+                if (workout.rpe) {
+                    document.getElementById('workoutRpe').value = workout.rpe;
+                    document.getElementById('rpeValueDisplay').textContent = workout.rpe;
+                } else {
+                    document.getElementById('workoutRpe').value = 5;
+                    document.getElementById('rpeValueDisplay').textContent = 5;
+                }
                 
                 document.querySelector('#workoutModalContent h2').innerText = 'Modifica Allenamento';
                 
@@ -216,8 +256,17 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             
             const titleHTML = workout.title ? `<h4 class="font-bold text-lg text-gray-900 dark:text-white pr-6">${workout.title}</h4>` : '';
-            const typeColor = workout.type === 'Ripetute' ? 'bg-red-100 text-red-700' : (workout.type === 'Medio' ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700');
+            const typeColor = workout.type === 'Ripetute' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : (workout.type === 'Medio' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400');
             
+            const getRpeColor = (val) => {
+                if (!val) return '';
+                if (val <= 3) return 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800/50';
+                if (val <= 6) return 'bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800/50';
+                if (val <= 8) return 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800/50';
+                return 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800/50';
+            };
+            const rpeHtml = workout.rpe ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded border ${getRpeColor(workout.rpe)}" title="Fatica: ${workout.rpe}/10">RPE ${workout.rpe}</span>` : '';
+
             let structureHTML = '';
             if (workout.type === 'Ripetute' && workout.structure) {
                 if (typeof workout.structure === 'string') {
@@ -234,8 +283,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             card.innerHTML = `
                 ${titleHTML}
-                <div class="flex items-center gap-2 mt-2">
+                <div class="flex items-center flex-wrap gap-2 mt-2">
                     <span class="text-xs font-semibold px-2 py-1 rounded-full ${typeColor}">${workout.type}</span>
+                    ${rpeHtml}
                     <span class="text-sm text-gray-500">${wDate.toLocaleDateString('it-IT')}</span>
                     ${workout.distance ? `<span class="text-sm font-medium ml-auto">${workout.distance} km</span>` : ''}
                 </div>
@@ -274,6 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
         document.getElementById('workoutDate').value = today;
         document.querySelector('#workoutModalContent h2').innerText = 'Nuovo Allenamento';
+        
+        if (rpeInput && rpeDisplay) {
+            rpeInput.value = 5;
+            rpeDisplay.textContent = 5;
+            rpeDisplay.className = 'font-bold text-yellow-600';
+        }
         
         const structureContainer = document.getElementById('repsStructureContainer');
         const blocksList = document.getElementById('blocksList');
@@ -372,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
             title: document.getElementById('workoutTitle').value.trim(),
             type: typeSelect.value,
             distance: document.getElementById('workoutDistance').value,
+            rpe: document.getElementById('workoutRpe') ? parseInt(document.getElementById('workoutRpe').value) : null,
             structure: structureData,
             notes: document.getElementById('workoutNotes').value.trim()
         };
@@ -391,6 +448,13 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
         document.getElementById('workoutDate').value = today;
         document.querySelector('#workoutModalContent h2').innerText = 'Nuovo Allenamento';
+        
+        if (rpeInput && rpeDisplay) {
+            rpeInput.value = 5;
+            rpeDisplay.textContent = 5;
+            rpeDisplay.className = 'font-bold text-yellow-600';
+        }
+
         structureContainer.classList.add('hidden');
         structureContainer.classList.remove('flex');
         
