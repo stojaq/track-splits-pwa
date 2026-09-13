@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableTitle = document.getElementById('tableTitle');
     const searchInput = document.getElementById('searchInput');
     const noResultsMsg = document.getElementById('noResultsMsg');
+    const challengeBanner = document.getElementById('challengeBanner');
 
     let currentGender = 'M';
     let currentCategory = 'Assoluti';
@@ -71,6 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             tableBody.parentElement.classList.remove('hidden');
             noResultsMsg.classList.add('hidden');
+        }
+
+        // Mostra/Nascondi banner Challenge
+        if (challengeBanner) {
+            if (currentCategory === 'Challenge') {
+                challengeBanner.classList.remove('hidden');
+            } else {
+                challengeBanner.classList.add('hidden');
+            }
         }
     }
 
