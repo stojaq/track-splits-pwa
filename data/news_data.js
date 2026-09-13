@@ -5,6 +5,35 @@
 
 const ARTICOLI_NEWS = [
     {
+        id: "cds-under23-agropoli-giulia-gazzoni",
+        titolo: "🏃 Grande prova di Giulia Gazzoni ai C.D.S. Under 23: esordio nei 5000m e trionfo per la Self Atletica",
+        data: "13 Settembre 2026",
+        categoria: "Risultati",
+        riassunto: "Debutto da incorniciare nei 5000m per Giulia Gazzoni alla Finale A Argento dei C.D.S. U23 ad Agropoli: 8° posto, PB e record di società Promesse, oltre al trionfo di squadra per la Self Atletica.",
+        contenuto: `
+        <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
+        <img src="../assets/cds_under_23.jpeg" alt="C.D.S. Under 23 Agropoli" class="w-full rounded-xl mb-6 shadow-md">
+
+        <h3>Finale "A" Argento dei Campionati di Società Under 23</h3>
+        <p>Nel fine settimana del 12 e 13 settembre 2026, la pista di Agropoli ha ospitato la <b>Finale "A" Argento dei Campionati di Società Under 23</b>. Tra le protagoniste si è distinta <b>Giulia Gazzoni</b>, al suo debutto assoluto sulla distanza dei 5000 metri su pista.</p>
+
+        <h4>Esordio nei 5000m: PB e Record di Società</h4>
+        <p>Nonostante la comprensibile ansia iniziale, Giulia ha gestito la gara con grande determinazione, tagliando il traguardo all'<b>8° posto</b> con il tempo di <b>20:55.50</b>. Una prestazione che le vale non solo il nuovo <b>primato personale (PB)</b>, ma anche il <b>record di società per la categoria Promesse</b>.</p>
+
+        <h4>Trionfo della Squadra Femminile</h4>
+        <p>Il suo risultato ha dato un contributo fondamentale al punteggio complessivo della squadra femminile del <b>G.S. Self Atletica Montanari Gruzza</b>, che si è aggiudicata il titolo di categoria con ben <b>129 punti</b>.</p>
+        <p>Complimenti a Giulia e a tutte le atlete per questo fantastico successo!</p>
+
+        <h3>Risultati Ufficiali</h3>
+        <p>Tutti i risultati completi della manifestazione sono consultabili sul portale FIDAL:</p>
+        <p class="mt-4">
+            <a href="https://www.fidal.it/risultati/2026/COD15084/Risultati/Gara114.html" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-weight: 600; padding: 10px 20px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                Risultati Ufficiali FIDAL 🔗
+            </a>
+        </p>
+        `
+    },
+    {
         id: "podistica-sagra-del-tituccio-corpolo",
         titolo: "🏃 Podistica della Sagra del Tituccio: ottimi risultati a Corpolò",
         data: "5 Settembre 2026",
