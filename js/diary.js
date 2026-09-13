@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let workouts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     let editingWorkoutId = null;
     let currentFilter = 'Tutti';
+    
+    let currentCalendarDate = new Date();
+    let calendarFilterDate = null;
 
     // DOM Elements
     const feedContainer = document.getElementById('diaryFeed');
@@ -17,6 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateInput = document.getElementById('workoutDate');
     const today = new Date().toISOString().split('T')[0];
     dateInput.value = today;
+
+    const durHr = document.getElementById('durationHr');
+    const durMin = document.getElementById('durationMin');
+    const durSec = document.getElementById('durationSec');
+    
+    const prevMonthBtn = document.getElementById('prevMonthBtn');
+    const nextMonthBtn = document.getElementById('nextMonthBtn');
+    const calendarMonthLabel = document.getElementById('calendarMonthLabel');
+    const calendarGrid = document.getElementById('calendarGrid');
+    const resetCalendarFilterBtn = document.getElementById('resetCalendarFilterBtn');
 
     const rpeInput = document.getElementById('workoutRpe');
     const rpeDisplay = document.getElementById('rpeValueDisplay');
@@ -47,84 +60,149 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Event Listeners for Calendar
+    if (prevMonthBtn && nextMonthBtn) {
+        prevMonthBtn.addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            renderStats();
+        });
+        nextMonthBtn.addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            renderStats();
+        });
+        resetCalendarFilterBtn.addEventListener('click', () => {
+            calendarFilterDate = null;
+            renderFeed();
+        });
+    }
+
     const renderStats = () => {
         const statsSection = document.getElementById('diaryStats');
         if (workouts.length === 0) {
             statsSection.classList.add('hidden');
             return;
         }
-
-        const now = new Date();
-        const currentMonth = now.getMonth();
-        const currentYear = now.getFullYear();
-
-        const currentMonthWorkouts = workouts.filter(w => {
-            const d = new Date(w.date);
-            return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-        });
-
-        if (currentMonthWorkouts.length === 0) {
-            statsSection.classList.add('hidden');
-            return;
-        }
-
         statsSection.classList.remove('hidden');
 
-        // Total Km
-        let totalKm = 0;
-        let typesCount = {
-            'Lento': 0,
-            'Medio': 0,
-            'Ripetute': 0
-        };
-
-        currentMonthWorkouts.forEach(w => {
-            if (w.distance) {
-                totalKm += parseFloat(w.distance);
+        // --- CALENDAR LOGIC ---
+        if (calendarMonthLabel && calendarGrid) {
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            
+            calendarMonthLabel.textContent = currentCalendarDate.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            let firstDayIndex = firstDay === 0 ? 6 : firstDay - 1;
+            calendarGrid.innerHTML = '';
+            
+            for (let i = 0; i < firstDayIndex; i++) {
+                const div = document.createElement('div');
+                calendarGrid.appendChild(div);
             }
-            if (typesCount[w.type] !== undefined) {
-                typesCount[w.type]++;
-            } else {
-                typesCount[w.type] = 1;
+            
+            const workoutDates = new Set(workouts.map(w => w.date));
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isWorkout = workoutDates.has(dStr);
+                const isSelected = calendarFilterDate === dStr;
+                const isToday = dStr === today;
+                
+                const btn = document.createElement('button');
+                btn.className = `w-full aspect-square flex items-center justify-center rounded-full text-xs font-medium transition-colors `;
+                
+                if (isSelected) {
+                    btn.className += 'bg-primary-600 text-white shadow-sm';
+                } else if (isWorkout) {
+                    btn.className += 'bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-800';
+                } else {
+                    btn.className += 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800';
+                    if (isToday) btn.className += ' border border-gray-300 dark:border-gray-600';
+                }
+                
+                btn.textContent = day;
+                if (isWorkout) {
+                    btn.addEventListener('click', () => {
+                        if (calendarFilterDate === dStr) calendarFilterDate = null;
+                        else calendarFilterDate = dStr;
+                        renderFeed();
+                    });
+                } else {
+                    btn.disabled = true;
+                    btn.classList.add('cursor-default');
+                }
+                
+                calendarGrid.appendChild(btn);
             }
-        });
 
-        document.getElementById('statsTotalKm').innerText = totalKm.toFixed(1);
-
-        // Chart
-        const ctx = document.getElementById('workoutsChart').getContext('2d');
-        const data = [typesCount['Lento'], typesCount['Medio'], typesCount['Ripetute']];
-        const labels = ['Lento', 'Medio', 'Ripetute'];
-        const bgColors = ['#22c55e', '#f97316', '#ef4444'];
-
-        if (window.diaryChartInstance) {
-            window.diaryChartInstance.destroy();
+            if (calendarFilterDate) resetCalendarFilterBtn.classList.remove('hidden');
+            else resetCalendarFilterBtn.classList.add('hidden');
         }
 
+        // --- BAR CHART LOGIC ---
+        let totalKm30 = 0;
+        const now = new Date();
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(now.getDate() - 28); // exactly 4 weeks
+        
+        const recentWorkouts = workouts.filter(w => new Date(w.date) >= thirtyDaysAgo);
+        recentWorkouts.forEach(w => {
+            if (w.distance) totalKm30 += parseFloat(w.distance);
+        });
+        
+        const totKmEl = document.getElementById('statsTotalKm');
+        if (totKmEl) totKmEl.innerText = totalKm30.toFixed(1);
+        
+        let weekBins = [0, 0, 0, 0];
+        const labels = ['Sett 1', 'Sett 2', 'Sett 3', 'Ultimi 7gg'];
+        
+        recentWorkouts.forEach(w => {
+            if (!w.distance) return;
+            const wDate = new Date(w.date);
+            const diffTime = Math.abs(now - wDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays <= 7) weekBins[3] += parseFloat(w.distance);
+            else if (diffDays <= 14) weekBins[2] += parseFloat(w.distance);
+            else if (diffDays <= 21) weekBins[1] += parseFloat(w.distance);
+            else if (diffDays <= 28) weekBins[0] += parseFloat(w.distance);
+        });
+
+        const canvas = document.getElementById('workoutsChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        
+        if (window.diaryChartInstance) window.diaryChartInstance.destroy();
+        
         window.diaryChartInstance = new Chart(ctx, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
-                    data: data,
-                    backgroundColor: bgColors,
-                    borderWidth: 0,
-                    hoverOffset: 4
+                    label: 'Km Percorsi',
+                    data: weekBins,
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4,
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '70%',
                 plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            usePointStyle: true,
-                            boxWidth: 8,
-                            padding: 10,
-                            font: { family: "'Inter', sans-serif", size: 10 }
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) { return context.parsed.y.toFixed(1) + ' km'; }
                         }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, display: false },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { family: "'Inter', sans-serif", size: 10 }, color: '#9ca3af' }
                     }
                 }
             }
@@ -135,7 +213,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sort from newest to oldest
         workouts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        const filteredWorkouts = currentFilter === 'Tutti' ? workouts : workouts.filter(w => w.type === currentFilter);
+        let filteredWorkouts = workouts;
+        if (currentFilter !== 'Tutti') {
+            filteredWorkouts = filteredWorkouts.filter(w => w.type === currentFilter);
+        }
+        if (calendarFilterDate) {
+            filteredWorkouts = filteredWorkouts.filter(w => w.date === calendarFilterDate);
+        }
 
         if (filteredWorkouts.length === 0) {
             emptyState.style.display = 'block';
@@ -195,6 +279,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('workoutType').value = workout.type;
                 document.getElementById('workoutDistance').value = workout.distance || '';
                 document.getElementById('workoutNotes').value = workout.notes || '';
+                
+                if (durHr) durHr.value = '';
+                if (durMin) durMin.value = '';
+                if (durSec) durSec.value = '';
+                if (workout.duration) {
+                    const p = workout.duration.split(':');
+                    if (p.length === 3) {
+                        if (durHr && p[0] !== '00') durHr.value = p[0];
+                        if (durMin && p[1] !== '00') durMin.value = p[1];
+                        if (durSec && p[2] !== '00') durSec.value = p[2];
+                    }
+                }
                 
                 if (workout.rpe) {
                     document.getElementById('workoutRpe').value = workout.rpe;
@@ -281,13 +377,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
+            let paceHtml = '';
+            if (workout.distance && workout.duration) {
+                const parts = workout.duration.split(':');
+                const hr = parseInt(parts[0]) || 0;
+                const min = parseInt(parts[1]) || 0;
+                const sec = parseInt(parts[2]) || 0;
+                
+                const totalSec = (hr * 3600) + (min * 60) + sec;
+                if (totalSec > 0) {
+                    const distKm = parseFloat(workout.distance);
+                    const secPerKm = totalSec / distKm;
+                    const pMin = Math.floor(secPerKm / 60);
+                    const pSec = Math.floor(secPerKm % 60);
+                    let displayTime = '';
+                    if (hr > 0) displayTime = `${hr}h ${min}m`;
+                    else if (min > 0) displayTime = `${min}m ${sec}s`;
+                    else displayTime = `${sec}s`;
+                    
+                    paceHtml = `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50" title="Tempo: ${workout.duration}">⏱️ ${displayTime} - ⚡ ${pMin}:${pSec.toString().padStart(2,'0')}/km</span>`;
+                }
+            }
+            
             card.innerHTML = `
                 ${titleHTML}
                 <div class="flex items-center flex-wrap gap-2 mt-2">
                     <span class="text-xs font-semibold px-2 py-1 rounded-full ${typeColor}">${workout.type}</span>
                     ${rpeHtml}
-                    <span class="text-sm text-gray-500">${wDate.toLocaleDateString('it-IT')}</span>
-                    ${workout.distance ? `<span class="text-sm font-medium ml-auto">${workout.distance} km</span>` : ''}
+                    ${paceHtml}
+                    <span class="text-sm text-gray-500 ml-auto sm:ml-0">${wDate.toLocaleDateString('it-IT')}</span>
+                    ${workout.distance ? `<span class="text-sm font-bold bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded ml-auto">${workout.distance} km</span>` : ''}
                 </div>
                 ${structureHTML}
                 ${workout.notes ? `<p class="mt-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">${workout.notes}</p>` : ''}
@@ -340,6 +459,10 @@ document.addEventListener('DOMContentLoaded', () => {
         rows.forEach((r, i) => { if (i > 0) r.remove(); });
         const firstRow = blocksList.querySelector('.block-row');
         if(firstRow) firstRow.querySelectorAll('input').forEach(input => input.value = '');
+        
+        if(durHr) durHr.value='';
+        if(durMin) durMin.value='';
+        if(durSec) durSec.value='';
         
         const btn = firstRow.querySelector('.remove-block-btn');
         if(btn) {
@@ -422,12 +545,21 @@ document.addEventListener('DOMContentLoaded', () => {
             structureData = blocksArray;
         }
 
+        let durationStr = null;
+        const h = durHr ? durHr.value : '';
+        const m = durMin ? durMin.value : '';
+        const s = durSec ? durSec.value : '';
+        if (h || m || s) {
+            durationStr = `${h.padStart(2,'0') || '00'}:${m.padStart(2,'0') || '00'}:${s.padStart(2,'0') || '00'}`;
+        }
+
         const newWorkout = {
             id: editingWorkoutId ? editingWorkoutId : Date.now(),
             date: document.getElementById('workoutDate').value || new Date().toISOString().split('T')[0],
             title: document.getElementById('workoutTitle').value.trim(),
             type: typeSelect.value,
             distance: document.getElementById('workoutDistance').value,
+            duration: durationStr,
             rpe: document.getElementById('workoutRpe') ? parseInt(document.getElementById('workoutRpe').value) : null,
             structure: structureData,
             notes: document.getElementById('workoutNotes').value.trim()
@@ -463,6 +595,9 @@ document.addEventListener('DOMContentLoaded', () => {
         rows.forEach((row, i) => { if (i > 0) row.remove(); });
         const firstRow = blocksList.querySelector('.block-row');
         if(firstRow) firstRow.querySelectorAll('input').forEach(input => input.value = '');
+        if(durHr) durHr.value='';
+        if(durMin) durMin.value='';
+        if(durSec) durSec.value='';
         updateRemoveButtons();
         
         closeModal();
