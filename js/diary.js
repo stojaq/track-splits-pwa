@@ -60,6 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Close dropdowns globally
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.diary-menu-container')) {
+            document.querySelectorAll('.diary-dropdown').forEach(d => {
+                d.classList.add('hidden');
+            });
+        }
+    });
+
     // Event Listeners for Calendar
     if (prevMonthBtn && nextMonthBtn) {
         prevMonthBtn.addEventListener('click', () => {
@@ -254,12 +263,47 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const card = document.createElement('div');
-            card.className = 'bg-white dark:bg-dark-card p-4 rounded-xl shadow-sm border border-gray-100 dark:border-dark-border relative group';
+            card.className = 'bg-white dark:bg-dark-card p-4 rounded-xl shadow-sm border border-gray-100 dark:border-dark-border relative';
             
-            // Delete button
+            // Header with Title and Menu
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'flex justify-between items-start gap-4 mb-2';
+            
+            const titleHTML = workout.title ? `<h4 class="font-bold text-lg text-gray-900 dark:text-white">${workout.title}</h4>` : `<div></div>`;
+            headerDiv.innerHTML = titleHTML;
+
+            const menuContainer = document.createElement('div');
+            menuContainer.className = 'relative diary-menu-container';
+            
+            const menuBtn = document.createElement('button');
+            menuBtn.className = 'p-1 -mr-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-full transition-colors';
+            menuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" /></svg>`;
+            
+            const dropdown = document.createElement('div');
+            dropdown.className = 'hidden absolute right-0 top-full mt-1 w-36 bg-white dark:bg-dark-card border border-gray-100 dark:border-dark-border rounded-xl shadow-lg z-10 overflow-hidden diary-dropdown';
+            
+            const editBtn = document.createElement('button');
+            editBtn.className = 'w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors flex items-center gap-2';
+            editBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg> Modifica`;
+            
             const delBtn = document.createElement('button');
-            delBtn.className = 'absolute top-4 right-4 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity';
-            delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>`;
+            delBtn.className = 'w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-2 border-t border-gray-100 dark:border-dark-border';
+            delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg> Elimina`;
+
+            menuBtn.onclick = (e) => {
+                e.stopPropagation();
+                document.querySelectorAll('.diary-dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.add('hidden');
+                });
+                dropdown.classList.toggle('hidden');
+            };
+
+            dropdown.appendChild(editBtn);
+            dropdown.appendChild(delBtn);
+            menuContainer.appendChild(menuBtn);
+            menuContainer.appendChild(dropdown);
+            headerDiv.appendChild(menuContainer);
+
             delBtn.onclick = () => {
                 if (confirm('Sei sicuro di voler eliminare questo allenamento?')) {
                     workouts.splice(index, 1);
@@ -268,10 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
 
-            // Edit button
-            const editBtn = document.createElement('button');
-            editBtn.className = 'absolute top-4 right-12 text-gray-400 hover:text-primary-500 opacity-0 group-hover:opacity-100 transition-opacity';
-            editBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>`;
             editBtn.onclick = () => {
                 editingWorkoutId = workout.id;
                 document.getElementById('workoutDate').value = workout.date;
@@ -351,7 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 openModal();
             };
             
-            const titleHTML = workout.title ? `<h4 class="font-bold text-lg text-gray-900 dark:text-white pr-6">${workout.title}</h4>` : '';
             const typeColor = workout.type === 'Ripetute' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : (workout.type === 'Medio' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400');
             
             const getRpeColor = (val) => {
@@ -399,8 +438,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            card.innerHTML = `
-                ${titleHTML}
+            const bodyDiv = document.createElement('div');
+            bodyDiv.innerHTML = `
                 <div class="flex items-center flex-wrap gap-2 mt-2">
                     <span class="text-xs font-semibold px-2 py-1 rounded-full ${typeColor}">${workout.type}</span>
                     ${rpeHtml}
@@ -412,8 +451,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${workout.notes ? `<p class="mt-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">${workout.notes}</p>` : ''}
             `;
             
-            card.appendChild(editBtn);
-            card.appendChild(delBtn);
+            card.appendChild(headerDiv);
+            card.appendChild(bodyDiv);
             feedContainer.appendChild(card);
         });
         
