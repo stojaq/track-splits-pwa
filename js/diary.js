@@ -51,11 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             currentFilter = e.target.dataset.filter;
             filterBtns.forEach(b => {
-                b.classList.remove('active', 'bg-primary-600', 'text-white', 'shadow-sm');
-                b.classList.add('bg-white', 'dark:bg-dark-card', 'text-gray-600', 'dark:text-gray-300');
+                const isActive = b.dataset.filter === currentFilter;
+                const baseClasses = 'filter-btn shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-colors border';
+                if (isActive) {
+                    b.className = `${baseClasses} active bg-primary-600 text-white border-primary-600 shadow-sm`;
+                } else {
+                    b.className = `${baseClasses} bg-white dark:bg-dark-card text-gray-600 dark:text-gray-300 border-gray-200 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-gray-800`;
+                }
             });
-            e.target.classList.remove('bg-white', 'dark:bg-dark-card', 'text-gray-600', 'dark:text-gray-300');
-            e.target.classList.add('active', 'bg-primary-600', 'text-white', 'shadow-sm');
             renderFeed();
         });
     });
