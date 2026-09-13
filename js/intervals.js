@@ -153,18 +153,89 @@ document.addEventListener('DOMContentLoaded', () => {
                 const durationStr = formatMsToRelative(repDurationMs) + (rMs > 0 ? `.${rMs}` : '');
 
                 const label = sets > 1 ? `S${s} - #${i} - ${repDist}m` : `#${i} - ${repDist}m`;
+                const hasSplits = repDist > 400;
 
                 const runTr = document.createElement('tr');
-                runTr.classList.add('bg-white', 'dark:bg-dark-card');
+                runTr.classList.add('bg-white', 'dark:bg-dark-card', 'transition-colors');
+                if (hasSplits) {
+                    runTr.classList.add('cursor-pointer', 'hover:bg-gray-50', 'dark:hover:bg-gray-800');
+                }
+                
+                let chevronHtml = hasSplits ? `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 text-gray-400 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                ` : '';
+
                 runTr.innerHTML = `
                     <td class="px-4 py-3 font-bold text-gray-900 dark:text-gray-100 whitespace-nowrap">
-                        <span class="inline-block bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300 text-xs px-2 py-1 rounded-md">${label}</span>
+                        <div class="flex items-center">
+                            <span class="inline-block bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300 text-xs px-2 py-1 rounded-md">${label}</span>
+                            ${chevronHtml}
+                        </div>
                     </td>
                     <td class="px-4 py-3 text-right font-medium text-gray-900 dark:text-gray-100">${startStr}</td>
                     <td class="px-4 py-3 text-right font-bold text-primary-600 dark:text-primary-400">${endStr}</td>
                     <td class="px-4 py-3 text-right hidden sm:table-cell text-gray-500 dark:text-gray-400 text-xs">${durationStr}</td>
                 `;
                 intervalsTableBody.appendChild(runTr);
+
+                // -- Passaggi Intermedi (Splits) --
+                if (hasSplits) {
+                    const splitTr = document.createElement('tr');
+                    splitTr.classList.add('hidden', 'bg-gray-50/50', 'dark:bg-gray-800/30');
+                    
+                    const pacePerMeterMs = repDurationMs / repDist;
+                    let splitsHtml = `
+                        <td colspan="4" class="p-0 border-b border-gray-100 dark:border-dark-border">
+                            <div class="px-4 py-3 text-sm border-l-4 border-primary-400 dark:border-primary-600 ml-4">
+                                <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 font-semibold flex justify-between">
+                                    <span>Passaggi ogni 400m</span>
+                                    <span>Passo: ${getPaceString(repDurationMs, repDist)}</span>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-1">
+                    `;
+                    
+                    let currentDist = 400;
+                    while (currentDist <= repDist) {
+                        const splitMs = currentDist * pacePerMeterMs;
+                        const absMs = runStartMs + splitMs;
+                        const splitStartStr = baseDate ? formatMsToAbsolute(baseDate, absMs) : formatMsToRelative(absMs);
+                        
+                        splitsHtml += `
+                                    <div class="flex justify-between border-b border-gray-200 dark:border-gray-700 py-1">
+                                        <span class="text-gray-600 dark:text-gray-400 font-medium">${currentDist}m</span>
+                                        <span class="text-gray-900 dark:text-gray-200 font-bold">${splitStartStr}</span>
+                                    </div>
+                        `;
+                        
+                        if (currentDist === repDist) break;
+                        currentDist += 400;
+                        if (currentDist > repDist) {
+                            currentDist = repDist; // Ultimo split per il resto (es. 1000m -> 400, 800, 1000)
+                        }
+                    }
+                    
+                    splitsHtml += `
+                                </div>
+                            </div>
+                        </td>
+                    `;
+                    splitTr.innerHTML = splitsHtml;
+                    intervalsTableBody.appendChild(splitTr);
+                    
+                    // Toggle logic
+                    runTr.addEventListener('click', () => {
+                        const svg = runTr.querySelector('svg');
+                        if (splitTr.classList.contains('hidden')) {
+                            splitTr.classList.remove('hidden');
+                            if(svg) svg.classList.add('rotate-180');
+                        } else {
+                            splitTr.classList.add('hidden');
+                            if(svg) svg.classList.remove('rotate-180');
+                        }
+                    });
+                }
 
                 currentCumulativeMs = runEndMs;
                 totalDistance += repDist;
