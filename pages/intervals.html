@@ -60,19 +60,25 @@
         <!-- Input Section -->
         <section class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden card-transition hover:shadow-md">
             
-            <div class="p-5 border-b border-gray-100 dark:border-dark-border grid grid-cols-2 gap-4">
+            <div class="p-4 sm:p-5 border-b border-gray-100 dark:border-dark-border grid grid-cols-3 gap-2 sm:gap-4">
+                <!-- Number of Sets -->
+                <div>
+                    <label for="setsInput" class="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 sm:mb-2 truncate text-center sm:text-left">Serie</label>
+                    <input type="number" id="setsInput" placeholder="es. 1" min="1" value="1" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 sm:px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400 text-center sm:text-left">
+                </div>
+
                 <!-- Number of Reps -->
                 <div>
-                    <label for="repsInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Numero Prove</label>
-                    <input type="number" id="repsInput" placeholder="es. 10" min="1" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400">
+                    <label for="repsInput" class="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 sm:mb-2 truncate text-center sm:text-left">Ripetute</label>
+                    <input type="number" id="repsInput" placeholder="es. 10" min="1" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 sm:px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400 text-center sm:text-left">
                 </div>
                 
                 <!-- Distance per Rep -->
                 <div>
-                    <label for="repDistInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Distanza (m)</label>
+                    <label for="repDistInput" class="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 sm:mb-2 truncate text-center sm:text-left">Metri</label>
                     <div class="relative">
-                        <input type="number" id="repDistInput" placeholder="es. 400" min="1" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400">
-                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium select-none pointer-events-none">m</div>
+                        <input type="number" id="repDistInput" placeholder="es. 400" min="1" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 sm:px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400 text-center sm:text-left">
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium select-none pointer-events-none hidden sm:block">m</div>
                     </div>
                 </div>
             </div>
@@ -94,26 +100,51 @@
                 </div>
             </div>
 
-            <div class="p-5 border-b border-gray-100 dark:border-dark-border grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-4 sm:p-5 border-b border-gray-100 dark:border-dark-border grid grid-cols-2 gap-2 sm:gap-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Tempo di Recupero</label>
-                    <div class="flex items-center gap-2">
+                    <label class="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 sm:mb-2 truncate">Rec. Prove</label>
+                    <div class="flex items-center gap-1 sm:gap-2">
                         <div class="flex-1 relative">
-                            <input type="number" id="restMin" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
-                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">min</span>
+                            <input type="number" id="restMin" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-1 sm:px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none hidden sm:block">min</span>
                         </div>
                         <span class="text-xl font-bold text-gray-400">:</span>
                         <div class="flex-1 relative">
-                            <input type="number" id="restSec" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
-                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none">sec</span>
+                            <input type="number" id="restSec" placeholder="00" min="0" max="59" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-1 sm:px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none hidden sm:block">sec</span>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <label for="restDistInput" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Distanza Recupero (Opz.)</label>
+                    <label for="restDistInput" class="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 sm:mb-2 truncate">Distanza (Opz.)</label>
                     <div class="relative">
-                        <input type="number" id="restDistInput" placeholder="es. 200" min="0" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400">
-                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium select-none pointer-events-none">m</div>
+                        <input type="number" id="restDistInput" placeholder="es. 200" min="0" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 sm:px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400 text-center sm:text-left">
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium select-none pointer-events-none hidden sm:block">m</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Macro Rest Panel (Hidden by default) -->
+            <div id="macroRestPanel" class="hidden p-4 sm:p-5 border-b border-gray-100 dark:border-dark-border grid-cols-2 gap-2 sm:gap-4 bg-primary-50/50 dark:bg-primary-900/10 transition-all">
+                <div>
+                    <label class="block text-xs sm:text-sm font-semibold text-primary-700 dark:text-primary-300 mb-1 sm:mb-2 truncate">Rec. Serie</label>
+                    <div class="flex items-center gap-1 sm:gap-2">
+                        <div class="flex-1 relative">
+                            <input type="number" id="macroRestMin" placeholder="00" min="0" max="59" class="w-full bg-white dark:bg-gray-800 border border-primary-200 dark:border-primary-800/50 rounded-xl px-1 sm:px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none hidden sm:block">min</span>
+                        </div>
+                        <span class="text-xl font-bold text-gray-400">:</span>
+                        <div class="flex-1 relative">
+                            <input type="number" id="macroRestSec" placeholder="00" min="0" max="59" class="w-full bg-white dark:bg-gray-800 border border-primary-200 dark:border-primary-800/50 rounded-xl px-1 sm:px-4 py-3 text-center text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                            <span class="absolute bottom-1 right-2 text-xs text-gray-400 pointer-events-none hidden sm:block">sec</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="macroRestDistInput" class="block text-xs sm:text-sm font-semibold text-primary-700 dark:text-primary-300 mb-1 sm:mb-2 truncate">Distanza (Opz.)</label>
+                    <div class="relative">
+                        <input type="number" id="macroRestDistInput" placeholder="es. 400" min="0" class="w-full bg-white dark:bg-gray-800 border border-primary-200 dark:border-primary-800/50 rounded-xl px-2 sm:px-4 py-3 text-lg font-medium text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all placeholder-gray-400 text-center sm:text-left">
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium select-none pointer-events-none hidden sm:block">m</div>
                     </div>
                 </div>
             </div>

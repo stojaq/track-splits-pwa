@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlElement = document.documentElement;
     
     // Inputs
+    const setsInput = document.getElementById('setsInput');
     const repsInput = document.getElementById('repsInput');
     const repDistInput = document.getElementById('repDistInput');
     const repMin = document.getElementById('repMin');
@@ -14,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const restMin = document.getElementById('restMin');
     const restSec = document.getElementById('restSec');
     const restDistInput = document.getElementById('restDistInput');
+    const macroRestMin = document.getElementById('macroRestMin');
+    const macroRestSec = document.getElementById('macroRestSec');
+    const macroRestDistInput = document.getElementById('macroRestDistInput');
+    const macroRestPanel = document.getElementById('macroRestPanel');
     const startTimeInput = document.getElementById('startTime');
     const clearTimeBtn = document.getElementById('clearTimeBtn');
     
@@ -31,6 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const resPace = document.getElementById('resPace');
     const resRestPace = document.getElementById('resRestPace');
     const resTotalPace = document.getElementById('resTotalPace');
+
+    setsInput.addEventListener('input', () => {
+        if (parseInt(setsInput.value) > 1) {
+            macroRestPanel.classList.remove('hidden');
+            macroRestPanel.classList.add('grid');
+        } else {
+            macroRestPanel.classList.add('hidden');
+            macroRestPanel.classList.remove('grid');
+        }
+    });
 
     clearTimeBtn.addEventListener('click', () => {
         startTimeInput.value = '';
@@ -84,12 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const calculateIntervals = () => {
         hideError();
         
+        const sets = parseInt(setsInput.value) || 1;
         const reps = parseInt(repsInput.value);
         const repDist = parseInt(repDistInput.value);
         const restDist = parseInt(restDistInput.value) || 0;
         
-        if (!reps || reps <= 0 || !repDist || repDist <= 0) {
-            showError('Inserisci un numero di ripetute e una distanza validi.');
+        if (!reps || reps <= 0 || !repDist || repDist <= 0 || sets <= 0) {
+            showError('Inserisci valori validi per le prove.');
             return;
         }
 
@@ -101,6 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const recMin = parseInt(restMin.value) || 0;
         const recSec = parseInt(restSec.value) || 0;
         const restDurationMs = (recMin * 60000) + (recSec * 1000);
+
+        const macroRecMin = parseInt(macroRestMin.value) || 0;
+        const macroRecSec = parseInt(macroRestSec.value) || 0;
+        const macroRestDurationMs = (macroRecMin * 60000) + (macroRecSec * 1000);
+        const macroRestDist = parseInt(macroRestDistInput.value) || 0;
 
         if (repDurationMs <= 0) {
             showError('Inserisci un tempo target valido per la ripetuta.');
@@ -121,60 +142,94 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentCumulativeMs = 0;
         let totalDistance = 0;
 
-        for (let i = 1; i <= reps; i++) {
-            // --- Corsa ---
-            const runStartMs = currentCumulativeMs;
-            const runEndMs = currentCumulativeMs + repDurationMs;
-            
-            const startStr = baseDate ? formatMsToAbsolute(baseDate, runStartMs) : formatMsToRelative(runStartMs);
-            const endStr = baseDate ? formatMsToAbsolute(baseDate, runEndMs) : formatMsToRelative(runEndMs);
-            const durationStr = formatMsToRelative(repDurationMs) + (rMs > 0 ? `.${rMs}` : '');
-
-            const runTr = document.createElement('tr');
-            runTr.classList.add('bg-white', 'dark:bg-dark-card');
-            runTr.innerHTML = `
-                <td class="px-4 py-3 font-bold text-gray-900 dark:text-gray-100 whitespace-nowrap">
-                    <span class="inline-block bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300 text-xs px-2 py-1 rounded-md">#${i} - ${repDist}m</span>
-                </td>
-                <td class="px-4 py-3 text-right font-medium text-gray-900 dark:text-gray-100">${startStr}</td>
-                <td class="px-4 py-3 text-right font-bold text-primary-600 dark:text-primary-400">${endStr}</td>
-                <td class="px-4 py-3 text-right hidden sm:table-cell text-gray-500 dark:text-gray-400 text-xs">${durationStr}</td>
-            `;
-            intervalsTableBody.appendChild(runTr);
-
-            currentCumulativeMs = runEndMs;
-            totalDistance += repDist;
-
-            // --- Recupero ---
-            if (i < reps && restDurationMs > 0) {
-                const restStartMs = currentCumulativeMs;
-                const restEndMs = currentCumulativeMs + restDurationMs;
+        for (let s = 1; s <= sets; s++) {
+            for (let i = 1; i <= reps; i++) {
+                // --- Corsa ---
+                const runStartMs = currentCumulativeMs;
+                const runEndMs = currentCumulativeMs + repDurationMs;
                 
-                const recStartStr = baseDate ? formatMsToAbsolute(baseDate, restStartMs) : formatMsToRelative(restStartMs);
-                const recEndStr = baseDate ? formatMsToAbsolute(baseDate, restEndMs) : formatMsToRelative(restEndMs);
-                const recDurationStr = formatMsToRelative(restDurationMs);
+                const startStr = baseDate ? formatMsToAbsolute(baseDate, runStartMs) : formatMsToRelative(runStartMs);
+                const endStr = baseDate ? formatMsToAbsolute(baseDate, runEndMs) : formatMsToRelative(runEndMs);
+                const durationStr = formatMsToRelative(repDurationMs) + (rMs > 0 ? `.${rMs}` : '');
 
-                let restLabel = 'Recupero';
-                if (restDist > 0) {
-                    restLabel += ` (${restDist}m)`;
+                const label = sets > 1 ? `S${s} - #${i} - ${repDist}m` : `#${i} - ${repDist}m`;
+
+                const runTr = document.createElement('tr');
+                runTr.classList.add('bg-white', 'dark:bg-dark-card');
+                runTr.innerHTML = `
+                    <td class="px-4 py-3 font-bold text-gray-900 dark:text-gray-100 whitespace-nowrap">
+                        <span class="inline-block bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300 text-xs px-2 py-1 rounded-md">${label}</span>
+                    </td>
+                    <td class="px-4 py-3 text-right font-medium text-gray-900 dark:text-gray-100">${startStr}</td>
+                    <td class="px-4 py-3 text-right font-bold text-primary-600 dark:text-primary-400">${endStr}</td>
+                    <td class="px-4 py-3 text-right hidden sm:table-cell text-gray-500 dark:text-gray-400 text-xs">${durationStr}</td>
+                `;
+                intervalsTableBody.appendChild(runTr);
+
+                currentCumulativeMs = runEndMs;
+                totalDistance += repDist;
+
+                // --- Recupero (tra le prove) ---
+                if (i < reps && restDurationMs > 0) {
+                    const restStartMs = currentCumulativeMs;
+                    const restEndMs = currentCumulativeMs + restDurationMs;
+                    
+                    const recStartStr = baseDate ? formatMsToAbsolute(baseDate, restStartMs) : formatMsToRelative(restStartMs);
+                    const recEndStr = baseDate ? formatMsToAbsolute(baseDate, restEndMs) : formatMsToRelative(restEndMs);
+                    const recDurationStr = formatMsToRelative(restDurationMs);
+
+                    let restLabel = 'Recupero';
+                    if (restDist > 0) {
+                        restLabel += ` (${restDist}m)`;
+                    }
+
+                    const recTr = document.createElement('tr');
+                    recTr.classList.add('bg-gray-50', 'dark:bg-gray-800/50');
+                    recTr.innerHTML = `
+                        <td class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider pl-6">
+                            ${restLabel}
+                        </td>
+                        <td class="px-4 py-3 text-right text-gray-500 dark:text-gray-400">${recStartStr}</td>
+                        <td class="px-4 py-3 text-right text-gray-500 dark:text-gray-400">${recEndStr}</td>
+                        <td class="px-4 py-3 text-right hidden sm:table-cell text-gray-400 dark:text-gray-500 text-xs">${recDurationStr}</td>
+                    `;
+                    intervalsTableBody.appendChild(recTr);
+
+                    currentCumulativeMs = restEndMs;
+                    totalDistance += restDist;
+                }
+            } // fine ciclo prove
+
+            // --- Macro-Recupero (tra le serie) ---
+            if (s < sets && macroRestDurationMs > 0) {
+                const mRestStartMs = currentCumulativeMs;
+                const mRestEndMs = currentCumulativeMs + macroRestDurationMs;
+                
+                const mRecStartStr = baseDate ? formatMsToAbsolute(baseDate, mRestStartMs) : formatMsToRelative(mRestStartMs);
+                const mRecEndStr = baseDate ? formatMsToAbsolute(baseDate, mRestEndMs) : formatMsToRelative(mRestEndMs);
+                const mRecDurationStr = formatMsToRelative(macroRestDurationMs);
+
+                let mRestLabel = 'Recupero Serie';
+                if (macroRestDist > 0) {
+                    mRestLabel += ` (${macroRestDist}m)`;
                 }
 
-                const recTr = document.createElement('tr');
-                recTr.classList.add('bg-gray-50', 'dark:bg-gray-800/50');
-                recTr.innerHTML = `
-                    <td class="px-4 py-3 font-medium text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider pl-6">
-                        ${restLabel}
+                const mRecTr = document.createElement('tr');
+                mRecTr.classList.add('bg-primary-50', 'dark:bg-primary-900/10', 'border-t-2', 'border-b-2', 'border-primary-100', 'dark:border-primary-900');
+                mRecTr.innerHTML = `
+                    <td class="px-4 py-4 font-bold text-primary-700 dark:text-primary-300 text-xs uppercase tracking-wider pl-4">
+                        ${mRestLabel}
                     </td>
-                    <td class="px-4 py-3 text-right text-gray-500 dark:text-gray-400">${recStartStr}</td>
-                    <td class="px-4 py-3 text-right text-gray-500 dark:text-gray-400">${recEndStr}</td>
-                    <td class="px-4 py-3 text-right hidden sm:table-cell text-gray-400 dark:text-gray-500 text-xs">${recDurationStr}</td>
+                    <td class="px-4 py-4 text-right text-primary-700 dark:text-primary-300 font-semibold">${mRecStartStr}</td>
+                    <td class="px-4 py-4 text-right text-primary-700 dark:text-primary-300 font-semibold">${mRecEndStr}</td>
+                    <td class="px-4 py-4 text-right hidden sm:table-cell text-primary-600 dark:text-primary-400 font-medium text-xs">${mRecDurationStr}</td>
                 `;
-                intervalsTableBody.appendChild(recTr);
+                intervalsTableBody.appendChild(mRecTr);
 
-                currentCumulativeMs = restEndMs;
-                totalDistance += restDist;
+                currentCumulativeMs = mRestEndMs;
+                totalDistance += macroRestDist;
             }
-        }
+        } // fine ciclo serie
 
         // Popola Summary
         resTotalTime.textContent = formatMsToRelative(currentCumulativeMs);
@@ -208,9 +263,12 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
         if (intervalsTableBody.children.length === 0) return;
         
+        const sets = parseInt(setsInput.value) || 1;
         const reps = repsInput.value;
         const repDist = repDistInput.value;
-        let text = `Allenamento: ${reps}x${repDist}m\n`;
+        
+        const titleStr = sets > 1 ? `${sets}x${reps}x${repDist}m` : `${reps}x${repDist}m`;
+        let text = `Allenamento: ${titleStr}\n`;
         text += `Durata: ${resTotalTime.textContent} | Volume: ${resTotalVolume.textContent}\n\n`;
         text += `Fase\tInizio\tFine\n`;
         
@@ -245,9 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
         shareBtn.addEventListener('click', async () => {
             if (intervalsTableBody.children.length === 0) return;
             
+            const sets = parseInt(setsInput.value) || 1;
             const reps = repsInput.value;
             const repDist = repDistInput.value;
-            let text = `🔥 Allenamento: ${reps}x${repDist}m\n`;
+            
+            const titleStr = sets > 1 ? `${sets}x${reps}x${repDist}m` : `${reps}x${repDist}m`;
+            let text = `🔥 Allenamento: ${titleStr}\n`;
             text += `⏱️ Durata Totale: ${resTotalTime.textContent}\n`;
             text += `📏 Volume Totale: ${resTotalVolume.textContent}\n`;
             text += `👟 Passo Medio: ${resTotalPace.textContent}\n\n`;
