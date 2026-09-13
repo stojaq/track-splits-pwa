@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMsg = document.getElementById('errorMsg');
     const resultsSection = document.getElementById('resultsSection');
     const copyBtn = document.getElementById('copyBtn');
+    const shareBtn = document.getElementById('shareBtn');
 
     // Results DOM
     const summaryDistance = document.getElementById('summaryDistance');
@@ -493,6 +494,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Failed to copy text: ', err);
                 alert('Impossibile copiare il testo.');
             });
+        });
+    }
+
+    // === Share functionality ===
+    if (shareBtn && navigator.share) {
+        shareBtn.classList.remove('hidden');
+        shareBtn.addEventListener('click', async () => {
+            if (splitsTableBody.children.length === 0) return;
+            
+            let text = `🎯 Intertempi per ${distanceInput.value}m\n`;
+            text += `⏱️ Tempo: ${resTotalTime.textContent} | 👟 Passo: ${resPace.textContent}\n\n`;
+            
+            Array.from(splitsTableBody.children).forEach(tr => {
+                const cells = tr.querySelectorAll('td');
+                text += `• ${cells[0].textContent}: ${cells[2].textContent}\n`;
+            });
+            
+            text += `\nGenerato con Track Splits 🏃‍♂️`;
+
+            try {
+                await navigator.share({
+                    title: `Intertempi ${distanceInput.value}m`,
+                    text: text
+                });
+            } catch (err) {
+                console.log('Condivisione annullata o fallita:', err);
+            }
         });
     }
 
