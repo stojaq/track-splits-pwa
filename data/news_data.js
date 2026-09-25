@@ -137,7 +137,7 @@ const ARTICOLI_NEWS = [
     {
         id: "corsa-podistica-sagra-tituccio",
         titolo: "🏃 Corsa Podistica Sagra del Tituccio – Memorial Rocco Crincoli",
-        data: "5 Settembre 2026",
+        data: "1 Settembre 2026",
         categoria: "Evento",
         riassunto: "Sabato 5 settembre torna la corsa podistica non competitiva e la camminata tra i sentieri e le colline di Corpolò in occasione della Sagra del Tituccio.",
         contenuto: `
@@ -155,39 +155,8 @@ const ARTICOLI_NEWS = [
     <h3>Servizi e Terzo Tempo</h3>
     <p>Lungo il tracciato e all'arrivo saranno presenti punti di ristoro. A fine corsa vi aspettano il classico <b>Pasta Party</b>, le premiazioni delle società/gruppi più numerosi e stand gastronomici con musica dal vivo per tutta la serata!</p>
     `
-    }, {
-        id: "la-barroccia-sant-angelo-gatteo",
-        titolo: "🏃 La Barroccia – Corsa Podistica a Sant'Angelo di Gatteo",
-        data: "4 Settembre 2026",
-        categoria: "Gara Podistica",
-        riassunto: "Giovedì 17 settembre torna La Barroccia a Sant'Angelo di Gatteo: 5 km tra gara competitiva FIDAL e camminata ludico-motoria per aprire il Barrocci Festival.",
-        contenuto: `
-    <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
-    <img src="../assets/baroccia_2026/la-barroccia-gatteo.jpg" alt="Locandina La Barroccia Sant'Angelo di Gatteo" class="w-full rounded-xl mb-6 shadow-md">
-    
-    <h3>Dettagli dell'Evento</h3>
-    <p>In occasione dell'apertura del <b>Barrocci Festival</b>, l'ASD Polisportiva Sidermec Vitali organizza la 4ª edizione de <b>La Barroccia</b>, corsa serale su strada nel cuore di Sant'Angelo di Gatteo.</p>
-    <ul>
-        <li><b>Luogo di ritrovo:</b> Piazzale Dossetti / Campo Sportivo (Via Dossetti, 1), Sant'Angelo di Gatteo (FC).</li>
-        <li><b>Data:</b> Giovedì 17 Settembre 2026.</li>
-        <li><b>Ritrovo:</b> Dalle ore 19:00.</li>
-        <li><b>Partenza:</b> Ore 20:00.</li>
-        <li><b>Percorso:</b> Circuito pianeggiante su asfalto di circa 5 km.</li>
-        <li><b>Tipologia:</b> Gara podistica competitiva (valevole calendario FIDAL) e camminata/corsa non competitiva aperta a tutti.</li>
-    </ul>
-
-    <h3>Iscrizioni</h3>
-    <p>Le iscrizioni online sono aperte ufficialmente. Puoi registrarti direttamente al seguente link:</p>
-    <p>
-        <a href="https://www.endu.net/it/events/barroccia/book" target="_blank" rel="noopener noreferrer" class="inline-block bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-2 px-4 rounded-lg border border-gray-300 shadow-sm transition">
-            Iscriviti ora su ENDU
-        </a>
-    </p>
-
-    <h3>Festa e Terzo Tempo</h3>
-    <p>A fine corsa la serata prosegue all'interno del Barrocci Festival con l'apertura degli <b>stand gastronomici</b> con specialità romagnole e birra, accompagnati dal concerto dal vivo della <i>Revolution Live Band</i> a partire dalle ore 21:30.</p>
-    `
-    }, {
+    },
+    {
         id: "cds-assoluto-parma-2026-mezzofondo-self",
         titolo: "🏃‍♂️ Report CDS Assoluti Parma: Doppio PB per De Jesus, PB di Fontana nei 1500m",
         data: "18 Maggio 2026",
