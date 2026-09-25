@@ -11,7 +11,6 @@ const ARTICOLI_NEWS = [
         categoria: "Risultati",
         riassunto: "Debutto da incorniciare nei 5000m per Giulia Gazzoni alla Finale A Argento dei C.D.S. U23 ad Agropoli: 8° posto, PB e record di società Promesse, oltre al trionfo di squadra per la Self Atletica.",
         contenuto: `
-        <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
         <img src="../assets/cds_under_23.jpeg" alt="C.D.S. Under 23 Agropoli" class="w-full rounded-xl mb-6 shadow-md">
 
         <h3>Finale "A" Argento dei Campionati di Società Under 23</h3>
@@ -23,6 +22,15 @@ const ARTICOLI_NEWS = [
         <h4>Trionfo della Squadra Femminile</h4>
         <p>Il suo risultato ha dato un contributo fondamentale al punteggio complessivo della squadra femminile del <b>G.S. Self Atletica Montanari Gruzza</b>, che si è aggiudicata il titolo di categoria con ben <b>129 punti</b>.</p>
         <p>Complimenti a Giulia e a tutte le atlete per questo fantastico successo!</p>
+
+        <!-- CARD GALLERIA FOTO -->
+        <div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 16px 20px; border-radius: 8px; margin: 24px 0;">
+            <p style="margin: 0; font-weight: 700; color: #0f172a; font-size: 1.05rem;">📸 Galleria Fotografica</p>
+            <p style="margin: 6px 0 12px 0; font-size: 0.95rem; color: #475569;">Guarda gli scatti più belli della gara e le foto del Day 2 ad Agropoli.</p>
+            <a href="https://www.atletica-agropoli.com/cds-u23-finale-a-argento-foto-day-2-parte-4/" target="_blank" rel="noopener noreferrer" style="color: #0284c7; font-weight: 600; text-decoration: none;">
+                Sfoglia l'album completo →
+            </a>
+        </div>
 
         <h3>Risultati Ufficiali</h3>
         <p>Tutti i risultati completi della manifestazione sono consultabili sul portale FIDAL:</p>
