@@ -11,7 +11,7 @@ const ARTICOLI_NEWS = [
         categoria: "Risultati",
         riassunto: "Serata di grande podismo alla 4ª Baroccia: Kevin De Jesus trionfa in categoria sfiorando il podio assoluto in 15'00\", Qorri e Lepri mettono a segno ottime prove e Alice Fontana conquista la top 10 femminile.",
         contenuto: `
-        <img src="../assets/baroccia_2026.jpeg" alt="Baroccia 2026" class="w-full rounded-xl mb-6 shadow-md">
+        <img src="../assets/baroccia_2026/baroccia_2026.jpeg" alt="Baroccia 2026" class="w-full rounded-xl mb-6 shadow-md">
 
         <h3>Un'edizione veloce e ad alto tasso agonistico</h3>
         <p>Clima ideale, ritmo serrato e oltre <b>400 podisti ai nastri di partenza</b>: la 4ª edizione della <b>Baroccia</b> (5 km su strada) ha regalato una serata di grande atletica. Un tracciato veloce che ha spinto tutti a cercare il proprio primato personale, mettendo in luce l'ottimo stato di forma dei nostri atleti.</p>
@@ -61,7 +61,7 @@ const ARTICOLI_NEWS = [
         categoria: "Risultati",
         riassunto: "Debutto da incorniciare nei 5000m per Giulia Gazzoni alla Finale A Argento dei C.D.S. U23 ad Agropoli: 8° posto, PB e record di società Promesse, oltre al trionfo di squadra per la Self Atletica.",
         contenuto: `
-        <img src="../assets/cds_under_23.jpeg" alt="C.D.S. Under 23 Agropoli" class="w-full rounded-xl mb-6 shadow-md">
+        <img src="../assets/cds/cds_under_23.jpeg" alt="C.D.S. Under 23 Agropoli" class="w-full rounded-xl mb-6 shadow-md">
 
         <h3>Finale "A" Argento dei Campionati di Società Under 23</h3>
         <p>Nel fine settimana del 12 e 13 settembre 2026, la pista di Agropoli ha ospitato la <b>Finale "A" Argento dei Campionati di Società Under 23</b>. Tra le protagoniste si è distinta <b>Giulia Gazzoni</b>, al suo debutto assoluto sulla distanza dei 5000 metri su pista.</p>
@@ -99,7 +99,7 @@ const ARTICOLI_NEWS = [
         riassunto: "Ottimi risultati per il nostro gruppo mezzofondo alla Podistica della Sagra del Tituccio: 2° posto per Giulia Gazzoni e 4° posto per Cristian Qorri.",
         contenuto: `
         <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
-        <img src="../assets/sagra-tituccio.jpg" alt="Podistica della Sagra del Tituccio" class="w-full rounded-xl mb-6 shadow-md">
+        <img src="../assets/sagra_tituccio/sagra-tituccio.jpg" alt="Podistica della Sagra del Tituccio" class="w-full rounded-xl mb-6 shadow-md">
 
         <h3>Resoconto della Gara</h3>
         <p>Sabato 5 settembre si è svolta a Corpolò la <b>Podistica della Sagra del Tituccio</b>, gara di 7,1 km ideale per verificare la preparazione di fine estate. Nonostante il caldo torrido con circa 35 °C, il gruppo mezzofondo ha ottenuto riscontri di alto livello.</p>
@@ -122,7 +122,7 @@ const ARTICOLI_NEWS = [
         riassunto: "Martedì 1 settembre vi aspettiamo al Beky Bay per l'evento Sun and Smile. Clicca per i dettagli e il ritrovo.",
         contenuto: `
         <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
-        <img src="../assets/run-smile.jpg" alt="Locandina Run and Smile" class="w-full rounded-xl mb-6 shadow-md">
+        <img src="../assets/run_smile/run-smile.jpg" alt="Locandina Run and Smile" class="w-full rounded-xl mb-6 shadow-md">
         
         <h3>Dettagli dell'Evento</h3>
         <p>Ciao a tutti! Martedì 1 settembre vi aspettiamo al Beky Bay per l'evento Sun and Smile.</p>
@@ -163,7 +163,7 @@ const ARTICOLI_NEWS = [
         riassunto: "Giovedì 17 settembre torna La Barroccia a Sant'Angelo di Gatteo: 5 km tra gara competitiva FIDAL e camminata ludico-motoria per aprire il Barrocci Festival.",
         contenuto: `
     <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
-    <img src="../assets/la-barroccia-gatteo.jpg" alt="Locandina La Barroccia Sant'Angelo di Gatteo" class="w-full rounded-xl mb-6 shadow-md">
+    <img src="../assets/baroccia_2026/la-barroccia-gatteo.jpg" alt="Locandina La Barroccia Sant'Angelo di Gatteo" class="w-full rounded-xl mb-6 shadow-md">
     
     <h3>Dettagli dell'Evento</h3>
     <p>In occasione dell'apertura del <b>Barrocci Festival</b>, l'ASD Polisportiva Sidermec Vitali organizza la 4ª edizione de <b>La Barroccia</b>, corsa serale su strada nel cuore di Sant'Angelo di Gatteo.</p>
@@ -195,7 +195,7 @@ const ARTICOLI_NEWS = [
         riassunto: "Analisi dettagliata del weekend di gare a Parma per i Campionati di Società su pista: riflettori puntati sulle prestazioni del mezzofondo della Self Montanari Gruzza con Kevin De Jesus, Alice Fontana, Giulia Gazzoni, Cristian Qorri e Federico Nicosia.",
         contenuto: `
     <!-- ECCO IL CODICE PER L'IMMAGINE 👇 -->
-    <img src="../assets/cds-parma-2026.jpg" alt="Campionati di Società su Pista Parma 2026 - G.S. Self Atl. Montanari Gruzza" class="w-full rounded-xl mb-6 shadow-md">
+    <img src="../assets/cds/cds-parma-2026.jpg" alt="Campionati di Società su Pista Parma 2026 - G.S. Self Atl. Montanari Gruzza" class="w-full rounded-xl mb-6 shadow-md">
     
     <h3>Resoconto Gare: Campionato di Società Assoluto su Pista (Fase Regionale)</h3>
     <p>In occasione della fase regionale dei <b>Campionati di Società Assoluti su Pista 2026</b>, svoltasi a Parma nel fine settimana del 16-17 maggio (World Athletics Global Calendar), gli atleti del <b>G.S. Self Atl. Montanari Gruzza</b> si sono distinti in gare ad altissima densità tecnica e agonistica. Di seguito l'approfondimento completo sulle prove individuali e i riscontri cronometrici dei mezzofondisti monitorati.</p>

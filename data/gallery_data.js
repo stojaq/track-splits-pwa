@@ -25,73 +25,73 @@ const ALBUM_LINKS = {
 
 const FOTO_GALLERY = [
     {
-        src: "../assets/run-smile.jpg",
+        src: "../assets/run_smile/run-smile.jpg",
         album: "Run and Smile - Beky Bay",
         didascalia: "La locandina ufficiale dell'evento!"
     },
     {
-        src: "../assets/trofeo_liberazione.jpeg",
+        src: "../assets/trofeo_liberazione/trofeo_liberazione.jpeg",
         album: "Trofeo Liberazione",
         didascalia: "Kevin all'arrivo!"
     },
     {
-        src: "../assets/trofeo_liberazione (2).jpeg",
+        src: "../assets/trofeo_liberazione/trofeo_liberazione (2).jpeg",
         album: "Trofeo Liberazione",
     },
     {
-        src: "../assets/trofeo_liberazione (3).jpeg",
+        src: "../assets/trofeo_liberazione/trofeo_liberazione (3).jpeg",
         album: "Trofeo Liberazione",
     },
     {
-        src: "../assets/sagra-tituccio.jpg",
+        src: "../assets/sagra_tituccio/sagra-tituccio.jpg",
         album: "Sagra del Tituccio",
     },
     {
-        src: "../assets/sagra-tituccio (2).jpeg",
+        src: "../assets/sagra_tituccio/sagra-tituccio (2).jpeg",
         album: "Sagra del Tituccio",
     },
     {
-        src: "../assets/sagra-tituccio (3).jpeg",
+        src: "../assets/sagra_tituccio/sagra-tituccio (3).jpeg",
         album: "Sagra del Tituccio",
     },
     {
-        src: "../assets/sagra-tituccio.jpeg",
+        src: "../assets/sagra_tituccio/sagra-tituccio.jpeg",
         album: "Sagra del Tituccio",
     },
     {
-        src: "../assets/baroccia_2026 (2).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (2).jpeg",
         album: "Baroccia 2026",
     },
     {
-        src: "../assets/baroccia_2026 (3).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (3).jpeg",
         album: "Baroccia 2026",
     },
     {
-        src: "../assets/baroccia_2026 (4).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (4).jpeg",
         album: "Baroccia 2026",
     },
     {
-        src: "../assets/baroccia_2026 (5).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (5).jpeg",
         album: "Baroccia 2026",
     },
     {
-        src: "../assets/baroccia_2026 (6).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (6).jpeg",
         album: "Baroccia 2026",
     },
     {
-        src: "../assets/baroccia_2026 (7).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (7).jpeg",
         album: "Baroccia 2026",
     },
     {
-        src: "../assets/baroccia_2026 (8).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (8).jpeg",
         album: "Baroccia 2026",
     },
     {
-        src: "../assets/baroccia_2026 (9).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (9).jpeg",
         album: "Baroccia 2026",
     },
     {
-        src: "../assets/baroccia_2026 (10).jpeg",
+        src: "../assets/baroccia_2026/baroccia_2026 (10).jpeg",
         album: "Baroccia 2026",
     },
 ];
