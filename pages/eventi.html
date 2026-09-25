@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Prossimi Eventi - Track Splits</title>
+    <script>window.APP_BASE_PATH = '..';</script>
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icon-192.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 min-h-screen flex flex-col">
+
+    <!-- L'header viene iniettato da app.js -->
+
+    <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
+        
+        <!-- Intestazione Pagina -->
+        <div class="flex items-center gap-4 mb-2">
+            <div class="w-14 h-14 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center shadow-sm shrink-0 border border-red-100 dark:border-red-900/30">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+                <h2 class="text-2xl font-display font-bold text-gray-900 dark:text-white">Prossimi Eventi</h2>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Non perderti i meeting più importanti della stagione, segui l'atletica che conta.</p>
+            </div>
+        </div>
+
+        <!-- Container per le Cards generate dinamicamente -->
+        <div id="eventsContainer" class="flex flex-col gap-4">
+            <!-- Loading state -->
+            <div class="animate-pulse flex flex-col gap-4">
+                <div class="h-32 bg-gray-200 dark:bg-gray-800 rounded-2xl w-full"></div>
+                <div class="h-32 bg-gray-200 dark:bg-gray-800 rounded-2xl w-full"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- App Logic -->
+    <script src="../js/app.js"></script>
+    <!-- Data & Events Logic -->
+    <script src="../data/events_data.js"></script>
+    <script src="../js/events.js"></script>
+</body>
+</html>
