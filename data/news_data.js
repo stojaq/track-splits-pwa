@@ -5,6 +5,56 @@
 
 const ARTICOLI_NEWS = [
     {
+        id: "baroccia-2026-risultati-5km",
+        titolo: "⚡ Spettacolo alla 4ª Baroccia: De Jesus da record, Qorri e Lepri di carattere, super Alice Fontana nei top 10",
+        data: "17 Settembre 2026",
+        categoria: "Risultati",
+        riassunto: "Serata di grande podismo alla 4ª Baroccia: Kevin De Jesus trionfa in categoria sfiorando il podio assoluto in 15'00\", Qorri e Lepri mettono a segno ottime prove e Alice Fontana conquista la top 10 femminile.",
+        contenuto: `
+        <img src="../assets/baroccia_2026.jpeg" alt="Baroccia 2026" class="w-full rounded-xl mb-6 shadow-md">
+
+        <h3>Un'edizione veloce e ad alto tasso agonistico</h3>
+        <p>Clima ideale, ritmo serrato e oltre <b>400 podisti ai nastri di partenza</b>: la 4ª edizione della <b>Baroccia</b> (5 km su strada) ha regalato una serata di grande atletica. Un tracciato veloce che ha spinto tutti a cercare il proprio primato personale, mettendo in luce l'ottimo stato di forma dei nostri atleti.</p>
+
+        <h3>Uomini: Kevin vince la categoria, prove di forza per Cristian e Lorenzo</h3>
+        <p>A guidare la spedizione è stato uno straordinario <b>Kevin De Jesus</b>, autore di una gara condotta a ritmi altissimi e chiusa con il tempo cronometrico di <b>15’00”</b>. Per Kevin arriva la <b>vittoria nella sua categoria</b> e un <b>4° posto assoluto</b> che lascia un pizzico di amaro in bocca solo per il podio sfuggito negli ultimi metri. La consapevolezza, tuttavia, è quella dei grandi: il lavoro svolto finora sta pagando e i prossimi mesi riserveranno grandissime soddisfazioni.</p>
+
+        <p>Gara di pura determinazione per <b>Cristian Qorri</b>, che lascia alle spalle due settimane di allenamenti a singhiozzo dovuti a problemi al polpaccio e centra la <b>9ª posizione nella categoria AM</b> in <b>17’15”</b>. La sua è stata una gestione tattica impeccabile: ritmo di crociera costante per 4 km a 3’28” e cambio di passo finale con un ultimo chilometro a 3’17”.</p>
+
+        <p>A completare il quadro maschile ci pensa <b>Lorenzo Lepri</b>, che interpreta la gara con intelligenza e sostanza, fermando il cronometro a <b>18’00”</b> (14° di categoria). Una prova solida e conservativa (aiutata dalle fidate <i>Novablast 5</i>) per preservare la catena muscolare e tendinea da inutili sovraccarichi.</p>
+
+        <h3>Donne: Alice Fontana brillante nella Top 10</h3>
+        <p>Unica portacolori della squadra al femminile, <b>Alice Fontana</b> si conferma in crescita costante. Condotta di corsa chirurgica tenuta su un ritmo medio di <b>4’09”/km</b>, grande regolarità e un’ottima progressione finale le hanno permesso di conquistare il <b>5° posto di categoria</b> e la <b>10ª posizione assoluta tra le donne</b>.</p>
+
+        <!-- RISULTATI UFFICIALI -->
+        <h3>Risultati Ufficiali</h3>
+        <p>Tutte le classifiche complete e i tempi della manifestazione sono consultabili sul portale ENDU:</p>
+        <p class="mt-4 mb-6">
+            <a href="https://www.endu.net/it/events/barroccia/results?eventId=101896&raceId=62478&categoryId=0&optionId=641403" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-weight: 600; padding: 10px 20px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                Classifiche Ufficiali ENDU 📊
+            </a>
+        </p>
+
+        <!-- GALLERIA FOTO -->
+        <div style="background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 16px 20px; border-radius: 8px; margin: 24px 0;">
+            <p style="margin: 0 0 6px 0; font-weight: 700; color: #0f172a; font-size: 1.05rem;">📸 Galleria Fotografica dell'evento</p>
+            <p style="margin: 0 0 12px 0; font-size: 0.95rem; color: #475569;">Tutti gli scatti della Baroccia sono consultabili su Facebook ai seguenti link:</p>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 8px;">
+                    <a href="https://www.facebook.com/share/p/18wkpnouVP/" target="_blank" rel="noopener noreferrer" style="color: #0284c7; font-weight: 600; text-decoration: none;">
+                        📘 Album Fotografico - Parte 1 →
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.facebook.com/share/p/14p9W63iK6j/" target="_blank" rel="noopener noreferrer" style="color: #0284c7; font-weight: 600; text-decoration: none;">
+                        📘 Album Fotografico - Parte 2 →
+                    </a>
+                </li>
+            </ul>
+        </div>
+        `
+    },
+    {
         id: "cds-under23-agropoli-giulia-gazzoni",
         titolo: "🏃 Grande prova di Giulia Gazzoni ai C.D.S. Under 23: esordio nei 5000m e trionfo per la Self Atletica",
         data: "13 Settembre 2026",

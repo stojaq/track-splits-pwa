@@ -17,6 +17,10 @@ const ALBUM_LINKS = {
         testo: "Guarda l'album completo su Facebook",
         url: "https://www.facebook.com/share/p/14rr3BQ6XUa/"
     },
+    "Baroccia 2026": {
+        testo: "Guarda l'album completo su Facebook",
+        url: "https://www.facebook.com/share/p/14p9W63iK6j/"
+    },
 };
 
 const FOTO_GALLERY = [
@@ -53,5 +57,41 @@ const FOTO_GALLERY = [
     {
         src: "../assets/sagra-tituccio.jpeg",
         album: "Sagra del Tituccio",
+    },
+    {
+        src: "../assets/baroccia_2026 (2).jpeg",
+        album: "Baroccia 2026",
+    },
+    {
+        src: "../assets/baroccia_2026 (3).jpeg",
+        album: "Baroccia 2026",
+    },
+    {
+        src: "../assets/baroccia_2026 (4).jpeg",
+        album: "Baroccia 2026",
+    },
+    {
+        src: "../assets/baroccia_2026 (5).jpeg",
+        album: "Baroccia 2026",
+    },
+    {
+        src: "../assets/baroccia_2026 (6).jpeg",
+        album: "Baroccia 2026",
+    },
+    {
+        src: "../assets/baroccia_2026 (7).jpeg",
+        album: "Baroccia 2026",
+    },
+    {
+        src: "../assets/baroccia_2026 (8).jpeg",
+        album: "Baroccia 2026",
+    },
+    {
+        src: "../assets/baroccia_2026 (9).jpeg",
+        album: "Baroccia 2026",
+    },
+    {
+        src: "../assets/baroccia_2026 (10).jpeg",
+        album: "Baroccia 2026",
     },
 ];
