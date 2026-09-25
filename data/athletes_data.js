@@ -113,6 +113,7 @@ window.athletesData = [
         { dateStr: "01/10/2023", dateObj: new Date("2023-10-01"), type: "Pista", performance: "17:29.29", city: "Mariano Comense", category: "JM" }
       ],
       "5 KM": [
+        { dateStr: "17/09/2026", dateObj: new Date("2026-09-17"), type: "Strada", performance: "17:15", city: "Sant'angelo Di Gatteo", category: "PM" },
         { dateStr: "21/09/2023", dateObj: new Date("2023-09-21"), type: "Strada", performance: "16:50", city: "Sant'angelo Di Gatteo", category: "JM" }
       ],
       "10 KM": [
@@ -194,7 +195,7 @@ window.athletesData = [
       { event: "2000 metri", type: "Pista", performance: "6:47.6", year: "2016", city: "Cervia" },
       { event: "3000 metri", type: "Pista", performance: "8:58.06", year: "2024", city: "Imola" },
       { event: "5000 metri", type: "Pista", performance: "14:56.21", year: "2026", city: "Parma" },
-      { event: "5 km", type: "Strada", performance: "15:36", year: "2025", city: "Sant'angelo Di Gatteo" },
+      { event: "5 km", type: "Strada", performance: "15:00", year: "2026", city: "Sant'angelo Di Gatteo" },
       { event: "10 km", type: "Strada", performance: "31:46", year: "2025", city: "Cesenatico" },
       { event: "Mezza Maratona", type: "Strada", performance: "1h11:31", year: "2025", city: "Cremona" },
       { event: "1200 siepi", type: "Pista", performance: "3:41.03", year: "2016", city: "Reggio Emilia" },
@@ -260,6 +261,7 @@ window.athletesData = [
         { dateStr: "22/04/2017", dateObj: new Date("2017-04-22"), type: "Pista", performance: "17:24.02", city: "Serravalle", category: "AM" }
       ],
       "5 KM": [
+        { dateStr: "17/09/2026", dateObj: new Date("2026-09-17"), type: "Strada", performance: "15:00", city: "Sant'angelo Di Gatteo", category: "SM" },
         { dateStr: "18/09/2025", dateObj: new Date("2025-09-18"), type: "Strada", performance: "15:36", city: "Sant'angelo Di Gatteo", category: "SM" },
         { dateStr: "21/09/2023", dateObj: new Date("2023-09-21"), type: "Strada", performance: "16:33", city: "Sant'angelo Di Gatteo", category: "PM" }
       ],
@@ -629,7 +631,7 @@ window.athletesData = [
       { event: "3000 metri", type: "Indoor", performance: "9:33.13", year: "2024", city: "Ancona" },
       { event: "5000 metri", type: "Pista", performance: "16:56.31", year: "2024", city: "Prato" },
       { event: "10 km", type: "Strada", performance: "35:34", year: "2024", city: "Santarcangelo Di Romagna" },
-      { event: "5 km", type: "Strada", performance: "18:02", year: "2023", city: "Sant'angelo Di Gatteo" },
+      { event: "5 km", type: "Strada", performance: "18:00", year: "2026", city: "Sant'angelo Di Gatteo" },
       { event: "1200 siepi H 76 S.R.", type: "Pista", performance: "3:59.26", year: "2019", city: "Serravalle" },
       { event: "3000 siepi H91", type: "Pista", performance: "10:52.77", year: "2023", city: "Imola" },
       { event: "60 Hs H 60", type: "Pista", performance: "11.0", year: "2017", city: "Cattolica" },
@@ -729,6 +731,7 @@ window.athletesData = [
         { dateStr: "26/02/2023", dateObj: new Date("2023-02-26"), type: "Strada", performance: "39:01", city: "Misano Adriatico", category: "JM" }
       ],
       "5 KM": [
+        { dateStr: "17/09/2026", dateObj: new Date("2026-09-17"), type: "Strada", performance: "18:00", city: "Sant'angelo Di Gatteo", category: "PM" },
         { dateStr: "21/09/2023", dateObj: new Date("2023-09-21"), type: "Strada", performance: "18:02", city: "Sant'angelo Di Gatteo", category: "JM" }
       ],
       "1200 SIEPI H 76 S.R.": [
@@ -899,7 +902,8 @@ window.athletesData = [
       { event: "800 metri", type: "Pista", performance: "2:19.47", year: "2024", city: "Imola" },
       { event: "1000 metri", type: "Pista", performance: "3:19.28", year: "2026", city: "San Marino" },
       { event: "1500 metri", type: "Pista", performance: "5:02.79", year: "2024", city: "Isernia" },
-      { event: "1 Miglio", type: "Pista", performance: "5:25.74", year: "2024", city: "Correggio" }
+      { event: "1 Miglio", type: "Pista", performance: "5:25.74", year: "2024", city: "Correggio" },
+      { event: "5000 metri", type: "Pista", performance: "20:55.50", year: "2026", city: "Agropoli" }
     ],
     races: {
       "500 METRI": [
@@ -933,6 +937,9 @@ window.athletesData = [
       ],
       "1 MIGLIO": [
         { dateStr: "07/09/2024", dateObj: new Date("2024-09-07"), type: "Pista", performance: "5:25.74", city: "Correggio", category: "JF" }
+      ],
+      "5000 METRI": [
+        { dateStr: "13/09/2026", dateObj: new Date("2026-09-13"), type: "Pista", performance: "20:55.50", city: "Agropoli", category: "PF" }
       ]
     }
   },
@@ -964,6 +971,7 @@ window.athletesData = [
       { event: "1000 metri", type: "Indoor", performance: "3:45.42", year: "2017", city: "Ancona" },
       { event: "1500 metri", type: "Pista", performance: "5:09.34", year: "2026", city: "Parma" },
       { event: "2000 metri", type: "Pista", performance: "8:02.9", year: "2016", city: "Cervia" },
+      { event: "5 km", type: "Strada", performance: "20:48", year: "2026", city: "Sant'angelo Di Gatteo" },
       { event: "10 km", type: "Strada", performance: "44:06", year: "2025", city: "Santarcangelo Di Romagna" },
       { event: "1200 siepi", type: "Pista", performance: "4:42.01", year: "2016", city: "Modena" },
       { event: "60 Hs", type: "Indoor", performance: "13.51", year: "2016", city: "Ancona" },
@@ -1022,6 +1030,9 @@ window.athletesData = [
       "2000 METRI": [
         { dateStr: "14/05/2016", dateObj: new Date("2016-05-14"), type: "Pista", performance: "8:02.9", city: "Cervia", category: "CF" },
         { dateStr: "11/06/2016", dateObj: new Date("2016-06-11"), type: "Pista", performance: "8:37.18", city: "Faenza", category: "CF" }
+      ],
+      "5 KM": [
+        { dateStr: "17/09/2026", dateObj: new Date("2026-09-17"), type: "Strada", performance: "20:48", city: "Sant'angelo Di Gatteo", category: "SF" }
       ],
       "10 KM": [
         { dateStr: "16/11/2025", dateObj: new Date("2025-11-16"), type: "Strada", performance: "44:06", city: "Santarcangelo Di Romagna", category: "SF" },
