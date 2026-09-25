@@ -68,16 +68,32 @@ document.addEventListener('DOMContentLoaded', () => {
             typeBadgeStr = `<span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300 uppercase tracking-wide border border-gray-200 dark:border-gray-700">${event.type}</span>`;
         }
 
+        // Theme logic
+        const t = (event.type || '').toLowerCase();
+        let themeClasses = {
+            bg: 'bg-primary-50 dark:bg-primary-900/20',
+            text: 'text-primary-600 dark:text-primary-400',
+            glow: 'bg-primary-500/10 group-hover:bg-primary-500/20'
+        };
+
+        if (t.includes('strada') || t.includes('podistica') || t.includes('maratona')) {
+            themeClasses = { bg: 'bg-blue-50 dark:bg-blue-900/20', text: 'text-blue-600 dark:text-blue-400', glow: 'bg-blue-500/10 group-hover:bg-blue-500/20' };
+        } else if (t.includes('cross') || t.includes('trail') || t.includes('montagna') || t.includes('campestre')) {
+            themeClasses = { bg: 'bg-emerald-50 dark:bg-emerald-900/20', text: 'text-emerald-600 dark:text-emerald-400', glow: 'bg-emerald-500/10 group-hover:bg-emerald-500/20' };
+        } else if (t.includes('pista') || t.includes('meeting') || t.includes('campionat') || t.includes('diamond')) {
+            themeClasses = { bg: 'bg-rose-50 dark:bg-rose-900/20', text: 'text-rose-600 dark:text-rose-400', glow: 'bg-rose-500/10 group-hover:bg-rose-500/20' };
+        }
+
         html += `
         <div class="relative overflow-hidden bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border card-transition hover:shadow-md flex flex-row items-stretch p-0 group">
             <!-- Date Section -->
-            <div class="bg-primary-50 dark:bg-primary-900/20 w-24 flex-shrink-0 flex flex-col items-center justify-center py-4 px-2 border-r border-gray-100 dark:border-dark-border relative overflow-hidden">
-                <span class="text-sm font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider z-10">${monthName}</span>
+            <div class="${themeClasses.bg} w-24 flex-shrink-0 flex flex-col items-center justify-center py-4 px-2 border-r border-gray-100 dark:border-dark-border relative overflow-hidden">
+                <span class="text-sm font-bold ${themeClasses.text} uppercase tracking-wider z-10">${monthName}</span>
                 <span class="text-4xl font-display font-bold text-gray-900 dark:text-white leading-none my-0.5 z-10">${day}</span>
                 ${!isThisYear ? `<span class="text-xs font-semibold text-gray-400 z-10">${year}</span>` : ''}
                 
                 <!-- Decorative element -->
-                <div class="absolute -bottom-4 -right-4 w-16 h-16 bg-primary-500/10 rounded-full blur-xl group-hover:bg-primary-500/20 transition-colors"></div>
+                <div class="absolute -bottom-4 -right-4 w-16 h-16 ${themeClasses.glow} rounded-full blur-xl transition-colors"></div>
             </div>
             
             <!-- Info Section -->

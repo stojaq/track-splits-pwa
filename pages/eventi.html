@@ -69,10 +69,28 @@
 
         <!-- Container per le Cards generate dinamicamente -->
         <div id="eventsContainer" class="flex flex-col gap-4">
-            <!-- Loading state -->
-            <div class="animate-pulse flex flex-col gap-4">
-                <div class="h-32 bg-gray-200 dark:bg-gray-800 rounded-2xl w-full"></div>
-                <div class="h-32 bg-gray-200 dark:bg-gray-800 rounded-2xl w-full"></div>
+            <!-- Skeleton Card 1 -->
+            <div class="animate-pulse flex flex-row items-stretch bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden h-[120px]">
+                <div class="w-24 bg-gray-100 dark:bg-gray-800 flex-shrink-0 border-r border-gray-100 dark:border-dark-border"></div>
+                <div class="p-4 py-5 flex-grow flex flex-col justify-center gap-3">
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                    <div class="flex gap-2 mt-auto">
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Skeleton Card 2 -->
+            <div class="animate-pulse flex flex-row items-stretch bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden h-[120px]">
+                <div class="w-24 bg-gray-100 dark:bg-gray-800 flex-shrink-0 border-r border-gray-100 dark:border-dark-border"></div>
+                <div class="p-4 py-5 flex-grow flex flex-col justify-center gap-3">
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/5"></div>
+                    <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded w-2/3"></div>
+                    <div class="flex gap-2 mt-auto">
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
