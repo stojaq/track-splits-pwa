@@ -5,6 +5,26 @@
 
 const ARTICOLI_NEWS = [
     {
+        id: "cds-allievi-ponzano-gemma-miselli",
+        titolo: "Ponzano Veneto: Gemma Miselli da record nei 1500m e super debutto nei 3000m",
+        data: "28 Settembre 2026",
+        categoria: "Risultati",
+        riassunto: "Weekend da incorniciare per Gemma Miselli alla Finale B dei CdS Allievi a Ponzano Veneto: polverizzato il personale nei 1500m con un miglioramento di oltre 10 secondi e brillante 9° posto al debutto nei 3000m.",
+        contenuto: `
+
+        <h3>Un test cruciale alla Finale B dei CdS Allievi/e</h3>
+        <p>A <b>Ponzano Veneto (TV)</b>, nella cornice della Finale B (Gruppo Nord-Est) del Campionato di Società su pista Allievi/e, sono andate in scena sfide decisive per <b>Gemma Miselli</b>. L'atleta della <b>G.S. Self Atletica Montanari Gruzza</b> è stata grande protagonista sulle distanze dei 1500 e 3000 metri.</p>
+
+        <h3>Sabato: prestazione maiuscola e record personale nei 1500m</h3>
+        <p>La due giorni di gare si è aperta nel migliore dei modi: sabato, nei 1500 metri, Gemma ha fermato il cronometro a <b>5:21.90</b>. Un tempo che le è valso un prezioso <b>11° posto</b> per la classifica societaria, ma soprattutto che ha polverizzato il suo precedente primato personale (5:32.67), con un incredibile miglioramento di quasi <b>11 secondi</b>.</p>
+
+        <h3>Domenica: un debutto di grande carattere nei 3000m</h3>
+        <p>Domenica è stata la volta dell'esordio assoluto sui 3000 metri. Gemma ha interpretato la gara con grande determinazione, tagliando il traguardo in <b>12:05.33</b> (540 punti) e conquistando un'ottima <b>9ª posizione su 16 atlete al via</b>.</p>
+
+        <p>Complimenti a Gemma per questo weekend da incorniciare! Continuando a lavorare con questa dedizione, il futuro non potrà che regalarle ulteriori soddisfazioni e continui miglioramenti in pista.</p>
+    `
+    },
+    {
         id: "baroccia-2026-risultati-5km",
         titolo: "⚡ Spettacolo alla 4ª Baroccia: De Jesus da record, Qorri e Lepri di carattere, super Alice Fontana nei top 10",
         data: "17 Settembre 2026",
