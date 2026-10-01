@@ -1263,8 +1263,9 @@ window.athletesData = [
     pbs: [
       { event: "1000 metri", type: "Pista", performance: "3:25.63", year: "2025", city: "Castelfranco Emilia" },
       { event: "1000 metri", type: "Indoor", performance: "3:30.76", year: "2025", city: "Parma" },
-      { event: "1500 metri", type: "Pista", performance: "5:32.67", year: "2026", city: "Parma" },
+      { event: "1500 metri", type: "Pista", performance: "5:21.90", year: "2026", city: "Ponzano Veneto" },
       { event: "2000 metri", type: "Pista", performance: "7:29.3", year: "2025", city: "Imola" },
+      { event: "3000 metri", type: "Pista", performance: "12:05.33", year: "2026", city: "Ponzano Veneto" },
       { event: "1200 siepi H 76 S.R.", type: "Pista", performance: "4:44.6", year: "2024", city: "Forli" },
       { event: "Salto in lungo / LJ", type: "Pista", performance: "3.80", year: "2025", city: "San Marino" }
     ],
@@ -1284,6 +1285,7 @@ window.athletesData = [
         { dateStr: "11/04/2026", dateObj: new Date("2026-04-11"), type: "Pista", performance: "3:39.64", city: "San Marino", category: "AF" }
       ],
       "1500 METRI": [
+        { dateStr: "26/09/2026", dateObj: new Date("2026-09-26"), type: "Pista", performance: "5:21.90", city: "Ponzano Veneto", category: "AF" },
         { dateStr: "16/05/2026", dateObj: new Date("2026-05-16"), type: "Pista", performance: "5:32.67", city: "Parma", category: "AF" },
         { dateStr: "23/05/2026", dateObj: new Date("2026-05-23"), type: "Pista", performance: "5:34.26", city: "Imola", category: "AF" }
       ],
@@ -1294,6 +1296,9 @@ window.athletesData = [
         { dateStr: "30/04/2025", dateObj: new Date("2025-04-30"), type: "Pista", performance: "7:54.9", city: "Santarcangelo Di Romagna", category: "CF" },
         { dateStr: "25/05/2025", dateObj: new Date("2025-05-25"), type: "Pista", performance: "8:00.76", city: "Castelfranco Emilia", category: "CF" },
         { dateStr: "20/04/2024", dateObj: new Date("2024-04-20"), type: "Pista", performance: "8:19.6", city: "Rimini", category: "CF" }
+      ],
+      "3000 METRI": [
+        { dateStr: "27/09/2026", dateObj: new Date("2026-09-27"), type: "Pista", performance: "12:05.33", city: "Ponzano Veneto", category: "AF" }
       ],
       "1200 SIEPI H 76 S.R.": [
         { dateStr: "28/04/2024", dateObj: new Date("2024-04-28"), type: "Pista", performance: "4:44.6", city: "Forli", category: "CF" },
