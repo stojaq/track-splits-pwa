@@ -5,6 +5,23 @@
 
 const ARTICOLI_NEWS = [
     {
+        id: "tre-monti-2026-risultati-15km",
+        titolo: "🏃‍♂️ Kevin De Jesus solido ai Tre Monti: 54'39\" da medio collinare e 12° posto assoluto",
+        data: "4 Ottobre 2026",
+        categoria: "Risultati",
+        riassunto: "Ottima prestazione per Kevin De Jesus al Giro dei Tre Monti: 12° posto assoluto e 6° di categoria in 54'39\" (3'34\"/km). Una prova corsa a ritmo di medio collinare prima del bis serale.",
+        contenuto: `
+        <img src="../assets/giro_dei_3_monti.jpg" alt="Giro dei Tre Monti 2026" class="w-full rounded-xl mb-6 shadow-md">
+
+        <h3>Un "Medio Collinare" di altissimo livello sulle colline imolesi</h3>
+        <p>Prestazione di grande solidità per <b>Kevin De Jesus</b> (G.S. Self Atletica Montanari Gruzza) al classico ed esigente <b>Giro dei Tre Monti</b> di Imola. L'atleta classe 2001 ha fermato il cronometro sul tempo finale di <b>54’39”</b>, conquistando un ottimo <b>12° posto assoluto</b> e la <b>6ª posizione nella Categoria A</b>.</p>
+
+        <p>Un risultato di rilievo che assume ancora più valore alla luce della gestione della gara: per Kevin non si trattava infatti di un obiettivo tirato al massimo delle energie, bensì di un <b>allenamento programmato a ritmo di medio collinare</b>. A conferma dell'importante carico di lavoro giornaliero, il programma prevede il ritorno in strada già questa sera per la <b>seconda corsa della giornata</b>.</p>
+        <h3>Test convincente verso i prossimi traguardi</h3>
+        <p>Sostenere un ritmo di 3’34”/km su oltre 15 km di continuo saliscendi senza attingere al massimo delle riserve anaerobiche è una chiara dimostrazione dell'ottimo stato di forma di Kevin. Qualche ora di recupero e stasera si torna a mettere chilometri nelle gambe con la seconda sessione di corsa.</p>
+    `
+    },
+    {
         id: "cds-allievi-ponzano-gemma-miselli",
         titolo: "Ponzano Veneto: Gemma Miselli da record nei 1500m e super debutto nei 3000m",
         data: "28 Settembre 2026",
