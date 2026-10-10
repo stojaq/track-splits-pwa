@@ -1250,7 +1250,7 @@ window.athletesData = [
     }
   },
   {
-    id: "gemma_miselli_005",
+    id: "gemma_miselli_009",
     name: "Gemma Miselli",
     dob: "20-08-2010",
     club: "G.S. SELF ATL. MONTANARI GRUZZA",
@@ -1308,5 +1308,160 @@ window.athletesData = [
         { dateStr: "05/04/2025", dateObj: new Date("2025-04-05"), type: "Pista", performance: "3.80", city: "San Marino", category: "CF" }
       ]
     }
+  },
+  {
+    id: "matteo_biondi_001",
+    name: "Matteo Biondi",
+    dob: "30-09-2010",
+  club: "ATL. RIMINI NORD SANTARCANGELO",
+  category: "Cadetti Maschile (CM)",
+  tesseramentoHistory: [
+    { year: "2025", type: "Rinnovo", category: "Cadetti Maschile", club: "ATL. RIMINI NORD SANTARCANGELO" },
+    { year: "2024", type: "Rinnovo", category: "Cadetti Maschile", club: "ATL. RIMINI NORD SANTARCANGELO" },
+    { year: "2023", type: "Rinnovo", category: "Ragazzi Maschile", club: "ATL. RIMINI NORD SANTARCANGELO" },
+    { year: "2022", type: "Nuovo", category: "Ragazzi Maschile", club: "ATL. RIMINI NORD SANTARCANGELO" }
+  ],
+  pbs: [
+    { event: "60 piani", type: "Pista", performance: "9.3", year: "2022", city: "Cattolica" },
+    { event: "300 metri", type: "Pista", performance: "42.39", year: "2025", city: "San Marino" },
+    { event: "600 metri", type: "Pista", performance: "1:54.0", year: "2023", city: "Cattolica" },
+    { event: "1000 metri", type: "Pista", performance: "3:01.29", year: "2025", city: "Casarsa Della Delizia" },
+    { event: "2000 metri", type: "Pista", performance: "6:44.5", year: "2025", city: "Santarcangelo Di Romagna" },
+    { event: "1200 siepi H 76 S.R.", type: "Pista", performance: "3:49.00", year: "2025", city: "Castelfranco Emilia" },
+    { event: "Marcia 2000m", type: "Pista", performance: "13:41.5", year: "2023", city: "Misano Adriatico" },
+    { event: "60 Hs H 60", type: "Pista", performance: "11.5", year: "2023", city: "Santarcangelo Di Romagna" },
+    { event: "100 Hs H 84-8.50", type: "Pista", performance: "16.88", year: "2025", city: "San Marino" },
+    { event: "Salto in alto", type: "Pista", performance: "1.56", year: "2025", city: "Castelnovo Ne' Monti" },
+    { event: "Salto in lungo", type: "Pista", performance: "5.11", year: "2025", city: "Castelnovo Ne' Monti" },
+    { event: "Peso Kg 2.000", type: "Pista", performance: "7.80", year: "2023", city: "Cattolica" },
+    { event: "Disco Kg 1,500", type: "Pista", performance: "23.74", year: "2025", city: "Faenza" },
+    { event: "Giavellotto Gr600", type: "Pista", performance: "23.80", year: "2025", city: "Castelnovo Ne' Monti" },
+    { event: "Vortex", type: "Pista", performance: "33.45", year: "2023", city: "Imola" },
+    { event: "TETRATHLON", type: "Pista", performance: "1509", year: "2023", city: "Cattolica" },
+    { event: "ESATHLON CM DISCO", type: "Pista", performance: "2735", year: "2025", city: "Castelnovo Ne' Monti" }
+  ],
+  races: {
+    "60 PIANI": [
+      { dateStr: "30/01/2022", dateObj: new Date("2022-01-30"), type: "Indoor", performance: "9.60", city: "Ancona", category: "RM" },
+      { dateStr: "03/04/2022", dateObj: new Date("2022-04-03"), type: "Pista", performance: "9.3", city: "Cattolica", category: "RM" },
+      { dateStr: "12/04/2022", dateObj: new Date("2022-04-12"), type: "Pista", performance: "9.4", city: "Misano Adriatico", category: "RM" },
+      { dateStr: "05/03/2023", dateObj: new Date("2023-03-05"), type: "Indoor", performance: "9.58", city: "Parma", category: "RM" },
+      { dateStr: "03/05/2023", dateObj: new Date("2023-05-03"), type: "Pista", performance: "9.3", city: "Santarcangelo Di Romagna", category: "RM" },
+      { dateStr: "23/05/2023", dateObj: new Date("2023-05-23"), type: "Pista", performance: "9.3", city: "Cattolica", category: "RM" },
+      { dateStr: "18/06/2023", dateObj: new Date("2023-06-18"), type: "Pista", performance: "9.62", city: "Ravenna", category: "RM" }
+    ],
+    "300 PIANI": [
+      { dateStr: "05/04/2025", dateObj: new Date("2025-04-05"), type: "Pista", performance: "42.39", city: "San Marino", category: "CM" },
+      { dateStr: "11/05/2025", dateObj: new Date("2025-05-11"), type: "Pista", performance: "42.4", city: "Faenza", category: "CM" }
+    ],
+    "600 METRI": [
+      { dateStr: "23/01/2022", dateObj: new Date("2022-01-23"), type: "Indoor", performance: "2:05.43", city: "Ancona", category: "RM" },
+      { dateStr: "12/04/2022", dateObj: new Date("2022-04-12"), type: "Pista", performance: "2:06.6", city: "Misano Adriatico", category: "RM" },
+      { dateStr: "23/05/2023", dateObj: new Date("2023-05-23"), type: "Pista", performance: "1:54.0", city: "Cattolica", category: "RM" },
+      { dateStr: "18/06/2023", dateObj: new Date("2023-06-18"), type: "Pista", performance: "1:58.20", city: "Ravenna", category: "RM" },
+      { dateStr: "08/10/2023", dateObj: new Date("2023-10-08"), type: "Pista", performance: "1:56.09", city: "Ravenna", category: "RM" },
+      { dateStr: "07/01/2024", dateObj: new Date("2024-01-07"), type: "Indoor", performance: "1:58.44", city: "Ancona", category: "CM" }
+    ],
+    "1000 METRI": [
+      { dateStr: "09/04/2022", dateObj: new Date("2022-04-09"), type: "Pista", performance: "3:46.60", city: "San Marino", category: "RM" },
+      { dateStr: "11/05/2022", dateObj: new Date("2022-05-11"), type: "Pista", performance: "3:44.4", city: "Santarcangelo Romagna", category: "RM" },
+      { dateStr: "06/06/2022", dateObj: new Date("2022-06-06"), type: "Pista", performance: "3:40.42", city: "Piacenza", category: "RM" },
+      { dateStr: "05/03/2023", dateObj: new Date("2023-03-05"), type: "Indoor", performance: "3:45.36", city: "Parma", category: "RM" },
+      { dateStr: "15/04/2023", dateObj: new Date("2023-04-15"), type: "Pista", performance: "3:45.03", city: "San Marino", category: "RM" },
+      { dateStr: "30/04/2023", dateObj: new Date("2023-04-30"), type: "Pista", performance: "3:31.4", city: "Cesena", category: "RM" },
+      { dateStr: "09/05/2023", dateObj: new Date("2023-05-09"), type: "Pista", performance: "3:24.5", city: "Imola", category: "RM" },
+      { dateStr: "24/02/2024", dateObj: new Date("2024-02-24"), type: "Indoor", performance: "3:24.05", city: "Parma", category: "CM" },
+      { dateStr: "07/04/2024", dateObj: new Date("2024-04-07"), type: "Pista", performance: "3:30.4", city: "Santarcangelo Di Romagna", category: "CM" },
+      { dateStr: "13/04/2024", dateObj: new Date("2024-04-13"), type: "Pista", performance: "3:22.60", city: "San Marino", category: "CM" },
+      { dateStr: "15/02/2025", dateObj: new Date("2025-02-15"), type: "Indoor", performance: "3:10.41", city: "Parma", category: "CM" },
+      { dateStr: "13/04/2025", dateObj: new Date("2025-04-13"), type: "Pista", performance: "3:11.0", city: "Misano Adriatico", category: "CM" },
+      { dateStr: "15/06/2025", dateObj: new Date("2025-06-15"), type: "Pista", performance: "3:09.36", city: "Castelnovo Ne' Monti", category: "CM" },
+      { dateStr: "05/07/2025", dateObj: new Date("2025-07-05"), type: "Pista", performance: "3:01.29", city: "Casarsa Della Delizia", category: "CM" }
+    ],
+    "2000 METRI": [
+      { dateStr: "20/04/2024", dateObj: new Date("2024-04-20"), type: "Pista", performance: "7:29.0", city: "Rimini", category: "CM" },
+      { dateStr: "30/04/2025", dateObj: new Date("2025-04-30"), type: "Pista", performance: "6:44.5", city: "Santarcangelo Di Romagna", category: "CM" }
+    ],
+    "1200 SIEPI H 76 S.R.": [
+      { dateStr: "28/04/2024", dateObj: new Date("2024-04-28"), type: "Pista", performance: "4:22.5", city: "Forlì", category: "CM" },
+      { dateStr: "08/05/2024", dateObj: new Date("2024-05-08"), type: "Pista", performance: "4:15.5", city: "Santarcangelo Di Romagna", category: "CM" },
+      { dateStr: "25/05/2024", dateObj: new Date("2024-05-25"), type: "Pista", performance: "4:25.83", city: "Modena", category: "CM" },
+      { dateStr: "23/04/2025", dateObj: new Date("2025-04-23"), type: "Pista", performance: "3:52.2", city: "Forlì", category: "CM" },
+      { dateStr: "09/05/2025", dateObj: new Date("2025-05-09"), type: "Pista", performance: "3:57.8", city: "Riccione", category: "CM" },
+      { dateStr: "24/05/2025", dateObj: new Date("2025-05-24"), type: "Pista", performance: "3:49.00", city: "Castelfranco Emilia", category: "CM" }
+    ],
+    "MARCIA 2000M": [
+      { dateStr: "19/05/2022", dateObj: new Date("2022-05-19"), type: "Pista", performance: "14:14.36", city: "San Marino", category: "RM" },
+      { dateStr: "12/02/2023", dateObj: new Date("2023-02-12"), type: "Pista", performance: "14:31.3", city: "Bologna", category: "RM" },
+      { dateStr: "19/04/2023", dateObj: new Date("2023-04-19"), type: "Pista", performance: "13:41.5", city: "Misano Adriatico", category: "RM" }
+    ],
+    "60 HS H 60": [
+      { dateStr: "23/01/2022", dateObj: new Date("2022-01-23"), type: "Indoor", performance: "13.10", city: "Ancona", category: "RM" },
+      { dateStr: "04/05/2022", dateObj: new Date("2022-05-04"), type: "Pista", performance: "12.4", city: "Santarcangelo Romagna", category: "RM" },
+      { dateStr: "02/04/2023", dateObj: new Date("2023-04-02"), type: "Pista", performance: "11.5", city: "Santarcangelo Di Romagna", category: "RM" }
+    ],
+    "100 HS H 84-8.50": [
+      { dateStr: "07/04/2024", dateObj: new Date("2024-04-07"), type: "Pista", performance: "20.3", city: "Santarcangelo Di Romagna", category: "CM" },
+      { dateStr: "05/04/2025", dateObj: new Date("2025-04-05"), type: "Pista", performance: "16.88", city: "San Marino", category: "CM" },
+      { dateStr: "13/04/2025", dateObj: new Date("2025-04-13"), type: "Pista", performance: "17.8", city: "Misano Adriatico", category: "CM" },
+      { dateStr: "15/06/2025", dateObj: new Date("2025-06-15"), type: "Pista", performance: "17.35", city: "Castelnovo Ne' Monti", category: "CM" }
+    ],
+    "SALTO IN ALTO": [
+      { dateStr: "07/04/2024", dateObj: new Date("2024-04-07"), type: "Pista", performance: "1.36", city: "Santarcangelo Di Romagna", category: "CM" },
+      { dateStr: "13/04/2025", dateObj: new Date("2025-04-13"), type: "Pista", performance: "1.53", city: "Misano Adriatico", category: "CM" },
+      { dateStr: "15/06/2025", dateObj: new Date("2025-06-15"), type: "Pista", performance: "1.56", city: "Castelnovo Ne' Monti", category: "CM" }
+    ],
+    "SALTO IN LUNGO": [
+      { dateStr: "12/04/2022", dateObj: new Date("2022-04-12"), type: "Pista", performance: "3.39", city: "Misano Adriatico", category: "RM" },
+      { dateStr: "11/05/2022", dateObj: new Date("2022-05-11"), type: "Pista", performance: "3.56", city: "Santarcangelo Romagna", category: "RM" },
+      { dateStr: "15/04/2023", dateObj: new Date("2023-04-15"), type: "Pista", performance: "3.42", city: "San Marino", category: "RM" },
+      { dateStr: "03/05/2023", dateObj: new Date("2023-05-03"), type: "Pista", performance: "3.62", city: "Santarcangelo Di Romagna", category: "RM" },
+      { dateStr: "23/05/2023", dateObj: new Date("2023-05-23"), type: "Pista", performance: "3.77", city: "Cattolica", category: "RM" },
+      { dateStr: "18/06/2023", dateObj: new Date("2023-06-18"), type: "Pista", performance: "3.75", city: "Ravenna", category: "RM" },
+      { dateStr: "08/10/2023", dateObj: new Date("2023-10-08"), type: "Pista", performance: "3.66", city: "Ravenna", category: "RM" },
+      { dateStr: "07/01/2024", dateObj: new Date("2024-01-07"), type: "Indoor", performance: "3.70", city: "Ancona", category: "CM" },
+      { dateStr: "07/04/2024", dateObj: new Date("2024-04-07"), type: "Pista", performance: "4.25", city: "Santarcangelo Di Romagna", category: "CM" },
+      { dateStr: "13/04/2025", dateObj: new Date("2025-04-13"), type: "Pista", performance: "4.45", city: "Misano Adriatico", category: "CM" },
+      { dateStr: "15/06/2025", dateObj: new Date("2025-06-15"), type: "Pista", performance: "5.11", city: "Castelnovo Ne' Monti", category: "CM" },
+      { dateStr: "05/07/2025", dateObj: new Date("2025-07-05"), type: "Pista", performance: "4.50", city: "Casarsa Della Delizia", category: "CM" }
+    ],
+    "PESO KG 2.000": [
+      { dateStr: "03/04/2022", dateObj: new Date("2022-04-03"), type: "Pista", performance: "6.49", city: "Cattolica", category: "RM" },
+      { dateStr: "12/04/2022", dateObj: new Date("2022-04-12"), type: "Pista", performance: "6.87", city: "Misano Adriatico", category: "RM" },
+      { dateStr: "02/04/2023", dateObj: new Date("2023-04-02"), type: "Pista", performance: "6.81", city: "Santarcangelo Di Romagna", category: "RM" },
+      { dateStr: "23/05/2023", dateObj: new Date("2023-05-23"), type: "Pista", performance: "7.80", city: "Cattolica", category: "RM" },
+      { dateStr: "18/06/2023", dateObj: new Date("2023-06-18"), type: "Pista", performance: "6.65", city: "Ravenna", category: "RM" },
+      { dateStr: "08/10/2023", dateObj: new Date("2023-10-08"), type: "Pista", performance: "7.77", city: "Ravenna", category: "RM" }
+    ],
+    "DISCO KG 1,500": [
+      { dateStr: "07/04/2024", dateObj: new Date("2024-04-07"), type: "Pista", performance: "11.16", city: "Santarcangelo Di Romagna", category: "CM" },
+      { dateStr: "13/04/2025", dateObj: new Date("2025-04-13"), type: "Pista", performance: "19.01", city: "Misano Adriatico", category: "CM" },
+      { dateStr: "09/05/2025", dateObj: new Date("2025-05-09"), type: "Pista", performance: "23.43", city: "Riccione", category: "CM" },
+      { dateStr: "11/05/2025", dateObj: new Date("2025-05-11"), type: "Pista", performance: "23.74", city: "Faenza", category: "CM" },
+      { dateStr: "24/05/2025", dateObj: new Date("2025-05-24"), type: "Pista", performance: "18.84", city: "Castelfranco Emilia", category: "CM" },
+      { dateStr: "15/06/2025", dateObj: new Date("2025-06-15"), type: "Pista", performance: "21.07", city: "Castelnovo Ne' Monti", category: "CM" }
+    ],
+    "GIAVELLOTTO GR600": [
+      { dateStr: "07/04/2024", dateObj: new Date("2024-04-07"), type: "Pista", performance: "14.32", city: "Santarcangelo Di Romagna", category: "CM" },
+      { dateStr: "13/04/2025", dateObj: new Date("2025-04-13"), type: "Pista", performance: "20.88", city: "Misano Adriatico", category: "CM" },
+      { dateStr: "15/06/2025", dateObj: new Date("2025-06-15"), type: "Pista", performance: "23.80", city: "Castelnovo Ne' Monti", category: "CM" }
+    ],
+    "VORTEX": [
+      { dateStr: "19/04/2023", dateObj: new Date("2023-04-19"), type: "Pista", performance: "32.53", city: "Misano Adriatico", category: "RM" },
+      { dateStr: "30/04/2023", dateObj: new Date("2023-04-30"), type: "Pista", performance: "32.99", city: "Cesena", category: "RM" },
+      { dateStr: "09/05/2023", dateObj: new Date("2023-05-09"), type: "Pista", performance: "33.45", city: "Imola", category: "RM" }
+    ],
+    "TETRATHLON": [
+      { dateStr: "12/04/2022", dateObj: new Date("2022-04-12"), type: "Pista", performance: "1093", city: "Misano Adriatico", category: "RM" },
+      { dateStr: "23/05/2023", dateObj: new Date("2023-05-23"), type: "Pista", performance: "1509", city: "Cattolica", category: "RM" },
+      { dateStr: "18/06/2023", dateObj: new Date("2023-06-18"), type: "Pista", performance: "1307", city: "Ravenna", category: "RM" },
+      { dateStr: "08/10/2023", dateObj: new Date("2023-10-08"), type: "Pista", performance: "1412", city: "Ravenna", category: "RM" }
+    ],
+    "ESATHLON CM DISCO": [
+      { dateStr: "07/04/2024", dateObj: new Date("2024-04-07"), type: "Pista", performance: "1226", city: "Santarcangelo Di Romagna", category: "CM" },
+      { dateStr: "13/04/2025", dateObj: new Date("2025-04-13"), type: "Pista", performance: "2311", city: "Misano Adriatico", category: "CM" },
+      { dateStr: "15/06/2025", dateObj: new Date("2025-06-15"), type: "Pista", performance: "2735", city: "Castelnovo Ne' Monti", category: "CM" }
+    ]
   }
+}
 ];
