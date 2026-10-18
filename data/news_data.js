@@ -5,6 +5,26 @@
 
 const ARTICOLI_NEWS = [
     {
+        id: "smrun-2026-risultati-gemma-miselli",
+        titolo: "🏃‍♀️ Gemma Miselli brillante alla SMRun: 1ª di categoria nei 5 km guidata da coach Ismail! 🥇",
+        data: "18 Ottobre 2026",
+        categoria: "Risultati",
+        riassunto: "Splendida prova per Gemma Miselli alla SMRun di San Marino: 1° posto tra le Allieve e 5ª assoluta in 20'49\" sui 5 km, accompagnata e guidata passo dopo passo dall'allenatore Ismail.",
+        contenuto: `
+        <img src="../assets/smorun_mg.jpeg" alt="SMRun San Marino 2026" class="w-full rounded-xl mb-6 shadow-md">
+
+        <h3>🌟 Grande prestazione e vittoria di categoria a San Marino</h3>
+        <p>Giornata da incorniciare per la giovanissima <b>Gemma Miselli</b> (classe 2010), portacolori del <b>G.S. Self Atl. Montanari Gruzza</b>, protagonista di una splendida gara alla <b>SMRun di San Marino</b>. Impegnata sulla distanza dei <b>5 km</b>, Gemma ha sfoderato grinta e carattere chiudendo con l'ottimo tempo di <b>20’49”</b>.</p>
+
+        <p>Una prestazione maiuscola che le è valsa un bellissimo <b>1° posto nella Categoria Allieve (AF)</b> 🥇, oltre a un prestigioso <b>5° posto assoluto in campo femminile</b> 🏃‍♀️ e la 43ª posizione nella classifica generale complessiva.</p>
+
+        <h3>🤝 La guida fondamentale di coach Ismail</h3>
+        <p>A rendere ancora più speciale questa giornata è stata la presenza al suo fianco dell'allenatore <b>Ismail</b>, che l'ha affiancata e motivata metro dopo metro lungo tutto il tracciato ⏱️. Grazie a una gestione impeccabile dell'andatura e ai suoi consigli strategici, Gemma ha saputo dosare perfettamente le energie, chiudendo in crescendo con un finale travolgente e confermando l'ottimo lavoro svolto negli allenamenti.</p>
+
+        <p>Un grande applauso a Gemma e a coach Ismail per questo splendido traguardo! 👏🎉</p>
+    `
+    },
+    {
         id: "tre-monti-2026-risultati-15km",
         titolo: "🏃‍♂️ Kevin De Jesus solido ai Tre Monti: 54'39\" da medio collinare e 12° posto assoluto",
         data: "4 Ottobre 2026",
